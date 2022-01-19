@@ -58,6 +58,7 @@ namespace GestorProyectos.Base.Implementations
             }
         }
 
+        [Read]
         protected string GetQueryStringValue(string key)
         {
             string result = HttpContext.Request.Query[key];
@@ -97,6 +98,7 @@ namespace GestorProyectos.Base.Implementations
             return result;
         }
 
+        [Read]
         private void LoadBody()
         {
             using (var mem = new MemoryStream())
@@ -127,6 +129,7 @@ namespace GestorProyectos.Base.Implementations
         protected int countFiltered;
         protected Expression<Func<TEntity, bool>> currentQuery;
 
+        [Read]
         protected virtual void GatherData()
         {
             draw = 0;
@@ -157,11 +160,13 @@ namespace GestorProyectos.Base.Implementations
         }
 
 
+        [Read]
         protected virtual void CustomGroupBy(IEnumerable<TEntity> data)
         {
             //setGroupby = true;
         }
 
+        [Read]
         protected virtual DataTables<TEntity> EvaluarDataTables()
         {
             DataTables<TEntity> data = new DataTables<TEntity>();
@@ -194,6 +199,7 @@ namespace GestorProyectos.Base.Implementations
 
         }
 
+        [Read]
         [Consumes("application/json")]
         public virtual ActionResult GetDataTable()
         {
@@ -212,6 +218,7 @@ namespace GestorProyectos.Base.Implementations
             }
         }
 
+        [Read]
         protected virtual void SetInclude()
         {
 
@@ -253,6 +260,7 @@ namespace GestorProyectos.Base.Implementations
         //    }
         //}
 
+        [Read]
         public IActionResult GetFile(Guid fileName)
         {
             var fileArray = System.IO.File.ReadAllBytes($"Content/data_{fileName}.xlsx");
@@ -260,6 +268,7 @@ namespace GestorProyectos.Base.Implementations
             return File(fileArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"data_{DateTime.Now.ToString("yyyyMMddhhmmss")}.xlsx");
         }
 
+        [Read]
         public IActionResult GetFileFromDocuments(string fileName)
         {
             string link = Path.Combine(_hostingEnvironment.WebRootPath, "documents");
@@ -269,8 +278,7 @@ namespace GestorProyectos.Base.Implementations
             return File(fileArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
-        [Add]
-        [HttpPost]
+        [Read]
         public virtual IActionResult Add(TEntity model)
         {
             try
@@ -284,8 +292,7 @@ namespace GestorProyectos.Base.Implementations
             }
         }
 
-        [Update]
-        [HttpPut]
+        [Read]
         public virtual IActionResult Update(TEntity model)
         {
             try
@@ -299,8 +306,7 @@ namespace GestorProyectos.Base.Implementations
             }
         }
 
-        [Delete]
-        [HttpDelete]
+        [Read]
         public virtual IActionResult Delete(TEntity model)
         {
             try

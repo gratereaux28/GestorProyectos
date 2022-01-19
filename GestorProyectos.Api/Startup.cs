@@ -67,8 +67,9 @@ namespace GestorProyectos.Api
 
         public void AddInjection(IServiceCollection services)
         {
-            services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
             services.AddScoped<IBarriosRepository, BarriosRepository>();
+            services.AddScoped<IEstadosRepository, EstadosRepository>();
+            services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace GestorProyectos.Infrastructure.Data
 
         public virtual DbSet<Barrios> Barrios { get; set; } = null!;
         public virtual DbSet<DistritosMunicipales> DistritosMunicipales { get; set; } = null!;
+        public virtual DbSet<Estados> Estados { get; set; } = null!;
         public virtual DbSet<Municipios> Municipios { get; set; } = null!;
         public virtual DbSet<Provincias> Provincias { get; set; } = null!;
         public virtual DbSet<Secciones> Secciones { get; set; } = null!;
@@ -37,9 +38,10 @@ namespace GestorProyectos.Infrastructure.Data
         {
             modelBuilder.ApplyConfiguration(new BarriosConfiguration());
             modelBuilder.ApplyConfiguration(new DistritosMunicipalesConfiguration());
+            modelBuilder.ApplyConfiguration(new EstadosConfiguration());
             modelBuilder.ApplyConfiguration(new MunicipiosConfiguration());
             modelBuilder.ApplyConfiguration(new ProvinciasConfiguration());
-            modelBuilder.ApplyConfiguration(new SeccionesConfiguration());            
+            modelBuilder.ApplyConfiguration(new SeccionesConfiguration());
         }
     }
 }
