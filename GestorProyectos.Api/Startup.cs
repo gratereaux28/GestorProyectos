@@ -31,7 +31,12 @@ namespace GestorProyectos.Api
         {
             services.AddCors();
             services.AddControllers();
+            services.AddDbContext<ProyectosDbContext>(x => { x.UseSqlServer(Configuration.GetConnectionString("ProyectosDbContext"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
             services.AddDbContext<DBContextP>(x => { x.UseSqlServer(Configuration.GetConnectionString("DBContextP"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
+            services.AddMvc().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             AddInjection(services);
         }
 
@@ -63,6 +68,7 @@ namespace GestorProyectos.Api
         public void AddInjection(IServiceCollection services)
         {
             services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+            services.AddScoped<IBarriosRepository, BarriosRepository>();
         }
     }
 }
