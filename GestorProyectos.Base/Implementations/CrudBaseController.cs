@@ -1,10 +1,12 @@
-﻿using GestorProyectos.Base.Attributes;
+﻿using AutoMapper;
+using GestorProyectos.Base.Attributes;
 using GestorProyectos.Base.Interfaces;
 using GestorProyectos.Base.Output;
 using GestorProyectos.Extensions.Entity;
 using GestorProyectos.Extensions.sys;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +17,13 @@ using System.Text;
 
 namespace GestorProyectos.Base.Implementations
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CrudBaseController<T, TEntity> : BaseController where T : IBaseRepository<TEntity> where TEntity : class
     {
         protected T currentRepository;
+        protected IMapper _mapper;
+        protected ILogger<TEntity> _logger;
         protected Expression<Func<TEntity, object>> orderBy;
         protected Expression<Func<TEntity, object>> groupBy;
         protected string orderByString;
@@ -27,6 +33,7 @@ namespace GestorProyectos.Base.Implementations
         protected Expression<Func<TEntity, bool>> getQueryCount;
         string bodyString;
         protected IHostingEnvironment _hostingEnvironment;
+
         public CrudBaseController(T _repository)
         {
             currentRepository = _repository;
@@ -38,6 +45,20 @@ namespace GestorProyectos.Base.Implementations
             try
             {
                 return Ok(currentRepository.ListAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [Read]
+        public virtual IActionResult GetAllAsync()
+        {
+            try
+            {
+                return Ok(currentRepository.ListAllAsync());
             }
             catch (Exception ex)
             {

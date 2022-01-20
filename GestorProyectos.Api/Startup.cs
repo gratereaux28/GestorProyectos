@@ -1,5 +1,6 @@
 using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Infrastructure.Data;
+using GestorProyectos.Infrastructure.Filters;
 using GestorProyectos.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,14 +31,23 @@ namespace GestorProyectos.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
-            services.AddDbContext<ProyectosDbContext>(x => { x.UseSqlServer(Configuration.GetConnectionString("ProyectosDbContext"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
-            services.AddDbContext<DBContextP>(x => { x.UseSqlServer(Configuration.GetConnectionString("DBContextP"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
-            services.AddMvc().AddNewtonsoftJson(
+            services.AddControllers().AddNewtonsoftJson(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            )
+            .ConfigureApiBehaviorOptions(
+                options => options.SuppressModelStateInvalidFilter = true
             );
 
+            services.AddDbContext<ProyectosDbContext>(x => { x.UseSqlServer(Configuration.GetConnectionString("ProyectosDbContext"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
+            services.AddDbContext<DBContextP>(x => { x.UseSqlServer(Configuration.GetConnectionString("DBContextP"), builder => builder.CommandTimeout((int)TimeSpan.FromMinutes(120).TotalSeconds)); }, ServiceLifetime.Scoped);
+
             AddInjection(services);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ValidationFilter>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

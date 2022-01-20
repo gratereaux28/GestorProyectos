@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GestorProyectos.Base.Interfaces
 {
@@ -35,5 +36,14 @@ namespace GestorProyectos.Base.Interfaces
         void RollbackTransaction();
         void SaveChanges();
         bool IsActiveTransaction();
+
+        //Async
+
+        Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0);
+        Task<IReadOnlyList<T>> ListAllAsync();
+        Task<T> AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task<int> CountAsync(Expression<Func<T, bool>> query);
     }
 }

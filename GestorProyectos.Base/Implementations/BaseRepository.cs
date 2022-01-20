@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GestorProyectos.Base.Implementations
 {
-    public class BaseRepository<T> : IBaseRepository<T>, IBaseAsyncRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected DbContext context;
         public DbSet<T> dbSet;
