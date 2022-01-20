@@ -9,8 +9,8 @@ namespace GestorProyectos.Core.DTOs
     public class EstadosDto
     {
         public int IdEstado { get; set; }
-        public string IdTipo { get; set; }
-        public string Nombre { get; set; }
-        public int Orden { get; set; }
+        public string? IdTipo { get; set; }
+        public string? Nombre { get; set; }
+        public int? Orden { get; set; }
     }
 }
