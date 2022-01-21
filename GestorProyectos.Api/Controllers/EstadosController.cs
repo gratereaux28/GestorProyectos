@@ -26,6 +26,13 @@ namespace GestorProyectos.Api.Controllers
             return Ok(estados.returnResponse());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            Estados estados = await currentRepository.ObtenerEstado(id);
+            return Ok(estados.returnResponse());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(EstadosDto estado)
         {

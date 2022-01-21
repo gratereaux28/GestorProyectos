@@ -14,7 +14,7 @@ namespace GestorProyectos.Base.Implementations
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected DbContext context;
-        public DbSet<T> dbSet;
+        protected DbSet<T> dbSet;
         protected List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         protected List<string> IncludeStrings { get; } = new List<string>();
         protected BaseRepository(DbContext _context)
@@ -178,6 +178,25 @@ namespace GestorProyectos.Base.Implementations
             if (startRowIndex > 0)
                 currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
             return await currentQuery.ToListAsync();
+        }
+
+        public IQueryable<T> GetQAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
+        {
+            IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());
+            if (query != null)
+            {
+                currentQuery = currentQuery.Where(query);
+            }
+            if (orderBy != null)
+                if (isDesc)
+                    currentQuery = currentQuery.OrderByDescending(orderBy).AsQueryable();
+                else
+                    currentQuery = currentQuery.OrderBy(orderBy).AsQueryable();
+            if (maximumRows > 0)
+                currentQuery = currentQuery.Take(maximumRows).AsQueryable();
+            if (startRowIndex > 0)
+                currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
+            return currentQuery;
         }
 
 

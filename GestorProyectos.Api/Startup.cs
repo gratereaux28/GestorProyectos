@@ -26,7 +26,9 @@ namespace GestorProyectos.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers().AddNewtonsoftJson(
+            services.AddControllers(
+                options => options.Filters.Add<GlobalExceptionFilter>()
+            ).AddNewtonsoftJson(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
@@ -38,8 +40,7 @@ namespace GestorProyectos.Api
 
             services.AddMvc(
                 options => options.Filters.Add<ValidationFilter>()
-            )
-            .AddFluentValidation(
+            ).AddFluentValidation(
                 options => options.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
             );
         }
@@ -74,6 +75,8 @@ namespace GestorProyectos.Api
             services.AddScoped<IBarriosRepository, BarriosRepository>();
             services.AddScoped<IEstadosRepository, EstadosRepository>();
             services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

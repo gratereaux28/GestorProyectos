@@ -9,17 +9,13 @@ namespace GestorProyectos.Infrastructure.Repositories
 {
     public class EstadosRepository : BaseRepository<Estados>, IEstadosRepository
     {
-        ProyectosDbContext _context;
-
-        public EstadosRepository(ProyectosDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        public EstadosRepository(ProyectosDbContext context) : base(context) {}
 
         public async Task<Estados> ObtenerEstado(int IdEstado)
         {
-            var Estado = await GetAsync(e => e.IdEstado == IdEstado);
-            return Estado.FirstOrDefault();
+            var query = GetQAsync(e => e.IdEstado == IdEstado);
+            var Estado = await query.FirstOrDefaultAsync();
+            return Estado;
         }
 
         public async Task<Estados> AgregarEstado(Estados estado)
