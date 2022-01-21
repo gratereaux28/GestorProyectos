@@ -5,6 +5,8 @@ namespace GestorProyectos.Core.Interfaces
 {
     public interface IEstadosRepository : IBaseRepository<Estados>
     {
-        Task<Estados> AgregarEstados(Estados estado);
+        Task<Estados> AgregarEstado(Estados estado);
+        Task<bool> ActualizarEstado(Estados estado);
+        Task<bool> EliminarEstado(int IdEstado);
     }
 }

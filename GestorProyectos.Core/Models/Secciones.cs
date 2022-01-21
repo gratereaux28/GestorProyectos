@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GestorProyectos.Core.Models
 {
-    public partial class Secciones
+    public partial class Secciones: BaseModel
     {
         public Secciones()
         {

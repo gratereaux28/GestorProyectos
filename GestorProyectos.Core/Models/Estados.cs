@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GestorProyectos.Core.Models
 {
-    public partial class Estados
+    public partial class Estados: BaseModel
     {
         public int IdEstado { get; set; }
         public string IdTipo { get; set; }

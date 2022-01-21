@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GestorProyectos.Core.Models
 {
-    public class WeatherForecast
+    public class WeatherForecast: BaseModel
     {
         [Key]
         public DateTime Date { get; set; }

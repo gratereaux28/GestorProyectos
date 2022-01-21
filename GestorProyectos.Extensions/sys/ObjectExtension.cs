@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
+﻿using GestorProyectos.Extensions.Responses;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -127,6 +128,12 @@ namespace GestorProyectos.Extensions.sys
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             return JsonConvert.SerializeObject(obj, serializerSettings);
+        }
+
+        public async static Task<ApiResponse<T>> returnResponse<T>(this T myobj)
+        {
+            var response = new ApiResponse<T>(myobj);
+            return response;
         }
     }
 }

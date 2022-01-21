@@ -161,9 +161,13 @@ namespace GestorProyectos.Base.Implementations
             return Get(query, null, "", orderBy, maximumRows, startRowIndex, "");
         }
 
-        public virtual async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
         {
-            IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable()).Where(query).AsQueryable();
+            IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());
+            if (query != null)
+            {
+                currentQuery = currentQuery.Where(query);
+            }
             if (orderBy != null)
                 if (isDesc)
                     currentQuery = currentQuery.OrderByDescending(orderBy).AsQueryable();
@@ -175,6 +179,7 @@ namespace GestorProyectos.Base.Implementations
                 currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
             return await currentQuery.ToListAsync();
         }
+
 
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> query)
         {
@@ -223,10 +228,12 @@ namespace GestorProyectos.Base.Implementations
             dbSet.Remove(entity);
             context.SaveChanges();
         }
-        public virtual async Task DeleteAsync(T entity)
+
+        public virtual async Task<bool> DeleteAsync(T entity)
         {
             dbSet.Remove(entity);
-            await context.SaveChangesAsync();
+            int rows = await context.SaveChangesAsync();
+            return rows > 0;
         }
 
         public virtual void Update(T entity)
@@ -235,10 +242,11 @@ namespace GestorProyectos.Base.Implementations
             context.SaveChanges();
         }
 
-        public virtual async Task UpdateAsync(T entity)
+        public virtual async Task<bool> UpdateAsync(T entity)
         {
             context.Entry(entity).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            int rows = await context.SaveChangesAsync();
+            return rows > 0;
         }
 
 
