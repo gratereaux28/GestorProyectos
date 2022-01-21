@@ -17,7 +17,8 @@ namespace GestorProyectos.Base.Implementations
         protected DbSet<T> dbSet;
         protected List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         protected List<string> IncludeStrings { get; } = new List<string>();
-        protected BaseRepository(DbContext _context)
+
+        public BaseRepository(DbContext _context)
         {
             context = _context;
             dbSet = context.Set<T>();
@@ -180,7 +181,7 @@ namespace GestorProyectos.Base.Implementations
             return await currentQuery.ToListAsync();
         }
 
-        public IQueryable<T> GetQAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
+        public IQueryable<T> GetQAsync(Expression<Func<T, bool>> query = null, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
         {
             IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());
             if (query != null)
@@ -198,7 +199,6 @@ namespace GestorProyectos.Base.Implementations
                 currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
             return currentQuery;
         }
-
 
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> query)
         {
@@ -424,7 +424,7 @@ namespace GestorProyectos.Base.Implementations
 
         public void UpdateNoSave(T entity)
         {
-            context.Entry(entity).State = EntityState.Modified;
+            dbSet.Update(entity);
         }
 
         public void DeleteNoSave(T entity)

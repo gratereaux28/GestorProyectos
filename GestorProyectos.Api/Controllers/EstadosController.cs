@@ -3,10 +3,13 @@ using GestorProyectos.Base.Implementations;
 using GestorProyectos.Core.DTOs;
 using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Models;
+using GestorProyectos.Core.QueryFilter;
+using GestorProyectos.Extensions.Responses;
 using GestorProyectos.Extensions.sys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GestorProyectos.Api.Controllers
@@ -20,9 +23,11 @@ namespace GestorProyectos.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<Estados>>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest]
+        public async Task<IActionResult> Get([FromQuery] EstadosQueryFilter filters)
         {
-            IEnumerable<Estados> estados = await currentRepository.ListAllAsync();
+            IEnumerable<Estados> estados = await currentRepository.ObtenerEstados(filters);
             return Ok(estados.returnResponse());
         }
 

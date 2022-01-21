@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GestorProyectos.Base.Interfaces;
+using GestorProyectos.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ namespace GestorProyectos.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IEstadosRepository EstadosRepository { get; }
+        IBaseRepository<Estados> EstadosRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

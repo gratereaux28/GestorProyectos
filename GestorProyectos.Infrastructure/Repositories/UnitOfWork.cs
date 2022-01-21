@@ -1,4 +1,7 @@
-﻿using GestorProyectos.Core.Interfaces;
+﻿using GestorProyectos.Base.Implementations;
+using GestorProyectos.Base.Interfaces;
+using GestorProyectos.Core.Interfaces;
+using GestorProyectos.Core.Models;
 using GestorProyectos.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -11,14 +14,14 @@ namespace GestorProyectos.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ProyectosDbContext _context;
-        private readonly IEstadosRepository _estadosRepository;
+        private readonly IBaseRepository<Estados> _estadosRepository;
 
         public UnitOfWork(ProyectosDbContext context)
         {
             _context = context;
         }
 
-        public IEstadosRepository EstadosRepository => _estadosRepository ?? new EstadosRepository(_context);
+        public IBaseRepository<Estados> EstadosRepository => _estadosRepository ?? new BaseRepository<Estados>(_context);
 
         public void Dispose()
         {
