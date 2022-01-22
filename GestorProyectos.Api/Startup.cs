@@ -105,7 +105,7 @@ namespace GestorProyectos.Api
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Gestor de Proyectos V1");
+                options.SwaggerEndpoint("../swagger/v1/swagger.json", "Gestor de Proyectos V1");
                 options.RoutePrefix = string.Empty;
             });
 

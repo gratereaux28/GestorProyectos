@@ -1,7 +1,7 @@
 ﻿using GestorProyectos.Core.Models;
-using GestorProyectos.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace GestorProyectos.Infrastructure.Data
 {
@@ -36,12 +36,7 @@ namespace GestorProyectos.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new BarriosConfiguration());
-            modelBuilder.ApplyConfiguration(new DistritosMunicipalesConfiguration());
-            modelBuilder.ApplyConfiguration(new EstadosConfiguration());
-            modelBuilder.ApplyConfiguration(new MunicipiosConfiguration());
-            modelBuilder.ApplyConfiguration(new ProvinciasConfiguration());
-            modelBuilder.ApplyConfiguration(new SeccionesConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

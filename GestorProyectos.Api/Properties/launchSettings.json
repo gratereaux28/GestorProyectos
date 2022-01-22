@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/GPApi/",
+      "applicationUrl": "https://localhost/GPApi/",
       "sslPort": 0
     },
     "iisExpress": {
@@ -31,7 +31,7 @@
     "Loca IIS": {
       "commandName": "IIS",
       "launchBrowser": true,
-      "launchUrl": "http://localhost/GPApi/",
+      "launchUrl": "https://localhost/GPApi/swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
