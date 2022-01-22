@@ -1,12 +1,9 @@
-﻿using GestorProyectos.Extensions.Responses;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using GestorProyectos.Extensions.Entity;
+using GestorProyectos.Extensions.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 namespace GestorProyectos.Extensions.sys
 {
@@ -130,10 +127,28 @@ namespace GestorProyectos.Extensions.sys
             return JsonConvert.SerializeObject(obj, serializerSettings);
         }
 
-        public async static Task<ApiResponse<T>> returnResponse<T>(this T myobj)
+        public async static Task<ApiResponse<T>> returnResponse<T>(this T myobj, Metadata metadata = null)
         {
-            var response = new ApiResponse<T>(myobj);
+            var response = new ApiResponse<T>(myobj, metadata);
             return response;
+        }
+
+        public static Expression<Func<T, bool>> AndAlso<T>( this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        {
+            // need to detect whether they use the same
+            // parameter instance; if not, they need fixing
+            ParameterExpression param = expr1.Parameters[0];
+            if (ReferenceEquals(param, expr2.Parameters[0]))
+            {
+                // simple version
+                return Expression.Lambda<Func<T, bool>>(
+                    Expression.AndAlso(expr1.Body, expr2.Body), param);
+            }
+            // otherwise, keep expr1 "as is" and invoke expr2
+            return Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(
+                    expr1.Body,
+                    Expression.Invoke(expr2, param)), param);
         }
     }
 }

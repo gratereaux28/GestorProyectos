@@ -21,4 +21,8 @@
     <ProjectReference Include="..\GestorProyectos.Core\GestorProyectos.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Options\" />
+  </ItemGroup>
+
 </Project>

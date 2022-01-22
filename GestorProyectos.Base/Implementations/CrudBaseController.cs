@@ -2,8 +2,7 @@
 using GestorProyectos.Base.Attributes;
 using GestorProyectos.Base.Interfaces;
 using GestorProyectos.Base.Output;
-using GestorProyectos.Extensions.Entity;
-using GestorProyectos.Extensions.sys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,12 +12,13 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
-using System.Text;
 
 namespace GestorProyectos.Base.Implementations
 {
+    [Authorize]
+    [Produces("application/json")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class CrudBaseController<T, TEntity> : BaseController where T : IBaseRepository<TEntity> where TEntity : class
     {
         protected T currentRepository;
@@ -40,7 +40,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public virtual IActionResult GetAll()
+        protected virtual IActionResult GetAll()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace GestorProyectos.Base.Implementations
 
 
         [Read]
-        public virtual IActionResult GetAllAsync()
+        protected virtual IActionResult GetAllAsync()
         {
             try
             {
@@ -67,7 +67,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public virtual IActionResult GetByFilter(string text)
+        protected virtual IActionResult GetByFilter(string text)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace GestorProyectos.Base.Implementations
 
         [Read]
         [Consumes("application/json")]
-        public virtual ActionResult GetDataTable()
+        protected virtual ActionResult GetDataTable()
         {
             DataTables<TEntity> data = new DataTables<TEntity>();
             try
@@ -282,7 +282,7 @@ namespace GestorProyectos.Base.Implementations
         //}
 
         [Read]
-        public IActionResult GetFile(Guid fileName)
+        protected IActionResult GetFile(Guid fileName)
         {
             var fileArray = System.IO.File.ReadAllBytes($"Content/data_{fileName}.xlsx");
             System.IO.File.Delete($"Content/data_{fileName}.xlsx");
@@ -290,7 +290,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public IActionResult GetFileFromDocuments(string fileName)
+        protected IActionResult GetFileFromDocuments(string fileName)
         {
             string link = Path.Combine(_hostingEnvironment.WebRootPath, "documents");
             link = Path.Combine(link, fileName);
@@ -300,7 +300,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public virtual IActionResult Add(TEntity model)
+        protected virtual IActionResult Add(TEntity model)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public virtual IActionResult Update(TEntity model)
+        protected virtual IActionResult Update(TEntity model)
         {
             try
             {
@@ -328,7 +328,7 @@ namespace GestorProyectos.Base.Implementations
         }
 
         [Read]
-        public virtual IActionResult Delete(TEntity model)
+        protected virtual IActionResult Delete(TEntity model)
         {
             try
             {
