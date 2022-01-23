@@ -21,10 +21,9 @@ namespace GestorProyectos.Api.Controllers
     {
         protected readonly IUriService _uriService;
         private readonly IBarriosService _barriosService;
-        public BarriosController(IBarriosService barriosService, ILogger<BarriosController> logger, IMapper mapper, IUriService uriService) : base()
+        public BarriosController(IBarriosService barriosService, IMapper mapper, IUriService uriService) : base()
         {
             _barriosService = barriosService;
-            _logger = logger;
             _mapper = mapper;
             _uriService = uriService;
         }

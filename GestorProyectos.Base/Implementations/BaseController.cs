@@ -12,12 +12,10 @@ namespace GestorProyectos.Base.Implementations
     [ApiController]
     public class BaseController<TController, TEntity> : ControllerBase where TController : class
     {
-        protected ILogger<TController> _logger;
         protected IMapper _mapper;
 
         public BaseController()
         {
-
         }
 
         protected Exception GetInnerException(Exception ex)

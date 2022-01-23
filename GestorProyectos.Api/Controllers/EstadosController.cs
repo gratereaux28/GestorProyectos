@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GestorProyectos.Base.Implementations;
 using GestorProyectos.Core.DTOs;
+using GestorProyectos.Core.Exceptions;
 using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
@@ -22,10 +23,10 @@ namespace GestorProyectos.Api.Controllers
     {
         protected IUriService _uriService;
         protected IEstadosService _estadosService;
-        public EstadosController(IEstadosService estadosService, ILogger<EstadosController> logger, IMapper mapper, IUriService uriService) : base()
+
+        public EstadosController(IEstadosService estadosService, IMapper mapper, IUriService uriService) : base()
         {
             _estadosService = estadosService;
-            _logger = logger;
             _mapper = mapper;
             _uriService = uriService;
         }
@@ -56,6 +57,7 @@ namespace GestorProyectos.Api.Controllers
             };
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(estadosDto.returnResponse(metadata));
         }
 
@@ -84,9 +86,9 @@ namespace GestorProyectos.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = await _estadosService.EliminarEstado(Id);
+            var result = await _estadosService.EliminarEstado(id);
             return Ok(result.returnResponse());
         }
 

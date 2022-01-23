@@ -9,9 +9,8 @@ namespace GestorProyectos.Api.Controllers
     public class WeatherForecastController : BaseController<WeatherForecastController, WeatherForecast>
     {
         private readonly IWeatherForecastRepository _weatherForecastRepository;
-        public WeatherForecastController(IWeatherForecastRepository weatherForecastRepository, ILogger<WeatherForecastController> logger) : base()
+        public WeatherForecastController(IWeatherForecastRepository weatherForecastRepository) : base()
         {
-            _logger = logger;
             _weatherForecastRepository = weatherForecastRepository;
         }
 
