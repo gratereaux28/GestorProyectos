@@ -61,12 +61,12 @@ namespace GestorProyectos.Api.Controllers
             return Ok(estadosDto.returnResponse(metadata));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetEstado(int id)
-        {
-            Estados estados = await _estadosService.ObtenerEstado(id);
-            return Ok(estados.returnResponse());
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetEstado(int id)
+        //{
+        //    Estados estados = await _estadosService.ObtenerEstado(id);
+        //    return Ok(estados.returnResponse());
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Post(EstadosDto estado)
