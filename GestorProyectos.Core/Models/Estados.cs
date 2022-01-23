@@ -1,6 +1,6 @@
 ﻿namespace GestorProyectos.Core.Models
 {
-    public partial class Estados: BaseModel
+    public partial class Estados
     {
         public Estados()
         {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorProyectos.Infrastructure.Data.Validators
+namespace GestorProyectos.Infrastructure.Validators
 {
     public class EstadoValidator : AbstractValidator<EstadosDto>
     {

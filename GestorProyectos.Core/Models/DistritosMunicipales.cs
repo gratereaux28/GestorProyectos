@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GestorProyectos.Core.Models
 {
-    public partial class DistritosMunicipales: BaseModel
+    public partial class DistritosMunicipales
     {
         public DistritosMunicipales()
         {
