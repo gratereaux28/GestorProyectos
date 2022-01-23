@@ -7,6 +7,7 @@ namespace GestorProyectos.Core.Models
     {
         public Provincias()
         {
+            LugaresImplementaciones = new HashSet<LugaresImplementaciones>();
             Municipios = new HashSet<Municipios>();
         }
 
@@ -15,6 +16,7 @@ namespace GestorProyectos.Core.Models
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
 
+        public virtual ICollection<LugaresImplementaciones> LugaresImplementaciones { get; set; }
         public virtual ICollection<Municipios> Municipios { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasMaxLength(250)
                 .IsUnicode(false);
 
-            builder.HasOne(d => d.IdMunicipioNavigation)
+            builder.HasOne(d => d.Municipio)
                 .WithMany(p => p.DistritosMunicipales)
                 .HasForeignKey(d => d.IdMunicipio)
                 .OnDelete(DeleteBehavior.ClientSetNull)

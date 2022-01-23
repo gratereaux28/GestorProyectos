@@ -16,7 +16,7 @@ namespace GestorProyectos.Core.Models
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
 
-        public virtual DistritosMunicipales IdDistritoNavigation { get; set; } = null!;
+        public virtual DistritosMunicipales DistritoMunicipal { get; set; } = null!;
         public virtual ICollection<Barrios> Barrios { get; set; }
     }
 }

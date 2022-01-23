@@ -5,6 +5,11 @@ namespace GestorProyectos.Core.Models
 {
     public partial class Barrios: BaseModel
     {
+        public Barrios()
+        {
+            TerritoriosImpactados = new HashSet<TerritoriosImpactados>();
+        }
+
         public int IdBarrio { get; set; }
         public int IdSeccion { get; set; }
         public string Nombre { get; set; }
@@ -12,6 +17,7 @@ namespace GestorProyectos.Core.Models
         public double? Longitud { get; set; }
         public int Parcela { get; set; }
 
-        public virtual Secciones Secciones { get; set; } = null!;
+        public virtual Secciones Seccion { get; set; } = null!;
+        public virtual ICollection<TerritoriosImpactados> TerritoriosImpactados { get; set; }
     }
 }

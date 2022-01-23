@@ -8,6 +8,7 @@ namespace GestorProyectos.Core.Models
         public Municipios()
         {
             DistritosMunicipales = new HashSet<DistritosMunicipales>();
+            TerritoriosImpactados = new HashSet<TerritoriosImpactados>();
         }
 
         public int IdMunicipio { get; set; }
@@ -16,7 +17,8 @@ namespace GestorProyectos.Core.Models
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
 
-        public virtual Provincias IdProvinciaNavigation { get; set; } = null!;
+        public virtual Provincias Provincia { get; set; } = null!;
         public virtual ICollection<DistritosMunicipales> DistritosMunicipales { get; set; }
+        public virtual ICollection<TerritoriosImpactados> TerritoriosImpactados { get; set; }
     }
 }

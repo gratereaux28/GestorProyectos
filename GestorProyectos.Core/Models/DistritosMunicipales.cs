@@ -16,7 +16,7 @@ namespace GestorProyectos.Core.Models
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
 
-        public virtual Municipios IdMunicipioNavigation { get; set; } = null!;
+        public virtual Municipios Municipio { get; set; } = null!;
         public virtual ICollection<Secciones> Secciones { get; set; }
     }
 }
