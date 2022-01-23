@@ -35,10 +35,10 @@ namespace GestorProyectos.Api.Controllers
         /// </summary>
         /// <param name="filters">Filtros de Consulta a aplicar.</param>
         /// <returns></returns>
-        [HttpGet (Name = nameof(Get))]
+        [HttpGet (Name = nameof(GetEstados))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EstadosDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Get([FromQuery] EstadosQueryFilter filters)
+        public async Task<IActionResult> GetEstados([FromQuery] EstadosQueryFilter filters)
         {
             var estados = await _estadosService.ObtenerEstados(filters);
             var estadosDto = _mapper.Map<IEnumerable<EstadosDto>>(estados);
@@ -51,8 +51,8 @@ namespace GestorProyectos.Api.Controllers
                 TotalPages = estados.TotalPages,
                 HasNextPage = estados.HasNextPage,
                 HasPreviousPage = estados.HasPreviousPage,
-                NextPageUrl = _uriService.GetEstadosPaginationUri(filters, Url.RouteUrl(nameof(Get))).ToString(),
-                PreviousPageUrl = _uriService.GetEstadosPaginationUri(filters, Url.RouteUrl(nameof(Get))).ToString()
+                NextPageUrl = estados.HasNextPage ? _uriService.GetPaginationUri(filters, estados.PageSize, estados.CurrentPage + 1, Url.RouteUrl(nameof(GetEstados))).ToString() : "",
+                PreviousPageUrl = estados.HasPreviousPage ? _uriService.GetPaginationUri(filters, estados.PageSize, estados.CurrentPage - 1, Url.RouteUrl(nameof(GetEstados))).ToString() : ""
             };
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));

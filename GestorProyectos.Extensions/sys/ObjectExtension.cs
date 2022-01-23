@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web;
 
 namespace GestorProyectos.Extensions.sys
 {
@@ -119,12 +120,20 @@ namespace GestorProyectos.Extensions.sys
             return value?.ToString();
         }
 
-
         public static string ToJson(this Object obj)
         {
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             return JsonConvert.SerializeObject(obj, serializerSettings);
+        }
+
+        public static string GetQueryString(this object obj)
+        {
+            var properties = from p in obj.GetType().GetProperties()
+                             where p.GetValue(obj, null) != null
+                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
+
+            return String.Join("&", properties.ToArray());
         }
 
         public async static Task<ApiResponse<T>> returnResponse<T>(this T myobj, Metadata metadata = null)

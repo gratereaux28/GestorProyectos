@@ -1,4 +1,5 @@
 ﻿using GestorProyectos.Core.QueryFilter;
+using GestorProyectos.Extensions.sys;
 using GestorProyectos.Infrastructure.Interfaces;
 
 namespace GestorProyectos.Infrastructure.Services
@@ -12,15 +13,25 @@ namespace GestorProyectos.Infrastructure.Services
             _baseUri = baseUri;
         }
 
+        public Uri GetPaginationUri(object filter, int PageSize, int CurrentPage, string actionUrl)
+        {
+            //string queryString = filter.GetQueryString();
+            //string baseUrl = $"{_baseUri}{actionUrl}?{queryString}";
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
+
         public Uri GetEstadosPaginationUri(EstadosQueryFilter filter, string actionUrl)
         {
-            string baseUrl = $"{_baseUri}{actionUrl}";
+            string queryString = filter.GetQueryString();
+            string baseUrl = $"{_baseUri}{actionUrl}?{queryString}";
             return new Uri(baseUrl);
         }
 
         public Uri GetBarriosPaginationUri(BarriosQueryFilter filter, string actionUrl)
         {
-            string baseUrl = $"{_baseUri}{actionUrl}";
+            string queryString = filter.GetQueryString();
+            string baseUrl = $"{_baseUri}{actionUrl}?{queryString}";
             return new Uri(baseUrl);
         }
     }

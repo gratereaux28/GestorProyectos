@@ -10,7 +10,7 @@ namespace GestorProyectos.Core.DTOs
     {
         public int IdBarrio { get; set; }
         public int IdSeccion { get; set; }
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
         public int Parcela { get; set; }
