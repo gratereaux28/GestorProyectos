@@ -50,13 +50,32 @@ namespace GestorProyectos.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services, string xmlFileName, string ProyectName, string Version)
+        public static IServiceCollection AddSwagger(this IServiceCollection services, string xmlFileName, string ProyectName, string Version, string Description, string CompanyUrl)
         {
-            services.AddSwaggerGen(doc =>
+            services.AddSwaggerGen(options =>
             {
-                doc.SwaggerDoc(Version, new OpenApiInfo { Title = ProyectName, Version = Version });
+                //doc.SwaggerDoc(Version, new OpenApiInfo { Title = ProyectName, Version = Version });
 
-                doc.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.SwaggerDoc(Version, new OpenApiInfo
+                {
+                    Title = ProyectName,
+                    Version = Version,
+                    Description = Description,
+                    TermsOfService = new Uri(CompanyUrl),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Company Name",
+                        Email = "info@email.com",
+                        Url = new Uri(CompanyUrl),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Swagger Implementation License",
+                        Url = new Uri(CompanyUrl),
+                    }
+                });
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. <br>
                       Enter 'Bearer' [space] and then your token in the text input below.
@@ -67,7 +86,7 @@ namespace GestorProyectos.Infrastructure.Extensions
                     Scheme = "Bearer"
                 });
 
-                doc.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                   {
                     new OpenApiSecurityScheme
@@ -87,7 +106,7 @@ namespace GestorProyectos.Infrastructure.Extensions
                 });
 
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFileName);
-                doc.IncludeXmlComments(xmlPath);
+                options.IncludeXmlComments(xmlPath);
             });
 
             return services;

@@ -40,7 +40,7 @@ namespace GestorProyectos.Api
             services.AddDbContexts(Configuration);
             services.AddServices();
             services.AddOptions(Configuration);
-            services.AddSwagger($"{Assembly.GetExecutingAssembly().GetName().Name}.xml", Configuration["ProyectInfo:ProyectName"], Configuration["ProyectInfo:Version"]);
+            services.AddSwagger($"{Assembly.GetExecutingAssembly().GetName().Name}.xml", Configuration["ProyectInfo:ProyectName"], Configuration["ProyectInfo:Version"], Configuration["ProyectInfo:Description"], Configuration["ProyectInfo:CompanyUrl"]);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddAuthentication(options =>
@@ -77,13 +77,15 @@ namespace GestorProyectos.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseSwagger();
-
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("../swagger/v1/swagger.json", Configuration["ProyectInfo:ProyectName"]);
+                options.InjectStylesheet("../content/swagger-custom/swagger-custom-styles.css");
+                options.InjectJavascript("../content/swagger-custom/swagger-custom-script.js", "text/javascript");
                 //options.RoutePrefix = string.Empty;
             });
 
