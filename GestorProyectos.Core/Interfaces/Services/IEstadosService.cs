@@ -7,7 +7,7 @@ namespace GestorProyectos.Core.Interfaces.Services
     public interface IEstadosService
     {
         Task<Estados> ObtenerEstado(int IdEstado);
-        Task<PagedList<Estados>> ObtenerEstados(EstadosQueryFilter filters);
+        Task<IEnumerable<Estados>> ObtenerEstados(EstadosQueryFilter filters);
         Task<Estados> AgregarEstado(Estados estado);
         Task<bool> ActualizarEstado(Estados estado);
         Task<bool> EliminarEstado(int IdEstado);

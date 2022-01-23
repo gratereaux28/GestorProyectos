@@ -37,36 +37,15 @@ namespace GestorProyectos.Api.Controllers
         /// <param name="filters">Filtros de Consulta a aplicar.</param>
         /// <returns></returns>
         [HttpGet (Name = nameof(GetEstados))]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EstadosDto>>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<EstadosDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetEstados([FromQuery] EstadosQueryFilter filters)
         {
             var estados = await _estadosService.ObtenerEstados(filters);
             var estadosDto = _mapper.Map<IEnumerable<EstadosDto>>(estados);
-
-            var metadata = new Metadata
-            {
-                TotalCount = estados.TotalCount,
-                PageSize = estados.PageSize,
-                CurrentPage = estados.CurrentPage,
-                TotalPages = estados.TotalPages,
-                HasNextPage = estados.HasNextPage,
-                HasPreviousPage = estados.HasPreviousPage,
-                NextPageUrl = estados.HasNextPage ? _uriService.GetPaginationUri(filters, estados.PageSize, estados.CurrentPage + 1, Url.RouteUrl(nameof(GetEstados))).ToString() : "",
-                PreviousPageUrl = estados.HasPreviousPage ? _uriService.GetPaginationUri(filters, estados.PageSize, estados.CurrentPage - 1, Url.RouteUrl(nameof(GetEstados))).ToString() : ""
-            };
-
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return Ok(estadosDto.returnResponse(metadata));
+            var data = await estadosDto.returnResponse();
+            return Ok(data);
         }
-
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetEstado(int id)
-        //{
-        //    Estados estados = await _estadosService.ObtenerEstado(id);
-        //    return Ok(estados.returnResponse());
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Post(EstadosDto estado)
@@ -74,7 +53,8 @@ namespace GestorProyectos.Api.Controllers
             var Estado = _mapper.Map<Estados>(estado);
             var result = await _estadosService.AgregarEstado(Estado);
             estado = _mapper.Map<EstadosDto>(Estado);
-            return Ok(estado.returnResponse());
+            var data = await estado.returnResponse();
+            return Ok(data);
         }
 
         [HttpPut]
@@ -82,14 +62,16 @@ namespace GestorProyectos.Api.Controllers
         {
             estado.IdEstado = Id;
             var result = await _estadosService.ActualizarEstado(_mapper.Map<Estados>(estado));
-            return Ok(result.returnResponse());
+            var data = await result.returnResponse();
+            return Ok(data);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _estadosService.EliminarEstado(id);
-            return Ok(result.returnResponse());
+            var data = await result.returnResponse();
+            return Ok(data);
         }
 
     }

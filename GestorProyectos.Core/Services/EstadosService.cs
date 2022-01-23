@@ -25,7 +25,7 @@ namespace GestorProyectos.Core.Services
             return Estado;
         }
 
-        public async Task<PagedList<Estados>> ObtenerEstados(EstadosQueryFilter filters)
+        public async Task<IEnumerable<Estados>> ObtenerEstados(EstadosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
 
@@ -47,8 +47,8 @@ namespace GestorProyectos.Core.Services
 
             var data = await _unitOfWork.EstadosRepository.GetAsync(expressions);
 
-            var pagedEstados = PagedList<Estados>.Create(data, filters.pageNumber, filters.pageSize);
-            return pagedEstados;
+            //var pagedEstados = PagedList<Estados>.Create(data, filters.pageNumber, filters.pageSize);
+            return data;
         }
 
         public async Task<Estados> AgregarEstado(Estados estado)
