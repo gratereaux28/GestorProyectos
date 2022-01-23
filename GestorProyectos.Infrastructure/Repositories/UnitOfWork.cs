@@ -15,6 +15,7 @@ namespace GestorProyectos.Infrastructure.Repositories
     {
         private readonly ProyectosDbContext _context;
         private readonly IBaseRepository<Estados> _estadosRepository;
+        private readonly IBaseRepository<Barrios> _barriosRepository;
 
         public UnitOfWork(ProyectosDbContext context)
         {
@@ -22,6 +23,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         }
 
         public IBaseRepository<Estados> EstadosRepository => _estadosRepository ?? new BaseRepository<Estados>(_context);
+        public IBaseRepository<Barrios> BarriosRepository => _barriosRepository ?? new BaseRepository<Barrios>(_context);
 
         public void Dispose()
         {

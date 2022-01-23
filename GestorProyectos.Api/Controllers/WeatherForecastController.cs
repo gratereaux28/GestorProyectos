@@ -6,17 +6,19 @@ using Microsoft.Extensions.Logging;
 
 namespace GestorProyectos.Api.Controllers
 {
-    public class WeatherForecastController : CrudBaseController<IWeatherForecastRepository, WeatherForecast>
+    public class WeatherForecastController : BaseController<WeatherForecastController, WeatherForecast>
     {
-        public WeatherForecastController(IWeatherForecastRepository repository, ILogger<WeatherForecast> logger) : base(repository)
+        private readonly IWeatherForecastRepository _weatherForecastRepository;
+        public WeatherForecastController(IWeatherForecastRepository weatherForecastRepository, ILogger<WeatherForecastController> logger) : base()
         {
             _logger = logger;
+            _weatherForecastRepository = weatherForecastRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(currentRepository.Get());
+            return Ok(_weatherForecastRepository.Get());
         }
     }
 }

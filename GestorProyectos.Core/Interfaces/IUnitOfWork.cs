@@ -11,6 +11,7 @@ namespace GestorProyectos.Core.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IBaseRepository<Estados> EstadosRepository { get; }
+        IBaseRepository<Barrios> BarriosRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

@@ -19,7 +19,7 @@ namespace GestorProyectos.Base.Implementations
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CrudBaseController<T, TEntity> : BaseController where T : IBaseRepository<TEntity> where TEntity : class
+    public class CrudBaseController1<T, TEntity> : ControllerBase where T : IBaseRepository<TEntity> where TEntity : class
     {
         protected T currentRepository;
         protected IMapper _mapper;
@@ -34,7 +34,7 @@ namespace GestorProyectos.Base.Implementations
         string bodyString;
         protected IHostingEnvironment _hostingEnvironment;
 
-        public CrudBaseController(T _repository)
+        public CrudBaseController1(T _repository)
         {
             currentRepository = _repository;
         }

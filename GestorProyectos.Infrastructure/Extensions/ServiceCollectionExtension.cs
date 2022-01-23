@@ -1,5 +1,7 @@
 ﻿using GestorProyectos.Core.CustomModels;
 using GestorProyectos.Core.Interfaces;
+using GestorProyectos.Core.Interfaces.Services;
+using GestorProyectos.Core.Services;
 using GestorProyectos.Infrastructure.Data;
 using GestorProyectos.Infrastructure.Interfaces;
 using GestorProyectos.Infrastructure.Repositories;
@@ -32,8 +34,8 @@ namespace GestorProyectos.Infrastructure.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IBarriosRepository, BarriosRepository>();
-            services.AddTransient<IEstadosRepository, EstadosRepository>();
+            services.AddTransient<IBarriosService, BarriosService>();
+            services.AddTransient<IEstadosService, EstadosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

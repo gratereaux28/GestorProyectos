@@ -181,6 +181,28 @@ namespace GestorProyectos.Base.Implementations
             return await currentQuery.ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAsync(List<Expression> querys, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
+        {
+            IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());
+            if (querys != null)
+            {
+                foreach (Expression<Func<T, bool>> query in querys)
+                {
+                    currentQuery = currentQuery.Where(query);
+                }
+            }
+            if (orderBy != null)
+                if (isDesc)
+                    currentQuery = currentQuery.OrderByDescending(orderBy).AsQueryable();
+                else
+                    currentQuery = currentQuery.OrderBy(orderBy).AsQueryable();
+            if (maximumRows > 0)
+                currentQuery = currentQuery.Take(maximumRows).AsQueryable();
+            if (startRowIndex > 0)
+                currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
+            return await currentQuery.ToListAsync();
+        }
+
         public IQueryable<T> GetQAsync(Expression<Func<T, bool>> query = null, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
         {
             IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());

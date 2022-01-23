@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 namespace GestorProyectos.Api.Controllers
 {
     [AllowAnonymous]
-    public class TokenController : CrudBaseController<IEstadosRepository, Estados>
+    public class TokenController : BaseController<TokenController, Estados>
     {
         private readonly IConfiguration _configuration;
 
-        public TokenController(IEstadosRepository _repository, IConfiguration configuration) : base(_repository)
+        public TokenController(IConfiguration configuration) : base()
         {
             _configuration = configuration;
         }

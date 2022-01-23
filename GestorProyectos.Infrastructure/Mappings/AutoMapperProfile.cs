@@ -13,8 +13,8 @@ namespace GestorProyectos.Infrastructure.Mappings
     {
         public AutoMapperProfile()
         {
-            CreateMap<Estados, EstadosDto>();
-            CreateMap<EstadosDto, Estados>();
+            CreateMap<Estados, EstadosDto>().ReverseMap();
+            CreateMap<Barrios, BarriosDto>().ReverseMap();
         }
     }
 }

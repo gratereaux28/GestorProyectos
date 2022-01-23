@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GestorProyectos.Core.Models
+namespace GestorProyectos.Core.DTOs
 {
-    public partial class Barrios: BaseModel
+    public class BarriosDto
     {
         public int IdBarrio { get; set; }
         public int IdSeccion { get; set; }
@@ -11,7 +14,5 @@ namespace GestorProyectos.Core.Models
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
         public int Parcela { get; set; }
-
-        public virtual Secciones Secciones { get; set; } = null!;
     }
 }

@@ -17,5 +17,11 @@ namespace GestorProyectos.Infrastructure.Services
             string baseUrl = $"{_baseUri}{actionUrl}";
             return new Uri(baseUrl);
         }
+
+        public Uri GetBarriosPaginationUri(BarriosQueryFilter filter, string actionUrl)
+        {
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
     }
 }

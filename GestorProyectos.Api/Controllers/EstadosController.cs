@@ -2,6 +2,7 @@
 using GestorProyectos.Base.Implementations;
 using GestorProyectos.Core.DTOs;
 using GestorProyectos.Core.Interfaces;
+using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.Entity;
@@ -17,14 +18,15 @@ using System.Threading.Tasks;
 
 namespace GestorProyectos.Api.Controllers
 {
-    public class EstadosController : CrudBaseController<IEstadosRepository, Estados>
+    public class EstadosController : BaseController<EstadosController, Estados>
     {
-        protected readonly IUriService _uriService;
-        public EstadosController(IEstadosRepository repository, ILogger<Estados> logger, IMapper mapper, IUriService uriService) : base(repository)
+        protected IUriService _uriService;
+        protected IEstadosService _estadosService;
+        public EstadosController(IEstadosService estadosService, ILogger<EstadosController> logger, IMapper mapper, IUriService uriService) : base()
         {
+            _estadosService = estadosService;
             _logger = logger;
             _mapper = mapper;
-            _uriService = uriService;
             _uriService = uriService;
         }
 
@@ -38,7 +40,7 @@ namespace GestorProyectos.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get([FromQuery] EstadosQueryFilter filters)
         {
-            var estados = await currentRepository.ObtenerEstados(filters);
+            var estados = await _estadosService.ObtenerEstados(filters);
             var estadosDto = _mapper.Map<IEnumerable<EstadosDto>>(estados);
 
             var metadata = new Metadata
@@ -60,7 +62,7 @@ namespace GestorProyectos.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEstado(int id)
         {
-            Estados estados = await currentRepository.ObtenerEstado(id);
+            Estados estados = await _estadosService.ObtenerEstado(id);
             return Ok(estados.returnResponse());
         }
 
@@ -68,7 +70,7 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Post(EstadosDto estado)
         {
             var Estado = _mapper.Map<Estados>(estado);
-            var result = await currentRepository.AgregarEstado(Estado);
+            var result = await _estadosService.AgregarEstado(Estado);
             estado = _mapper.Map<EstadosDto>(Estado);
             return Ok(estado.returnResponse());
         }
@@ -77,14 +79,14 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Put(int Id, EstadosDto estado)
         {
             estado.IdEstado = Id;
-            var result = await currentRepository.ActualizarEstado(_mapper.Map<Estados>(estado));
+            var result = await _estadosService.ActualizarEstado(_mapper.Map<Estados>(estado));
             return Ok(result.returnResponse());
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var result = await currentRepository.EliminarEstado(Id);
+            var result = await _estadosService.EliminarEstado(Id);
             return Ok(result.returnResponse());
         }
 
