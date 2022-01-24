@@ -10,7 +10,6 @@ namespace GestorProyectos.Core.Services
 {
     public class BarriosService : IBarriosService
     {
-
         private readonly IUnitOfWork _unitOfWork;
 
         public BarriosService(IUnitOfWork unitOfWork)
@@ -22,17 +21,17 @@ namespace GestorProyectos.Core.Services
         {
             List<Expression> expressions = new List<Expression>();
 
-            if (filters.IdBarrio != null)
+            if (filters.IdBarrio != null && filters.IdBarrio != 0)
             {
                 Expression<Func<Barrios, bool>> query = (e => e.IdBarrio == filters.IdBarrio);
                 expressions.Add(query);
             }
-            if (filters.IdSeccion != null)
+            if (filters.IdSeccion != null && filters.IdSeccion != 0)
             {
                 Expression<Func<Barrios, bool>> query = (e => e.IdSeccion == filters.IdSeccion);
                 expressions.Add(query);
             }
-            if (filters.Nombre != null)
+            if (!string.IsNullOrEmpty(filters.Nombre))
             {
                 Expression<Func<Barrios, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);

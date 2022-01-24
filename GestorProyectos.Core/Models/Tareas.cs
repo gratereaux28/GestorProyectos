@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GestorProyectos.Core.Models
+﻿namespace GestorProyectos.Core.Models
 {
     public partial class Tareas
     {

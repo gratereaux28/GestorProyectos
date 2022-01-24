@@ -27,5 +27,12 @@ namespace GestorProyectos.Core.Interfaces
         public IBaseRepository<TerritoriosImpactados> TerritoriosImpactadosRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
+        void BeginTransaction();
+        void CommitTransaction();
+        void RollbackTransaction();
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
+
     }
 }

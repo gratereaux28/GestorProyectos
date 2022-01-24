@@ -68,5 +68,35 @@ namespace GestorProyectos.Infrastructure.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        public void BeginTransaction()
+        {
+            _context.Database.BeginTransaction();
+        }
+
+        public void CommitTransaction()
+        {
+            _context.Database.CommitTransaction();
+        }
+
+        public void RollbackTransaction()
+        {
+            _context.Database.RollbackTransaction();
+        }
+
+        public async Task BeginTransactionAsync()
+        {
+            await _context.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            await _context.Database.CommitTransactionAsync();
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            await _context.Database.RollbackTransactionAsync();
+        }
     }
 }

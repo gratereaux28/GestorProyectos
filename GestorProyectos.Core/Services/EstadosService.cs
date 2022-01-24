@@ -10,7 +10,6 @@ namespace GestorProyectos.Core.Services
 {
     public class EstadosService : IEstadosService
     {
-
         private readonly IUnitOfWork _unitOfWork;
 
         public EstadosService(IUnitOfWork unitOfWork)
@@ -29,48 +28,57 @@ namespace GestorProyectos.Core.Services
         {
             List<Expression> expressions = new List<Expression>();
 
-            if (filters.IdEstado != null)
+            if (filters.IdEstado != null && filters.IdEstado != 0)
             {
                 Expression<Func<Estados, bool>> query = (e => e.IdEstado == filters.IdEstado);
                 expressions.Add(query);
             }
-            if (filters.Nombre != null)
+            if (!string.IsNullOrEmpty(filters.Nombre))
             {
                 Expression<Func<Estados, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
-            if (filters.IdTipo != null)
+            if (!string.IsNullOrEmpty(filters.IdTipo))
             {
-                Expression<Func<Estados, bool>> query = (e => e.IdTipo == filters.IdTipo);
+                Expression<Func<Estados, bool>> query = (e => e.IdTipo.ToLower().Contains(filters.IdTipo.ToLower()));
                 expressions.Add(query);
             }
 
             var data = await _unitOfWork.EstadosRepository.GetAsync(expressions);
-
-            //var pagedEstados = PagedList<Estados>.Create(data, filters.pageNumber, filters.pageSize);
             return data;
         }
 
         public async Task<Estados> AgregarEstado(Estados estado)
         {
+            estado.IdEstado = 0;
             return await _unitOfWork.EstadosRepository.AddAsync(estado);
         }
 
         public async Task<bool> ActualizarEstado(Estados estado)
         {
             var Estado = await ObtenerEstado(estado.IdEstado);
-            if (Estado != null) estado.CopyTo(Estado);
-            _unitOfWork.EstadosRepository.UpdateNoSave(Estado);
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            if (Estado != null)
+            {
+                estado.CopyTo(Estado);
+                _unitOfWork.EstadosRepository.UpdateNoSave(Estado);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            else
+                return false;
         }
 
         public async Task<bool> EliminarEstado(int IdEstado)
         {
             var Estado = await ObtenerEstado(IdEstado);
-            _unitOfWork.EstadosRepository.DeleteNoSave(Estado);
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            if (Estado != null)
+            {
+                _unitOfWork.EstadosRepository.DeleteNoSave(Estado);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
