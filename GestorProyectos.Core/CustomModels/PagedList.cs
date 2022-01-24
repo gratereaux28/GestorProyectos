@@ -22,9 +22,9 @@
             AddRange(items);
         }
 
-        public static PagedList<T> Create(IEnumerable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> Create(IEnumerable<T> source, int count, int pageNumber, int pageSize)
         {
-            var count = source.Count();
+            //var count = source.Count();
 
             if (pageNumber == 0)
                 pageNumber = 1;
@@ -32,7 +32,8 @@
             if (pageSize == 0)
                 pageSize = 20;
 
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            //var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var items = source.ToList();
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }

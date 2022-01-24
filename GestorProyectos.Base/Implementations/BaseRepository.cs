@@ -180,6 +180,26 @@ namespace GestorProyectos.Base.Implementations
                 currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
             return await currentQuery.ToListAsync();
         }
+        public async Task<(IEnumerable<T>, int)> GetAsync(List<Expression> querys, int maximumRows = 0, int startRowIndex = 0)
+        {
+            IQueryable<T> currentQuery = ImplementIncludes(dbSet.AsQueryable());
+            if (querys != null)
+            {
+                foreach (Expression<Func<T, bool>> query in querys)
+                {
+                    currentQuery = currentQuery.Where(query);
+                }
+            }
+
+            int count = await currentQuery.CountAsync();
+
+            if (maximumRows > 0)
+                currentQuery = currentQuery.Take(maximumRows).AsQueryable();
+            if (startRowIndex > 0)
+                currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
+
+            return (await currentQuery.ToListAsync(), count);
+        }
 
         public async Task<IEnumerable<T>> GetAsync(List<Expression> querys, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0)
         {
@@ -246,6 +266,20 @@ namespace GestorProyectos.Base.Implementations
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> query)
         {
             return await dbSet.CountAsync(query);
+        }
+
+        public virtual async Task<int> CountAsync(List<Expression> querys)
+        {
+            IQueryable<T> currentQuery = dbSet.AsQueryable();
+            if (querys != null)
+            {
+                foreach (Expression<Func<T, bool>> query in querys)
+                {
+                    currentQuery = currentQuery.Where(query);
+                }
+            }
+
+            return await currentQuery.CountAsync();
         }
 
         public virtual IBaseRepository<T> AddInclude(Expression<Func<T, object>> includeExpression)

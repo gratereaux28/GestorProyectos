@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace GestorProyectos.Api.Controllers
 {
-    public class EstadosController : BaseController<EstadosController, Estados>
+    public class EstadosController : BaseController<Estados>
     {
         protected IUriService _uriService;
         protected IEstadosService _estadosService;

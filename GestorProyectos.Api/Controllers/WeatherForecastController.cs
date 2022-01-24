@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GestorProyectos.Api.Controllers
 {
-    public class WeatherForecastController : BaseController<WeatherForecastController, WeatherForecast>
+    public class WeatherForecastController : BaseController<WeatherForecast>
     {
         private readonly IWeatherForecastRepository _weatherForecastRepository;
         public WeatherForecastController(IWeatherForecastRepository weatherForecastRepository) : base()

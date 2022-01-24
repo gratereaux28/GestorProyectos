@@ -39,6 +39,7 @@ namespace GestorProyectos.Base.Interfaces
 
         //Async
 
+        Task<(IEnumerable<T>, int)> GetAsync(List<Expression> querys, int maximumRows, int startRowIndex);
         Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0);
         Task<IEnumerable<T>> GetAsync(List<Expression> query, Expression<Func<T, object>> orderBy = null, bool isDesc = false, int maximumRows = 0, int startRowIndex = 0);
         Task<IReadOnlyList<T>> ListAllAsync();
@@ -46,5 +47,6 @@ namespace GestorProyectos.Base.Interfaces
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(T entity);
         Task<int> CountAsync(Expression<Func<T, bool>> query);
+        Task<int> CountAsync(List<Expression> query);
     }
 }

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace GestorProyectos.Api.Controllers
 {
     [AllowAnonymous]
-    public class TokenController : BaseController<TokenController, Estados>
+    public class TokenController : BaseController<Estados>
     {
         private readonly IConfiguration _configuration;
 

@@ -10,7 +10,7 @@ namespace GestorProyectos.Base.Implementations
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseController<TController, TEntity> : ControllerBase where TController : class
+    public class BaseController<TEntity> : ControllerBase where TEntity : class
     {
         protected IMapper _mapper;
 

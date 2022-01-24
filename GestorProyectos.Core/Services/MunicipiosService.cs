@@ -1,7 +1,7 @@
 ﻿using GestorProyectos.Core.Interfaces;
+using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
-using GestorProyectos.Extensions.sys;
 using System.Linq.Expressions;
 
 namespace GestorProyectos.Core.Services

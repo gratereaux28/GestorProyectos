@@ -1,7 +1,7 @@
 ﻿using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 
-namespace GestorProyectos.Core.Services
+namespace GestorProyectos.Core.Interfaces.Services
 {
     public interface IMunicipiosService
     {

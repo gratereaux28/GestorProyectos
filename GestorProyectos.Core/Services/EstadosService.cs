@@ -44,8 +44,10 @@ namespace GestorProyectos.Core.Services
                 expressions.Add(query);
             }
 
-            var data = await _unitOfWork.EstadosRepository.GetAsync(expressions);
-            return data;
+            var data = await _unitOfWork.EstadosRepository.GetAsync(expressions, filters.PageSize, filters.PageNumber);
+            var pagedPosts = PagedList<Estados>.Create(data.Item1, data.Item2, filters.PageNumber, filters.PageSize);
+
+            return data.Item1;
         }
 
         public async Task<Estados> AgregarEstado(Estados estado)

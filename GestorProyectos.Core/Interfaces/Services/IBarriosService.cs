@@ -1,5 +1,4 @@
-﻿using GestorProyectos.Core.CustomModels;
-using GestorProyectos.Core.Models;
+﻿using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 
 namespace GestorProyectos.Core.Interfaces.Services

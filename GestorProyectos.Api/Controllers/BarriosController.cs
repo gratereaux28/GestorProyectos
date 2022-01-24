@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace GestorProyectos.Api.Controllers
 {
-    public class BarriosController : BaseController<BarriosController, Barrios>
+    public class BarriosController : BaseController<Barrios>
     {
         protected readonly IUriService _uriService;
         private readonly IBarriosService _barriosService;
