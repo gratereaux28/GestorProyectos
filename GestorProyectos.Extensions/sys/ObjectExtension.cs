@@ -127,15 +127,6 @@ namespace GestorProyectos.Extensions.sys
             return JsonConvert.SerializeObject(obj, serializerSettings);
         }
 
-        public static string GetQueryString(this object obj)
-        {
-            var properties = from p in obj.GetType().GetProperties()
-                             where p.GetValue(obj, null) != null
-                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
-
-            return String.Join("&", properties.ToArray());
-        }
-
         public async static Task<ApiResponse<T>> returnResponse<T>(this T myobj, Metadata metadata = null)
         {
             var response = new ApiResponse<T>(myobj, metadata);

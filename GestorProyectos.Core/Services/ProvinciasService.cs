@@ -36,8 +36,9 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Provincias, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
-
-            var data = await _unitOfWork.ProvinciasRepository.GetAsync(expressions);
+            var repo = _unitOfWork.ProvinciasRepository;
+            repo.AddInclude("Municipios");
+            var data = await repo.GetAsync(expressions);
             return data;
         }
     }

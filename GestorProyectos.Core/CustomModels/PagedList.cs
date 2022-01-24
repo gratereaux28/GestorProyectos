@@ -12,26 +12,18 @@
         public int? NextPageNumber => HasNextPage ? CurrentPage + 1 : (int?)null;
         public int? PreviousPageNumber => HasPreviousPage ? CurrentPage - 1 : (int?)null;
 
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
             AddRange(items);
         }
 
-        public static PagedList<T> Create(IEnumerable<T> source, int count, int pageNumber, int pageSize)
+        public static PagedList<T> Create(IEnumerable<T> source, int count, int pageSize, int pageNumber)
         {
             //var count = source.Count();
-
-            if (pageNumber == 0)
-                pageNumber = 1;
-             
-            if (pageSize == 0)
-                pageSize = 20;
-
             //var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             var items = source.ToList();
 

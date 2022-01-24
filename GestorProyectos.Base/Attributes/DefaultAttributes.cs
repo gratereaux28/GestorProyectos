@@ -42,6 +42,10 @@ namespace GestorProyectos.Base.Attributes
     {
     }
 
+    public class IgnoreToQueryAttribute : Attribute
+    {
+    }
+
     public class ComparableAttribute : Attribute
     {
         public string Field;

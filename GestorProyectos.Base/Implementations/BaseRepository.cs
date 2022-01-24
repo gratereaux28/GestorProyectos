@@ -196,7 +196,7 @@ namespace GestorProyectos.Base.Implementations
             if (maximumRows > 0)
                 currentQuery = currentQuery.Take(maximumRows).AsQueryable();
             if (startRowIndex > 0)
-                currentQuery = currentQuery.Skip(maximumRows).AsQueryable();
+                currentQuery = currentQuery.Skip((startRowIndex - 1)).AsQueryable();
 
             return (await currentQuery.ToListAsync(), count);
         }

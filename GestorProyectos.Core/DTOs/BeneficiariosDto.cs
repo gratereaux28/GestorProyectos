@@ -5,7 +5,7 @@ namespace GestorProyectos.Core.DTOs
 {
     public partial class BeneficiariosDto
     {
-        public int IdBeneficiario { get; set; }
-        public string Nombre { get; set; } = null!;
+        public int? IdBeneficiario { get; set; }
+        public string Nombre { get; set; }
     }
 }
