@@ -6,6 +6,6 @@ namespace GestorProyectos.Core.Interfaces.Services
 {
     public interface IBarriosService
     {
-        Task<PagedList<Barrios>> ObtenerBarrios(BarriosQueryFilter filters);
+        Task<IEnumerable<Barrios>> ObtenerBarrios(BarriosQueryFilter filters);
     }
 }

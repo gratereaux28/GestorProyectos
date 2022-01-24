@@ -17,7 +17,7 @@ namespace GestorProyectos.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<PagedList<Barrios>> ObtenerBarrios(BarriosQueryFilter filters)
+        public async Task<IEnumerable<Barrios>> ObtenerBarrios(BarriosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
 
@@ -37,10 +37,10 @@ namespace GestorProyectos.Core.Services
                 expressions.Add(query);
             }
 
-            var data = await _unitOfWork.BarriosRepository.GetAsync(expressions);
-
-            var pagedBarrios = PagedList<Barrios>.Create(data, filters.pageNumber, filters.pageSize);
-            return pagedBarrios;
+            var repo = _unitOfWork.BarriosRepository;
+            //repo.AddInclude("Seccion");
+            var data = await repo.GetAsync(expressions);
+            return data;
         }
     }
 }

@@ -18,13 +18,13 @@ namespace GestorProyectos.Core.Services
         }
 
         public async Task<Proyectos> ObtenerProyecto(int IdProyecto)
-        {            
-            var repo = _unitOfWork.ProyectosRepository.AddInclude("DesafiosProyectos");
-            repo = _unitOfWork.ProyectosRepository.AddInclude("DocumentosProyectos");
-            repo = _unitOfWork.ProyectosRepository.AddInclude("LugaresImplementaciones");
-            repo = _unitOfWork.ProyectosRepository.AddInclude("Tareas");
-            repo = _unitOfWork.ProyectosRepository.AddInclude("TerritoriosImpactados");
-
+        {
+            var repo = _unitOfWork.ProyectosRepository;
+            repo.AddInclude("DesafiosProyectos");
+            repo.AddInclude("DocumentosProyectos");
+            repo.AddInclude("LugaresImplementaciones");
+            repo.AddInclude("Tareas");
+            repo.AddInclude("TerritoriosImpactados");
             var query = await repo.GetAsync(e => e.IdProyecto == IdProyecto);
             var Proyecto = query.FirstOrDefault();
             return Proyecto;

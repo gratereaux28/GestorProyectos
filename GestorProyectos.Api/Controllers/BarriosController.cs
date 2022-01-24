@@ -34,28 +34,13 @@ namespace GestorProyectos.Api.Controllers
         /// <param name="filters">Filtros de Consulta a aplicar.</param>
         /// <returns></returns>
         [HttpGet(Name = nameof(GetBarrrios))]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BarriosDto>>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<BarriosDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBarrrios([FromQuery] BarriosQueryFilter filters)
         {
             var barrios = await _barriosService.ObtenerBarrios(filters);
             var barriosDto = _mapper.Map<IEnumerable<BarriosDto>>(barrios);
-
-            var metadata = new Metadata
-            {
-                TotalCount = barrios.TotalCount,
-                PageSize = barrios.PageSize,
-                CurrentPage = barrios.CurrentPage,
-                TotalPages = barrios.TotalPages,
-                HasNextPage = barrios.HasNextPage,
-                HasPreviousPage = barrios.HasPreviousPage,
-                NextPageUrl = barrios.HasNextPage ? _uriService.GetPaginationUri(filters, barrios.PageSize, barrios.CurrentPage + 1, Url.RouteUrl(nameof(GetBarrrios))).ToString() : "",
-                PreviousPageUrl = barrios.HasPreviousPage ? _uriService.GetPaginationUri(filters, barrios.PageSize, barrios.CurrentPage - 1, Url.RouteUrl(nameof(GetBarrrios))).ToString() : ""
-            };
-
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return Ok(barriosDto.returnResponse(metadata));
+            return Ok(barriosDto);
         }
     }
 }

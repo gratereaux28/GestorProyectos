@@ -35,7 +35,20 @@ namespace GestorProyectos.Infrastructure.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddTransient<IBarriosService, BarriosService>();
+            services.AddTransient<IBeneficiariosService, BeneficiariosService>();
+            services.AddTransient<IDesafiosProyectosService, DesafiosProyectosService>();
+            services.AddTransient<IDesafiosService, DesafiosService>();
+            services.AddTransient<IDistritosMunicipalesService, DistritosMunicipalesService>();
+            services.AddTransient<IDocumentosProyectosService, DocumentosProyectosService>();
+            services.AddTransient<IEjecucionesService, EjecucionesService>();
             services.AddTransient<IEstadosService, EstadosService>();
+            services.AddTransient<ILugaresImplementacionesService, LugaresImplementacionesService>();
+            services.AddTransient<IMunicipiosService, MunicipiosService>();
+            services.AddTransient<IProvinciasService, ProvinciasService>();
+            services.AddTransient<IProyectosService, ProyectosService>();
+            services.AddTransient<ISeccionesService, SeccionesService>();
+            services.AddTransient<ITareasService, TareasService>();
+            services.AddTransient<ITerritoriosImpactadosService, TerritoriosImpactadosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
