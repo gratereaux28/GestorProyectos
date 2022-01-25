@@ -46,7 +46,7 @@ namespace GestorProyectos.Api.Controllers
         {
             var model = _mapper.Map<Proyectos>(dtoModel);
             var result = await _currentService.AgregarProyecto(model);
-            dtoModel = _mapper.Map<ProyectosDto>(model);
+            dtoModel = _mapper.Map<ProyectosDto>(result);
             var data = await dtoModel.returnResponse();
             return Ok(data);
         }
