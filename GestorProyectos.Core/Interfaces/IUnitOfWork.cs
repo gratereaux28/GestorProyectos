@@ -25,6 +25,7 @@ namespace GestorProyectos.Core.Interfaces
         public IBaseRepository<Secciones> SeccionesRepository { get; }
         public IBaseRepository<Tareas> TareasRepository { get; }
         public IBaseRepository<TerritoriosImpactados> TerritoriosImpactadosRepository { get; }
+        public IBaseRepository<Usuarios> UsuariosRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
         void BeginTransaction();
