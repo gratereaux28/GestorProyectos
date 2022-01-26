@@ -16,17 +16,17 @@ using System.Threading.Tasks;
 namespace GestorProyectos.Api.Controllers
 {
     [AllowAnonymous]
-    public class TokenController : BaseController<Estados>
+    public class AccountController : BaseController<Usuarios>
     {
         private readonly IConfiguration _configuration;
 
-        public TokenController(IConfiguration configuration) : base()
+        public AccountController(IConfiguration configuration) : base()
         {
             _configuration = configuration;
         }
 
         [HttpPost]
-        public IActionResult Authentication(ApiUsuarios login)
+        public IActionResult Authentication(Usuarios login)
         {
             //if it is a valid user
             if (IsValidUser(login))
@@ -38,7 +38,7 @@ namespace GestorProyectos.Api.Controllers
             return NotFound();
         }
 
-        private bool IsValidUser(ApiUsuarios login)
+        private bool IsValidUser(Usuarios login)
         {
             return true;
         }

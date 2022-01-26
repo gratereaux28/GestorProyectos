@@ -29,6 +29,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         private readonly IBaseRepository<Secciones> _seccionesRepository;
         private readonly IBaseRepository<Tareas> _tareasRepository;
         private readonly IBaseRepository<TerritoriosImpactados> _territoriosImpactadosRepository;
+        private readonly IBaseRepository<Usuarios> _usuariosRepository;
 
         public UnitOfWork(ProyectosDbContext context)
         {
@@ -50,6 +51,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         public IBaseRepository<Secciones> SeccionesRepository => _seccionesRepository ?? new BaseRepository<Secciones>(_context);
         public IBaseRepository<Tareas> TareasRepository => _tareasRepository ?? new BaseRepository<Tareas>(_context);
         public IBaseRepository<TerritoriosImpactados> TerritoriosImpactadosRepository => _territoriosImpactadosRepository ?? new BaseRepository<TerritoriosImpactados>(_context);
+        public IBaseRepository<Usuarios> UsuariosRepository => _usuariosRepository ?? new BaseRepository<Usuarios>(_context);
 
         public void Dispose()
         {
