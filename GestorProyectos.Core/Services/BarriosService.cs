@@ -17,6 +17,13 @@ namespace GestorProyectos.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Barrios> ObtenerBarrio(int IdBarrio)
+        {
+            var query = await _unitOfWork.BarriosRepository.GetAsync(e => e.IdBarrio == IdBarrio);
+            var Barrio = query.FirstOrDefault();
+            return Barrio;
+        }
+
         public async Task<IEnumerable<Barrios>> ObtenerBarrios(BarriosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();

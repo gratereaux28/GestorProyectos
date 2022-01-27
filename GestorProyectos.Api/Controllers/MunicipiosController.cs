@@ -40,5 +40,19 @@ namespace GestorProyectos.Api.Controllers
             var data = await dto.returnResponse();
             return Ok(data);
         }
+
+        /// <summary>
+        /// Devuelve un Municipio en especifico.
+        /// </summary>
+        /// <param name="id">Id del Municipio.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerMunicipio(id);
+            var dto = _mapper.Map<MunicipiosDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
     }
 }

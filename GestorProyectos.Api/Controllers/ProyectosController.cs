@@ -41,6 +41,20 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Devuelve un Proyecto en especifico.
+        /// </summary>
+        /// <param name="id">Id del Barrio.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerProyecto(id);
+            var dto = _mapper.Map<ProyectosDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(ProyectosDto dtoModel)
         {

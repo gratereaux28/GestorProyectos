@@ -40,5 +40,19 @@ namespace GestorProyectos.Api.Controllers
             var data = await dto.returnResponse();
             return Ok(data);
         }
+
+        /// <summary>
+        /// Devuelve una Sección en especifico.
+        /// </summary>
+        /// <param name="id">Id de la Sección.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerSeccion(id);
+            var dto = _mapper.Map<SeccionesDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
     }
 }

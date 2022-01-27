@@ -41,6 +41,20 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Devuelve un Ejecución en especifico.
+        /// </summary>
+        /// <param name="id">Id de la Ejecución.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerEjecucion(id);
+            var dto = _mapper.Map<EjecucionesDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(EjecucionesDto dtoModel)
         {

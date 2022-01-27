@@ -41,6 +41,20 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Devuelve un Impacto en especifico.
+        /// </summary>
+        /// <param name="id">Id de la Impacto.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerImpacto(id);
+            var dto = _mapper.Map<TerritoriosImpactadosDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(TerritoriosImpactadosDto dtoModel)
         {

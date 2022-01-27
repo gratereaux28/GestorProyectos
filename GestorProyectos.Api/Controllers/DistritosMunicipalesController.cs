@@ -41,6 +41,20 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Devuelve un Distrito en especifico.
+        /// </summary>
+        /// <param name="id">Id del Distrito.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerDistritoMunicipal(id);
+            var dto = _mapper.Map<DistritosMunicipalesDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(DistritosMunicipalesDto dtoModel)
         {

@@ -40,5 +40,19 @@ namespace GestorProyectos.Api.Controllers
             var data = await dto.returnResponse();
             return Ok(data);
         }
+
+        /// <summary>
+        /// Devuelve una Provincias en especifico.
+        /// </summary>
+        /// <param name="id">Id de la Provincias.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerProvincia(id);
+            var dto = _mapper.Map<ProvinciasDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
     }
 }

@@ -43,6 +43,20 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Devuelve un Usuario en especifico.
+        /// </summary>
+        /// <param name="id">Id del Usuario.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _currentService.ObtenerUsuario(id);
+            var dto = _mapper.Map<UsuariosDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(UsuariosDto dtoModel)
         {

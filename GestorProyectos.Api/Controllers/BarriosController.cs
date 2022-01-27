@@ -42,5 +42,19 @@ namespace GestorProyectos.Api.Controllers
             var barriosDto = _mapper.Map<IEnumerable<BarriosDto>>(barrios);
             return Ok(barriosDto);
         }
+
+        /// <summary>
+        /// Devuelve un Barrio en especifico.
+        /// </summary>
+        /// <param name="id">Id del Barrio.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _barriosService.ObtenerBarrio(id);
+            var dto = _mapper.Map<BarriosDto>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
+        }
     }
 }
