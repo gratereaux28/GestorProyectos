@@ -30,10 +30,10 @@ namespace GestorProyectos.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(UsuariosQueryFilter usuario)
+        public async Task<IActionResult> Login(string usuario, string clave)
         {
-            var user = await _usuariosService.ObtenerUsuario(usuario.Usuario);
-            var IsValidUser = _passwordService.Check(user.Clave, usuario.Clave);
+            var user = await _usuariosService.ObtenerUsuario(usuario);
+            var IsValidUser = _passwordService.Check(user.Clave, clave);
             if (IsValidUser)
             {
                 var token = GenerateToken(user);
