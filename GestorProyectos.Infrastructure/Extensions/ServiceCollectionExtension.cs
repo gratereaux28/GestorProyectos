@@ -27,7 +27,8 @@ namespace GestorProyectos.Infrastructure.Extensions
 
         public static IServiceCollection AddOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<PaginationOptions>(options => configuration.GetSection("Pagination").Bind(options));
+            //services.Configure<PaginationOptions>(options => configuration.GetSection("Pagination").Bind(options));
+            services.Configure<PasswordOptions>(options => configuration.GetSection("PasswordOptions").Bind(options));
 
             return services;
         }
@@ -44,11 +45,13 @@ namespace GestorProyectos.Infrastructure.Extensions
             services.AddTransient<IEstadosService, EstadosService>();
             services.AddTransient<ILugaresImplementacionesService, LugaresImplementacionesService>();
             services.AddTransient<IMunicipiosService, MunicipiosService>();
+            services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IProvinciasService, ProvinciasService>();
             services.AddTransient<IProyectosService, ProyectosService>();
             services.AddTransient<ISeccionesService, SeccionesService>();
             services.AddTransient<ITareasService, TareasService>();
             services.AddTransient<ITerritoriosImpactadosService, TerritoriosImpactadosService>();
+            services.AddTransient<IUsuariosService, UsuariosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

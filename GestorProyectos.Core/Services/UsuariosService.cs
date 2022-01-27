@@ -1,4 +1,5 @@
-﻿using GestorProyectos.Core.Interfaces;
+﻿using GestorProyectos.Core.DTOs;
+using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
@@ -16,25 +17,47 @@ namespace GestorProyectos.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Usuarios> ObtenerEjecucion(int IdEjecucion)
+        public async Task<Usuarios> ObtenerUsuario(int IdUsuario)
         {
-            var query = await _unitOfWork.UsuariosRepository.GetAsync(e => e.IdEjecucion == IdEjecucion);
-            var Ejecucion = query.FirstOrDefault();
-            return Ejecucion;
+            var query = await _unitOfWork.UsuariosRepository.GetAsync(e => e.IdUsuario == IdUsuario);
+            var Usuario = query.FirstOrDefault();
+            return Usuario;
+        }
+
+        public async Task<Usuarios> ObtenerUsuario(string usuario)
+        {
+            var query = await _unitOfWork.UsuariosRepository.GetAsync(e => e.Usuario == usuario);
+            var Usuario = query.FirstOrDefault();
+            return Usuario;
         }
 
         public async Task<IEnumerable<Usuarios>> ObtenerUsuarios(UsuariosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
 
-            if (filters.IdEjecucion != null && filters.IdEjecucion != 0)
+            if (filters.IdUsuario != null && filters.IdUsuario != 0)
             {
-                Expression<Func<Usuarios, bool>> query = (e => e.IdEjecucion == filters.IdEjecucion);
+                Expression<Func<Usuarios, bool>> query = (e => e.IdUsuario == filters.IdUsuario);
                 expressions.Add(query);
             }
-            if (filters.IdProyecto != null && filters.IdProyecto != 0)
+            if (!string.IsNullOrEmpty(filters.Usuario))
             {
-                Expression<Func<Usuarios, bool>> query = (e => e.IdProyecto == filters.IdProyecto);
+                Expression<Func<Usuarios, bool>> query = (e => e.Usuario.ToLower().Contains(filters.Usuario.ToLower()));
+                expressions.Add(query);
+            }
+            if (!string.IsNullOrEmpty(filters.Nombre))
+            {
+                Expression<Func<Usuarios, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
+                expressions.Add(query);
+            }
+            if (!string.IsNullOrEmpty(filters.Apellido))
+            {
+                Expression<Func<Usuarios, bool>> query = (e => e.Apellido.ToLower().Contains(filters.Apellido.ToLower()));
+                expressions.Add(query);
+            }
+            if (!string.IsNullOrEmpty(filters.Correo))
+            {
+                Expression<Func<Usuarios, bool>> query = (e => e.Correo.ToLower().Contains(filters.Correo.ToLower()));
                 expressions.Add(query);
             }
 
@@ -42,19 +65,19 @@ namespace GestorProyectos.Core.Services
             return data;
         }
 
-        public async Task<Usuarios> AgregarEjecucion(Usuarios ejecucion)
+        public async Task<Usuarios> AgregarUsuario(Usuarios usuario)
         {
-            ejecucion.IdEjecucion = 0;
-            return await _unitOfWork.UsuariosRepository.AddAsync(ejecucion);
+            usuario.IdUsuario = 0;
+            return await _unitOfWork.UsuariosRepository.AddAsync(usuario);
         }
 
-        public async Task<bool> ActualizarEjecucion(Usuarios ejecucion)
+        public async Task<bool> ActualizarUsuario(Usuarios usuario)
         {
-            var Ejecucion = await ObtenerEjecucion(ejecucion.IdEjecucion);
-            if (Ejecucion != null)
+            var Usuario = await ObtenerUsuario(usuario.IdUsuario);
+            if (Usuario != null)
             {
-                ejecucion.CopyTo(Ejecucion);
-                _unitOfWork.UsuariosRepository.UpdateNoSave(Ejecucion);
+                usuario.CopyTo(Usuario);
+                _unitOfWork.UsuariosRepository.UpdateNoSave(Usuario);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }
@@ -62,12 +85,12 @@ namespace GestorProyectos.Core.Services
                 return false;
         }
 
-        public async Task<bool> EliminarEjecucion(int IdEjecucion)
+        public async Task<bool> EliminarUsuario(int IdUsuario)
         {
-            var Ejecucion = await ObtenerEjecucion(IdEjecucion);
-            if (Ejecucion != null)
+            var Usuario = await ObtenerUsuario(IdUsuario);
+            if (Usuario != null)
             {
-                _unitOfWork.UsuariosRepository.DeleteNoSave(Ejecucion);
+                _unitOfWork.UsuariosRepository.DeleteNoSave(Usuario);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }

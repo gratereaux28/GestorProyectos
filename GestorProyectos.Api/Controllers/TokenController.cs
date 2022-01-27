@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using GestorProyectos.Base.Implementations;
-using GestorProyectos.Core.Interfaces;
+﻿using GestorProyectos.Base.Implementations;
 using GestorProyectos.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,20 +13,20 @@ using System.Threading.Tasks;
 namespace GestorProyectos.Api.Controllers
 {
     [AllowAnonymous]
-    public class AccountController : BaseController<Usuarios>
+    public class TokenController : BaseController<Usuarios>
     {
         private readonly IConfiguration _configuration;
 
-        public AccountController(IConfiguration configuration) : base()
+        public TokenController(IConfiguration configuration) : base()
         {
             _configuration = configuration;
         }
 
         [HttpPost]
-        public IActionResult Authentication(Usuarios login)
+        public IActionResult Authentication()
         {
             //if it is a valid user
-            if (IsValidUser(login))
+            if (IsValidUser())
             {
                 var token = GenerateToken();
                 return Ok(new { token });
@@ -38,7 +35,7 @@ namespace GestorProyectos.Api.Controllers
             return NotFound();
         }
 
-        private bool IsValidUser(Usuarios login)
+        private bool IsValidUser()
         {
             return true;
         }
@@ -53,7 +50,7 @@ namespace GestorProyectos.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "Martin Gratereaux"),
+                new Claim(ClaimTypes.Name, "Martin"),
                 new Claim("User", "mgratereaux"),
                 new Claim(ClaimTypes.Role, "Administrador"),
             };
@@ -65,7 +62,7 @@ namespace GestorProyectos.Api.Controllers
                 _configuration["Authentication:Audience"],
                 claims,
                 DateTime.Now,
-                DateTime.UtcNow.AddMinutes(3600)
+                DateTime.UtcNow.AddMinutes(10)
             );
 
             var token = new JwtSecurityToken(header, payload);
