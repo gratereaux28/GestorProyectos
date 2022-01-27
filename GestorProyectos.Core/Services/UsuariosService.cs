@@ -33,7 +33,7 @@ namespace GestorProyectos.Core.Services
 
         public async Task<IEnumerable<Usuarios>> ObtenerUsuarios(UsuariosQueryFilter filters)
         {
-            List<Expression> expressions = new List<Expression>();
+            List<Expression> expressions = new();
 
             if (filters.IdUsuario != null && filters.IdUsuario != 0)
             {

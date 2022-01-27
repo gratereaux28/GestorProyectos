@@ -66,7 +66,7 @@ namespace GestorProyectos.Api.Controllers
                 _configuration["Authentication:Audience"],
                 claims,
                 DateTime.Now,
-                DateTime.UtcNow.AddMinutes(3600)
+                DateTime.UtcNow.AddDays(1)
             );
 
             var token = new JwtSecurityToken(header, payload);
