@@ -16,5 +16,11 @@ namespace GestorProyectos.Core.DTOs
         public string IdTipoPresupuesto { get; set; } = null!;
         public decimal RangoPresupuestado { get; set; }
         public string? DescripcionEspecie { get; set; }
+
+        public virtual ICollection<DesafiosProyectosDto>? DesafiosProyectos { get; set; }
+        public virtual ICollection<DocumentosProyectosDto>? DocumentosProyectos { get; set; }
+        public virtual ICollection<LugaresImplementacionesDto>? LugaresImplementaciones { get; set; }
+        public virtual ICollection<TareasDto>? Tareas { get; set; }
+        public virtual ICollection<TerritoriosImpactadosDto>? TerritoriosImpactados { get; set; }
     }
 }

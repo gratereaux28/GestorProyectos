@@ -45,7 +45,7 @@ namespace GestorProyectos.Api.Controllers
                 }
             }
 
-            return BadRequest("Usuario o Contraseña Incorrecta.");
+            return Ok(false);
         }
 
         private string GenerateToken(Usuarios usuario)

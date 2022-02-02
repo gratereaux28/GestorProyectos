@@ -96,8 +96,20 @@ namespace GestorProyectos.Core.Services
 
         public async Task<Proyectos> AgregarProyecto(Proyectos proyecto)
         {
-            proyecto.IdProyecto = 0;
-            return await _unitOfWork.ProyectosRepository.AddAsync(proyecto);
+            try
+            {
+                proyecto.IdProyecto = 0;
+
+                await _unitOfWork.BeginTransactionAsync();
+                _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
+
+                await _unitOfWork.CommitTransactionAsync();
+                return proyecto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> ActualizarProyecto(Proyectos proyecto)
