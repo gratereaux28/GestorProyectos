@@ -41,7 +41,7 @@ namespace GestorProyectos.Api.Controllers
                 return Ok(new { Nombre, user.Usuario, token });
             }
 
-            return NotFound();
+            return Ok(false);
         }
 
         private string GenerateToken(Usuarios usuario)
