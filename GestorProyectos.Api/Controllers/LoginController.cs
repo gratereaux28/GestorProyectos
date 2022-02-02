@@ -33,12 +33,16 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Login(string usuario, string clave)
         {
             var user = await _usuariosService.ObtenerUsuario(usuario);
-            var IsValidUser = _passwordService.Check(user.Clave, clave);
-            if (IsValidUser)
+
+            if (user != null)
             {
-                var token = GenerateToken(user);
-                string Nombre = user.Nombre + " " + user.Apellido;
-                return Ok(new { Nombre, user.Usuario, token });
+                var IsValidUser = _passwordService.Check(user.Clave, clave);
+                if (IsValidUser)
+                {
+                    var token = GenerateToken(user);
+                    string Nombre = user.Nombre + " " + user.Apellido;
+                    return Ok(new { Nombre, user.Usuario, token });
+                }
             }
 
             return BadRequest("Usuario o Contraseña Incorrecta.");

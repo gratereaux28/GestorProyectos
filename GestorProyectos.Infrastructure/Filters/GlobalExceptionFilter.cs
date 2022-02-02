@@ -11,10 +11,10 @@ namespace GestorProyectos.Infrastructure.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            string Controller = context.ActionDescriptor.RouteValues.FirstOrDefault(r => r.Key == "controller").Value;
-            string ActionName = context.ActionDescriptor.RouteValues.FirstOrDefault(r => r.Key == "action").Value;
-            string User = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "User").Value;
-            LogHelper.Write($"{Controller}/{ActionName}", User, context.Exception);
+            //string Controller = context.ActionDescriptor.RouteValues.FirstOrDefault(r => r.Key == "controller").Value;
+            //string ActionName = context.ActionDescriptor.RouteValues.FirstOrDefault(r => r.Key == "action").Value;
+            //string User = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "User").Value;
+            //LogHelper.Write($"{Controller}/{ActionName}", User, context.Exception);
 
             if (context.Exception.GetType() == typeof(BusinessException))
             {
