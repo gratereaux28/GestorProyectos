@@ -22,7 +22,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.LugaresImplementaciones)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_LugaresImplementaciones_Proyectos");
         }
     }

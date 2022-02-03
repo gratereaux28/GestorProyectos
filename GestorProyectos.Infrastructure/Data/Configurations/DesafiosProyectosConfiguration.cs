@@ -16,13 +16,13 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Desafio)
                 .WithMany(p => p.DesafiosProyectos)
                 .HasForeignKey(d => d.IdDesafio)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DesafiosProyectos_Desafios");
 
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.DesafiosProyectos)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DesafiosProyectos_Proyectos");
         }
     }

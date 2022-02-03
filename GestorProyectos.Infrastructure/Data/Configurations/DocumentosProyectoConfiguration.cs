@@ -31,12 +31,13 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.DocumentosProyectos)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DocumentosProyecto_Proyectos");
 
             builder.HasOne(d => d.Tarea)
                 .WithMany(p => p.DocumentosProyectos)
                 .HasForeignKey(d => d.IdTarea)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DocumentosProyecto_Tareas");
         }
     }

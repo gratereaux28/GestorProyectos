@@ -37,6 +37,10 @@ namespace GestorProyectos.Base.Interfaces
         void SaveChanges();
         bool IsActiveTransaction();
 
+        void AddRangeNoSave(List<T> entity);
+        void UpdateRangeNoSave(List<T> entity);
+        void DeleteRangeNoSave(List<T> entity);
+
         //Async
 
         Task<(IEnumerable<T>, int)> GetAsync(List<Expression> querys, int maximumRows, int startRowIndex);

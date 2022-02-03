@@ -26,7 +26,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.TerritoriosImpactados)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_TerritoriosImpactados_Proyectos");
         }
     }

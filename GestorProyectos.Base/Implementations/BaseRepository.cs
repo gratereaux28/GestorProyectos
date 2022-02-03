@@ -513,5 +513,20 @@ namespace GestorProyectos.Base.Implementations
         {
             return dbSet;
         }
+
+        public void AddRangeNoSave(List<T> entity)
+        {
+            dbSet.AddRange(entity);
+        }
+
+        public void UpdateRangeNoSave(List<T> entity)
+        {
+            dbSet.UpdateRange(entity);
+        }
+
+        public void DeleteRangeNoSave(List<T> entity)
+        {
+            dbSet.RemoveRange(entity);
+        }
     }
 }
