@@ -90,7 +90,9 @@ namespace GestorProyectos.Core.Services
                 expressions.Add(query);
             }
 
-            var data = await _unitOfWork.ProyectosRepository.GetAsync(expressions);
+            var repo = _unitOfWork.ProyectosRepository;
+            repo.AddInclude("Tareas");
+            var data = await repo.GetAsync(expressions);
             return data;
         }
 
