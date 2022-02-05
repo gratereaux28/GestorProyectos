@@ -9,19 +9,26 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Proyectos> builder)
         {
             builder.HasKey(e => e.IdProyecto)
-                .HasName("PK__Proyecto__F488867333C4E53A");
+                .HasName("PK__Proyecto__F4888673943931C4");
 
             builder.ToTable("Proyectos", "Operacion");
 
-            builder.Property(e => e.Codigo).HasMaxLength(15);
+            builder.Property(e => e.Codigo)
+                .IsUnicode(false)
+                .HasComputedColumnSql("([Function].[func_Get_new_Codigo]())", false);
 
             builder.Property(e => e.DatosBeneficiario).IsUnicode(false);
 
             builder.Property(e => e.Descripcion)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
             builder.Property(e => e.DescripcionEspecie).IsUnicode(false);
+
+            builder.Property(e => e.FechaCreacion)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())");
 
             builder.Property(e => e.FechaFinal).HasColumnType("date");
 
@@ -32,11 +39,15 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .IsUnicode(false);
 
             builder.Property(e => e.IdTipoPresupuesto)
+                .IsRequired()
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
 
+            builder.Property(e => e.IsDelete).HasDefaultValueSql("((0))");
+
             builder.Property(e => e.Nombre)
+                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
