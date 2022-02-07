@@ -87,7 +87,7 @@ namespace GestorProyectos.Api
                 options.SwaggerEndpoint("../swagger/v1/swagger.json", Configuration["ProyectInfo:ProyectName"]);
                 options.InjectStylesheet("../content/swagger-custom/swagger-custom-styles.css");
                 options.InjectJavascript("../content/swagger-custom/swagger-custom-script.js", "text/javascript");
-                options.RoutePrefix = string.Empty;
+                //options.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();
