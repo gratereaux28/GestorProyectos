@@ -39,6 +39,10 @@ namespace GestorProyectos.Api.Controllers
         {
             var result = await _currentService.ObtenerUsuarios(filters);
             var dto = _mapper.Map<IEnumerable<UsuariosDto>>(result);
+            foreach (var item in dto)
+            {
+                item.Clave = "";
+            }
             var data = await dto.returnResponse();
             return Ok(data);
         }
@@ -53,6 +57,7 @@ namespace GestorProyectos.Api.Controllers
         {
             var result = await _currentService.ObtenerUsuario(id);
             var dto = _mapper.Map<UsuariosDto>(result);
+            dto.Clave = "";
             var data = await dto.returnResponse();
             return Ok(data);
         }
