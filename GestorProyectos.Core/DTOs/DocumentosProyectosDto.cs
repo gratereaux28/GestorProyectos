@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace GestorProyectos.Core.DTOs
@@ -13,5 +14,6 @@ namespace GestorProyectos.Core.DTOs
         public string NombreArchivo { get; set; } = null!;
         public string Ext { get; set; } = null!;
         public string? Url { get; set; }
+        public IFormFile File { get; set; }
     }
 }

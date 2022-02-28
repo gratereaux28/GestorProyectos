@@ -1,9 +1,12 @@
-﻿using GestorProyectos.Core.Exceptions;
+﻿using GestorProyectos.Core.DTOs;
+using GestorProyectos.Core.Exceptions;
 using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.sys;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
 namespace GestorProyectos.Core.Services
@@ -11,10 +14,14 @@ namespace GestorProyectos.Core.Services
     public class ProyectosService : IProyectosService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public ProyectosService(IUnitOfWork unitOfWork)
+        public ProyectosService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
+            _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         public async Task<Proyectos> ObtenerProyecto(int IdProyecto)
@@ -59,7 +66,7 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Proyectos, bool>> query = (e => e.FechaInicio >= filters.FechaInicio && e.FechaFinal <= filters.FechaFinal);
                 expressions.Add(query);
             }
-            else if (filters.FechaInicio != null )
+            else if (filters.FechaInicio != null)
             {
                 Expression<Func<Proyectos, bool>> query = (e => e.FechaInicio == filters.FechaInicio);
                 expressions.Add(query);
@@ -96,26 +103,83 @@ namespace GestorProyectos.Core.Services
             return data;
         }
 
-        public async Task<Proyectos> AgregarProyecto(Proyectos proyecto)
+        public async Task<Proyectos> AgregarProyecto(Proyectos proyecto, IEnumerable<DocumentosProyectosDto> documentos)
         {
-            proyecto.IdProyecto = 0;
-            _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
-            await _unitOfWork.SaveChangesAsync();
-            return proyecto;
+            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, "Uploads/Documentos");
+            string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+            try
+            {
+                proyecto.IdProyecto = 0;
+                _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
+                await _unitOfWork.SaveChangesAsync();
+
+                webRootPath = Path.Combine(webRootPath, proyecto.Codigo);
+
+                if (!Directory.Exists(webRootPath))
+                {
+                    Directory.CreateDirectory(webRootPath);
+                }
+
+                foreach (var doc in documentos.Where(d => d.IdDocumento != 0).ToList())
+                {
+                    string ruta = Path.Combine(webRootPath, doc.File.FileName);
+                    doc.File.CopyTo(new FileStream(ruta, FileMode.Create));
+                }
+
+                return proyecto;
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(webRootPath);
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
-        public async Task<bool> ActualizarProyecto(Proyectos proyecto)
+        public async Task<bool> ActualizarProyecto(Proyectos proyecto, IEnumerable<DocumentosProyectosDto> documentos)
         {
-            var Proyecto = await ObtenerProyecto(proyecto.IdProyecto);
-            if (Proyecto != null)
+            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, "Uploads/Documentos");
+            string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+            try
             {
-                proyecto.CopyTo(Proyecto);
-                _unitOfWork.ProyectosRepository.UpdateNoSave(Proyecto);
-                await _unitOfWork.SaveChangesAsync();
-                return true;
+                var Proyecto = await ObtenerProyecto(proyecto.IdProyecto);
+                if (Proyecto != null)
+                {
+                    var documentosEliminados = Proyecto.DocumentosProyectos.Where(d => !documentos.Select(dp => dp.IdDocumento).Contains(d.IdDocumento)).ToList();
+
+                    proyecto.CopyTo(Proyecto);
+                    _unitOfWork.ProyectosRepository.UpdateNoSave(Proyecto);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    webRootPath = Path.Combine(webRootPath, proyecto.Codigo);
+
+                    if (!Directory.Exists(webRootPath))
+                    {
+                        Directory.CreateDirectory(webRootPath);
+                    }
+
+                    foreach (var doc in documentos.Where(d => d.IdDocumento != 0).ToList())
+                    {
+                        string ruta = Path.Combine(webRootPath, doc.File.FileName);
+                        doc.File.CopyTo(new FileStream(ruta, FileMode.Create));
+                    }
+
+                    foreach (var doc in documentosEliminados)
+                    {
+                        string ruta = Path.Combine(webRootPath, doc.NombreArchivo);
+                        File.Delete(ruta);
+                    }
+
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
-                return false;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         public async Task<bool> EliminarProyecto(int IdProyecto)
@@ -131,6 +195,9 @@ namespace GestorProyectos.Core.Services
             {
                 _unitOfWork.ProyectosRepository.DeleteNoSave(Proyecto);
                 await _unitOfWork.SaveChangesAsync();
+                var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, "Uploads/Documentos");
+                webRootPath = Path.Combine(webRootPath, Proyecto.Codigo);
+                Directory.Delete(webRootPath);
                 return true;
             }
             else

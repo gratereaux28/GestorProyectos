@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.Abstractions" Version="16.1.15" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GestorProyectos.Base\GestorProyectos.Base.csproj" />
   </ItemGroup>
 
