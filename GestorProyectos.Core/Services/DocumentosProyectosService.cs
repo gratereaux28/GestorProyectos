@@ -4,6 +4,9 @@ using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.sys;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
 namespace GestorProyectos.Core.Services
@@ -11,10 +14,14 @@ namespace GestorProyectos.Core.Services
     public class DocumentosProyectosService : IDocumentosProyectosService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public DocumentosProyectosService(IUnitOfWork unitOfWork)
+        public DocumentosProyectosService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
+            _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         public async Task<DocumentosProyectos> ObtenerDocumento(int IdDocumento)
@@ -48,10 +55,11 @@ namespace GestorProyectos.Core.Services
             return data;
         }
 
-        public async Task<DocumentosProyectos> AgregarDocumento(DocumentosProyectos estado)
+        public async Task<DocumentosProyectos> AgregarDocumento(DocumentosProyectos documento)
         {
-            estado.IdDocumento = 0;
-            return await _unitOfWork.DocumentosProyectosRepository.AddAsync(estado);
+            documento.IdDocumento = 0;
+            await _unitOfWork.DocumentosProyectosRepository.AddAsync(documento);
+            return documento;
         }
 
         public async Task<bool> ActualizarDocumento(DocumentosProyectos documento)
@@ -66,6 +74,21 @@ namespace GestorProyectos.Core.Services
             }
             else
                 return false;
+        }
+
+        public async Task GuardarDocumentos(IFormFile File, string CodigoProyecto)
+        {
+            string asd = _configuration["ProyectInfo:UploadDocument"];
+            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, asd);
+            webRootPath = Path.Combine(webRootPath, CodigoProyecto);
+
+            if (!Directory.Exists(webRootPath))
+            {
+                Directory.CreateDirectory(webRootPath);
+            }
+
+            string ruta = Path.Combine(webRootPath, File.FileName);
+            await File.CopyToAsync(new FileStream(ruta, FileMode.Create));
         }
 
         public async Task<bool> EliminarDocumento(int IdDocumento)

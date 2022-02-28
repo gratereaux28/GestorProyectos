@@ -41,8 +41,13 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Municipios, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
+            if(filters.provincias != null && filters.provincias.Count() > 0)
+            {
+                Expression<Func<Municipios, bool>> query = (e => filters.provincias.Contains(e.IdProvincia));
+                expressions.Add(query);
+            }
 
-            var data = await _unitOfWork.MunicipiosRepository.GetAsync(expressions);
+            var data = await _unitOfWork.MunicipiosRepository.AddInclude("").GetAsync(expressions);
             return data;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GestorProyectos.Api.Models;
 using GestorProyectos.Base.Implementations;
 using GestorProyectos.Core.DTOs;
 using GestorProyectos.Core.Interfaces.Services;
@@ -6,6 +7,7 @@ using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.sys;
 using GestorProyectos.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -55,14 +57,21 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Post(DocumentosProyectosDto dtoModel)
+        //{
+        //    var model = _mapper.Map<DocumentosProyectos>(dtoModel);
+        //    var result = await _currentService.AgregarDocumento(model);
+        //    dtoModel = _mapper.Map<DocumentosProyectosDto>(model);
+        //    var data = await dtoModel.returnResponse();
+        //    return Ok(data);
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> Post(DocumentosProyectosDto dtoModel)
+        public async Task<IActionResult> Post([FromForm] DocumentosProyectoFile documento)
         {
-            var model = _mapper.Map<DocumentosProyectos>(dtoModel);
-            var result = await _currentService.AgregarDocumento(model);
-            dtoModel = _mapper.Map<DocumentosProyectosDto>(model);
-            var data = await dtoModel.returnResponse();
-            return Ok(data);
+            await _currentService.GuardarDocumentos(documento.File, documento.CodigoProyecto);
+            return Ok();
         }
 
         [HttpPut]

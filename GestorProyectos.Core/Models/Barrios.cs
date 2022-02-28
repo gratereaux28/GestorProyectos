@@ -15,6 +15,7 @@
         public int Parcela { get; set; }
 
         public virtual Secciones Seccion { get; set; } = null!;
+        public virtual Municipios Municipio { get; set; } = null!;
         public virtual ICollection<TerritoriosImpactados> TerritoriosImpactados { get; set; }
     }
 }

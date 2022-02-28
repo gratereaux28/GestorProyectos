@@ -15,6 +15,7 @@
         public double? Longitud { get; set; }
 
         public virtual Provincias Provincia { get; set; } = null!;
+        public virtual ICollection<Barrios> Barrios { get; set; } = null!;
         public virtual ICollection<DistritosMunicipales> DistritosMunicipales { get; set; }
         public virtual ICollection<TerritoriosImpactados> TerritoriosImpactados { get; set; }
     }
