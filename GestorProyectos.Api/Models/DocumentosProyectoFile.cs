@@ -6,5 +6,6 @@ namespace GestorProyectos.Api.Models
     {
         public IFormFile File { get; set; }
         public string CodigoProyecto { get; set; }
+        public int size { get; set; }
     }
 }

@@ -105,35 +105,11 @@ namespace GestorProyectos.Core.Services
 
         public async Task<Proyectos> AgregarProyecto(Proyectos proyecto, IEnumerable<DocumentosProyectosDto> documentos)
         {
-            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
+            proyecto.IdProyecto = 0;
+            _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
+            await _unitOfWork.SaveChangesAsync();
 
-            try
-            {
-                proyecto.IdProyecto = 0;
-                _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
-                await _unitOfWork.SaveChangesAsync();
-
-                webRootPath = Path.Combine(webRootPath, proyecto.Codigo);
-
-                if (!Directory.Exists(webRootPath))
-                {
-                    Directory.CreateDirectory(webRootPath);
-                }
-
-                //foreach (var doc in documentos.Where(d => d.IdDocumento != 0).ToList())
-                //{
-                //    string ruta = Path.Combine(webRootPath, doc.File.FileName);
-                //    doc.File.CopyTo(new FileStream(ruta, FileMode.Create));
-                //}
-
-                return proyecto;
-            }
-            catch (Exception ex)
-            {
-                Directory.Delete(webRootPath);
-                throw new Exception(ex.Message, ex.InnerException);
-            }
+            return proyecto;
         }
 
         public async Task<bool> ActualizarProyecto(Proyectos proyecto, IEnumerable<DocumentosProyectosDto> documentos)
@@ -155,15 +131,7 @@ namespace GestorProyectos.Core.Services
                     webRootPath = Path.Combine(webRootPath, proyecto.Codigo);
 
                     if (!Directory.Exists(webRootPath))
-                    {
                         Directory.CreateDirectory(webRootPath);
-                    }
-
-                    //foreach (var doc in documentos.Where(d => d.IdDocumento != 0).ToList())
-                    //{
-                    //    string ruta = Path.Combine(webRootPath, doc.File.FileName);
-                    //    doc.File.CopyTo(new FileStream(ruta, FileMode.Create));
-                    //}
 
                     foreach (var doc in documentosEliminados)
                     {
@@ -197,7 +165,8 @@ namespace GestorProyectos.Core.Services
                 await _unitOfWork.SaveChangesAsync();
                 var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
                 webRootPath = Path.Combine(webRootPath, Proyecto.Codigo);
-                Directory.Delete(webRootPath);
+                if(Directory.Exists(webRootPath))
+                    Directory.Delete(webRootPath);
                 return true;
             }
             else

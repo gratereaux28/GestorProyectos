@@ -83,9 +83,7 @@ namespace GestorProyectos.Core.Services
             webRootPath = Path.Combine(webRootPath, CodigoProyecto);
 
             if (!Directory.Exists(webRootPath))
-            {
                 Directory.CreateDirectory(webRootPath);
-            }
 
             string ruta = Path.Combine(webRootPath, File.FileName);
             await File.CopyToAsync(new FileStream(ruta, FileMode.Create));

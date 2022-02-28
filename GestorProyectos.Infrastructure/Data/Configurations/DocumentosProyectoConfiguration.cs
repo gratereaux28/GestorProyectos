@@ -20,7 +20,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.Property(e => e.Fecha).HasColumnType("date");
 
             builder.Property(e => e.NombreArchivo)
-                .HasMaxLength(10)
+                .HasMaxLength(500)
                 .IsUnicode(false);
 
             builder.Property(e => e.Url)

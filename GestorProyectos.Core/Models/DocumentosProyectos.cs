@@ -10,6 +10,7 @@
         public string NombreArchivo { get; set; } = null!;
         public string Ext { get; set; } = null!;
         public string? Url { get; set; }
+        public int size { get; set; }
 
         public virtual Proyectos Proyecto { get; set; } = null!;
         public virtual Tareas Tarea { get; set; }

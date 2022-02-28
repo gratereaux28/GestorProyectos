@@ -7,6 +7,7 @@ namespace GestorProyectos.Core.Interfaces.Services
     {
         Task<TerritoriosImpactados> ObtenerImpacto(int IdImpacto);
         Task<IEnumerable<TerritoriosImpactados>> ObtenerTerritoriosImpactados(TerritoriosImpactadosQueryFilter filters);
+        Task<IEnumerable<TerritoriosImpactados>> ObtenerListaTerritoriosImpactados(List<int> ids);
         Task<TerritoriosImpactados> AgregarImpacto(TerritoriosImpactados impacto);
         Task<bool> ActualizarImpacto(TerritoriosImpactados impacto);
         Task<bool> EliminarImpacto(int IdImpacto);

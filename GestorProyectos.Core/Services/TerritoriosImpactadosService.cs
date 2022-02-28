@@ -1,4 +1,5 @@
-﻿using GestorProyectos.Core.Interfaces;
+﻿using GestorProyectos.Core.DTOs;
+using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Interfaces.Services;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
@@ -50,6 +51,31 @@ namespace GestorProyectos.Core.Services
 
             var data = await _unitOfWork.TerritoriosImpactadosRepository.GetAsync(expressions);
             return data;
+        }
+
+        public async Task<IEnumerable<TerritoriosImpactados>> ObtenerListaTerritoriosImpactados(List<int> ids)
+        {
+            var municipios = await _unitOfWork.MunicipiosRepository.AddInclude("DistritosMunicipales").GetAsync(m => ids.Contains(m.IdProvincia));
+            var distritos = await _unitOfWork.DistritosMunicipalesRepository.AddInclude("Secciones").GetAsync(m => municipios.ToList().Select(m => m.IdMunicipio).Contains(m.IdMunicipio));
+            var secciones = await _unitOfWork.SeccionesRepository.AddInclude("Barrios").GetAsync(m => distritos.ToList().Select(m => m.IdDistrito).Contains(m.IdDistrito));
+
+            List<TerritoriosImpactados> territoriosImpactados = new();
+
+            foreach (var municipio in municipios)
+                territoriosImpactados.Add(new TerritoriosImpactados {
+                    IdMunicipio = municipio.IdMunicipio,
+                    Municipio = municipio
+                });
+
+            foreach (var seccion in secciones)
+                foreach (var barrio in seccion.Barrios)
+                    territoriosImpactados.Add(new TerritoriosImpactados
+                    {
+                        IdBarrio = barrio.IdBarrio,
+                        Barrio = barrio
+                    });
+
+            return territoriosImpactados;
         }
 
         public async Task<TerritoriosImpactados> AgregarImpacto(TerritoriosImpactados impacto)
