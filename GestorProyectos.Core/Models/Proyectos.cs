@@ -23,6 +23,7 @@
         public string IdTipoPresupuesto { get; set; }
         public decimal RangoPresupuestado { get; set; }
         public string DescripcionEspecie { get; set; }
+        public string? TipoMoneda { get; set; }
         public bool? IsDelete { get; set; }
         public DateTime? FechaCreacion { get; set; }
 

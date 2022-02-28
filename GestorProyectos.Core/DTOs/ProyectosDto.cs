@@ -13,7 +13,8 @@ namespace GestorProyectos.Core.DTOs
         public DateTime FechaFinal { get; set; }
         public string? IdTipoBeneficiario { get; set; }
         public string? DatosBeneficiario { get; set; }
-        public string IdTipoPresupuesto { get; set; } = null!;
+        public string? IdTipoPresupuesto { get; set; } = null!;
+        public string? TipoMoneda { get; set; } = null!;
         public decimal RangoPresupuestado { get; set; }
         public string? DescripcionEspecie { get; set; }
 
