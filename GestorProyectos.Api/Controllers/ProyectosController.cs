@@ -69,7 +69,8 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Put(int Id, ProyectosDto dtoModel)
         {
             dtoModel.IdProyecto = Id;
-            var result = await _currentService.ActualizarProyecto(_mapper.Map<Proyectos>(dtoModel), dtoModel.DocumentosProyectos);
+            var proyecto = _mapper.Map<Proyectos>(dtoModel);
+            var result = await _currentService.ActualizarProyecto(proyecto, dtoModel.DocumentosProyectos);
             var data = await result.returnResponse();
             return Ok(data);
         }

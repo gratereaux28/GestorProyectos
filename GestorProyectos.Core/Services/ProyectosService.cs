@@ -31,6 +31,7 @@ namespace GestorProyectos.Core.Services
             repo.AddInclude("DocumentosProyectos");
             repo.AddInclude("LugaresImplementaciones");
             repo.AddInclude("Tareas");
+            repo.AddInclude("Tareas.Responsable");
             repo.AddInclude("TerritoriosImpactados");
             var query = await repo.GetAsync(e => e.IdProyecto == IdProyecto);
             var Proyecto = query.FirstOrDefault();

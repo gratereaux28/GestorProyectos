@@ -14,7 +14,7 @@
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
         public int IdEstado { get; set; }
-        public string FechaCreacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 
         public virtual Estados Estado { get; set; } = null!;
         public virtual Proyectos Proyecto { get; set; } = null!;

@@ -19,7 +19,7 @@ namespace GestorProyectos.Core.Services
 
         public async Task<Tareas> ObtenerTarea(int IdTarea)
         {
-            var query = await _unitOfWork.TareasRepository.GetAsync(e => e.IdTarea == IdTarea);
+            var query = await _unitOfWork.TareasRepository.AddInclude("Responsable").AddInclude("Estado").GetAsync(e => e.IdTarea == IdTarea);
             var Tarea = query.FirstOrDefault();
             return Tarea;
         }

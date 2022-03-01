@@ -19,9 +19,8 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .IsUnicode(false);
 
             builder.Property(e => e.FechaCreacion)
-                .HasMaxLength(10)
-                .HasDefaultValueSql("(getdate())")
-                .IsFixedLength();
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())");
 
             builder.Property(e => e.FechaFinal).HasColumnType("date");
 
@@ -36,7 +35,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Tareas_Proyectos");
 
             builder.HasOne(d => d.Responsable)
