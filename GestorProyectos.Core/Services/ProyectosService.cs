@@ -165,8 +165,8 @@ namespace GestorProyectos.Core.Services
                 await _unitOfWork.SaveChangesAsync();
                 var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
                 webRootPath = Path.Combine(webRootPath, Proyecto.Codigo);
-                if(Directory.Exists(webRootPath))
-                    Directory.Delete(webRootPath);
+                if (Directory.Exists(webRootPath))
+                    Directory.Delete(webRootPath, true);
                 return true;
             }
             else

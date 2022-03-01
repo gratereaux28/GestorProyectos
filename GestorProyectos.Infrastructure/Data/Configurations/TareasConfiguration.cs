@@ -9,13 +9,19 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Tareas> builder)
         {
             builder.HasKey(e => e.IdTarea)
-                .HasName("PK__Tareas__EADE9098435C7E05");
+                .HasName("PK__Tareas__EADE9098645F0EAF");
 
             builder.ToTable("Tareas", "Operacion");
 
             builder.Property(e => e.Descripcion)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
+
+            builder.Property(e => e.FechaCreacion)
+                .HasMaxLength(10)
+                .HasDefaultValueSql("(getdate())")
+                .IsFixedLength();
 
             builder.Property(e => e.FechaFinal).HasColumnType("date");
 
@@ -30,8 +36,13 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tareas_Proyectos");
+
+            builder.HasOne(d => d.Responsable)
+                .WithMany(p => p.Tareas)
+                .HasForeignKey(d => d.IdResponsable)
+                .HasConstraintName("FK_Tareas_Usuarios");
         }
     }
 }

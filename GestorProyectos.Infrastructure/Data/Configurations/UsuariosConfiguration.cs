@@ -8,29 +8,36 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Usuarios> builder)
         {
-            builder.HasKey(e => e.IdUsuario);
+            builder.HasKey(e => e.IdUsuario)
+                .HasName("PK__Usuarios__5B65BF975744D197");
 
             builder.ToTable("Usuarios", "Maestras");
 
-            builder.Property(e => e.Nombre)
+            builder.Property(e => e.Apellido)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
-            builder.Property(e => e.Apellido)
+            builder.Property(e => e.Clave)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
             builder.Property(e => e.Correo)
+                .IsRequired()
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            builder.Property(e => e.Nombre)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
             builder.Property(e => e.Usuario)
+                .IsRequired()
                 .HasMaxLength(25)
-                .IsUnicode(false);
-
-            builder.Property(e => e.Clave)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("Usuario");
         }
     }
 }

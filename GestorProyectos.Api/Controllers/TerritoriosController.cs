@@ -26,11 +26,10 @@ namespace GestorProyectos.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] List<int> ids)
+        public async Task<IActionResult> Get([FromQuery] TerritoriosQueryFilter querySFilters)
         {
-            var result = await _currentService.ObtenerListaTerritoriosImpactados(ids);
-            var dto = _mapper.Map<IEnumerable<TerritoriosImpactadosDto>>(result);
-            var data = await dto.returnResponse();
+            var result = await _currentService.ObtenerListaTerritoriosImpactados(querySFilters);
+            var data = await result.returnResponse();
             return Ok(data);
         }
     }
