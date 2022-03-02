@@ -14,7 +14,7 @@ namespace GestorProyectos.Core.DTOs
         public int IdEstado { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
-        public virtual UsuariosDto Responsable { get; set; }
-        public virtual EstadosDto Estado { get; set; } = null!;
+        public virtual UsuariosDto? Responsable { get; set; }
+        public virtual EstadosDto? Estado { get; set; } = null!;
     }
 }
