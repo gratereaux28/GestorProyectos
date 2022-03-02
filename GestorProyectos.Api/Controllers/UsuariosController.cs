@@ -69,7 +69,7 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(int Id, UsuariosDto dtoModel)
         {
             dtoModel.IdUsuario = Id;

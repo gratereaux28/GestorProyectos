@@ -65,11 +65,12 @@ namespace GestorProyectos.Api.Controllers
             return Ok(data);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(int Id, TareasDto dtoModel)
         {
             dtoModel.IdTarea = Id;
-            var result = await _currentService.ActualizarTarea(_mapper.Map<Tareas>(dtoModel));
+            var tarea = _mapper.Map<Tareas>(dtoModel);
+            var result = await _currentService.ActualizarTarea(tarea);
             var data = await result.returnResponse();
             return Ok(data);
         }
