@@ -1,9 +1,17 @@
-- name: ftp-action
-  # You may pin to the exact commit or the version.
-  # uses: sebastianpopp/ftp-action@eb75c5cb29d23ee4a729720a27dfb66403cb0f6d
-  uses: sebastianpopp/ftp-action@v2.0.0
-  with:
-    # FTP host
-    host: ftp://netzer.somee.com/www.netzer.somee.com
-    # FTP user
-    user: netzer288
+name: Deploy via ftp
+on: push
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v2
+      with:
+        host: ftp://netzer.somee.com/www.netzer.somee.com
+        user: netzer288
+        password: "Mama123."
+        localDir: ""
+        remoteDir: ""
+        options: "--delete --asci"
