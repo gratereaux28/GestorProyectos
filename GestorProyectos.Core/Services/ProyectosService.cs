@@ -99,6 +99,9 @@ namespace GestorProyectos.Core.Services
                 expressions.Add(query);
             }
 
+            Expression<Func<Proyectos, bool>> delete = (e => !e.IsDelete.Value);
+            expressions.Add(delete);
+
             var repo = _unitOfWork.ProyectosRepository;
             repo.AddInclude("Tareas");
             var data = await repo.GetAsync(expressions);
