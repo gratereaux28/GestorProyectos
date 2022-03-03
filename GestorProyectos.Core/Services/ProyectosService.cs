@@ -163,12 +163,15 @@ namespace GestorProyectos.Core.Services
             var Proyecto = await ObtenerProyecto(IdProyecto);
             if (Proyecto != null)
             {
-                _unitOfWork.ProyectosRepository.DeleteNoSave(Proyecto);
+                //_unitOfWork.ProyectosRepository.DeleteNoSave(Proyecto);
+                //await _unitOfWork.SaveChangesAsync();
+                //var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
+                //webRootPath = Path.Combine(webRootPath, Proyecto.Codigo);
+                //if (Directory.Exists(webRootPath))
+                //    Directory.Delete(webRootPath, true);
+                Proyecto.IsDelete = true;
+                _unitOfWork.ProyectosRepository.UpdateNoSave(Proyecto);
                 await _unitOfWork.SaveChangesAsync();
-                var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
-                webRootPath = Path.Combine(webRootPath, Proyecto.Codigo);
-                if (Directory.Exists(webRootPath))
-                    Directory.Delete(webRootPath, true);
                 return true;
             }
             else
