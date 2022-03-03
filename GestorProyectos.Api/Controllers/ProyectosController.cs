@@ -58,6 +58,12 @@ namespace GestorProyectos.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ProyectosDto dtoModel)
         {
+            foreach (var tarea in dtoModel.Tareas)
+            {
+                tarea.Estado = null;
+                tarea.Responsable = null;
+            }
+
             var model = _mapper.Map<Proyectos>(dtoModel);
             var result = await _currentService.AgregarProyecto(model, dtoModel.DocumentosProyectos);
             dtoModel = _mapper.Map<ProyectosDto>(result);
@@ -68,6 +74,12 @@ namespace GestorProyectos.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int Id, ProyectosDto dtoModel)
         {
+            foreach (var tarea in dtoModel.Tareas)
+            {
+                tarea.Estado = null;
+                tarea.Responsable = null;
+            }
+
             dtoModel.IdProyecto = Id;
             var proyecto = _mapper.Map<Proyectos>(dtoModel);
             var result = await _currentService.ActualizarProyecto(proyecto, dtoModel.DocumentosProyectos);

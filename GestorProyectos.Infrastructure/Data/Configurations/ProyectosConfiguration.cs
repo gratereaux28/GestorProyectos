@@ -15,12 +15,11 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.Property(e => e.Codigo)
                 .IsUnicode(false)
-                .HasComputedColumnSql("([Function].[func_Get_new_Codigo]())", false);
+                .HasDefaultValueSql("([Function].[func_Get_new_Codigo]())");
 
             builder.Property(e => e.DatosBeneficiario).IsUnicode(false);
 
             builder.Property(e => e.Descripcion)
-                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
@@ -39,7 +38,6 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .IsUnicode(false);
 
             builder.Property(e => e.IdTipoPresupuesto)
-                .IsRequired()
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
@@ -47,11 +45,14 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.Property(e => e.IsDelete).HasDefaultValueSql("((0))");
 
             builder.Property(e => e.Nombre)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
             builder.Property(e => e.RangoPresupuestado).HasColumnType("decimal(23, 12)");
+
+            builder.Property(e => e.TipoMoneda)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         }
     }
 }
