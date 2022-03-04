@@ -7,8 +7,10 @@ using GestorProyectos.Core.Models;
 using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.sys;
 using GestorProyectos.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,12 +21,19 @@ namespace GestorProyectos.Api.Controllers
     {
         protected IUriService _uriService;
         protected IDocumentosProyectosService _currentService;
+        protected IProyectosService _proyectosService;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public DocumentosProyectosController(IDocumentosProyectosService currentService, IMapper mapper, IUriService uriService) : base()
+        public DocumentosProyectosController(IDocumentosProyectosService currentService, IMapper mapper, IUriService uriService, IProyectosService proyectosService,
+            IHostingEnvironment hostingEnvironment, IConfiguration configuration) : base()
         {
             _currentService = currentService;
+            _proyectosService = proyectosService;
             _mapper = mapper;
             _uriService = uriService;
+            _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -72,6 +81,21 @@ namespace GestorProyectos.Api.Controllers
         {
             await _currentService.GuardarDocumentos(documento.File, documento.CodigoProyecto);
             return Ok();
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> DescargarDocumento(int Id)
+        {
+            var documento = await _currentService.ObtenerDocumentoWithInclude(Id);
+
+            string route = _configuration["ProyectInfo:UploadDocument"];
+            var webRootPath = System.IO.Path.Combine(_hostingEnvironment.WebRootPath, route);
+            webRootPath = System.IO.Path.Combine(webRootPath, documento.Proyecto.Codigo);
+            webRootPath = System.IO.Path.Combine(webRootPath, documento.NombreArchivo);
+            var data = System.IO.File.ReadAllBytes(webRootPath);
+            var content = new System.IO.MemoryStream(data);
+            var contentType = "APPLICATION/octet-stream";
+            return File(content, contentType, documento.NombreArchivo);
         }
 
         [HttpPut("{id}")]

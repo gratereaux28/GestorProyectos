@@ -31,6 +31,13 @@ namespace GestorProyectos.Core.Services
             return Documento;
         }
 
+        public async Task<DocumentosProyectos> ObtenerDocumentoWithInclude(int IdDocumento)
+        {
+            var query = await _unitOfWork.DocumentosProyectosRepository.AddInclude("Proyecto").GetAsync(e => e.IdDocumento == IdDocumento);
+            var Documento = query.FirstOrDefault();
+            return Documento;
+        }
+
         public async Task<IEnumerable<DocumentosProyectos>> ObtenerDocumentos(DocumentosProyectosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
@@ -78,8 +85,8 @@ namespace GestorProyectos.Core.Services
 
         public async Task GuardarDocumentos(IFormFile File, string CodigoProyecto)
         {
-            string asd = _configuration["ProyectInfo:UploadDocument"];
-            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, asd);
+            string route = _configuration["ProyectInfo:UploadDocument"];
+            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, route);
             webRootPath = Path.Combine(webRootPath, CodigoProyecto);
 
             if (!Directory.Exists(webRootPath))
