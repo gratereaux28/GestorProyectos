@@ -22,11 +22,11 @@ namespace GestorProyectos.Api.Controllers
         protected IUriService _uriService;
         protected IDocumentosProyectosService _currentService;
         protected IProyectosService _proyectosService;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfiguration _configuration;
 
         public DocumentosProyectosController(IDocumentosProyectosService currentService, IMapper mapper, IUriService uriService, IProyectosService proyectosService,
-            IHostingEnvironment hostingEnvironment, IConfiguration configuration) : base()
+            IWebHostEnvironment hostingEnvironment, IConfiguration configuration) : base()
         {
             _currentService = currentService;
             _proyectosService = proyectosService;
