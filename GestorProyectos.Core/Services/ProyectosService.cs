@@ -78,26 +78,6 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Proyectos, bool>> query = (e => e.FechaFinal == filters.FechaFinal);
                 expressions.Add(query);
             }
-            if (!string.IsNullOrEmpty(filters.IdTipoBeneficiario))
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.IdTipoBeneficiario == filters.IdTipoBeneficiario);
-                expressions.Add(query);
-            }
-            if (!string.IsNullOrEmpty(filters.DatosBeneficiario))
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.DatosBeneficiario.ToLower().Contains(filters.DatosBeneficiario.ToLower()));
-                expressions.Add(query);
-            }
-            if (!string.IsNullOrEmpty(filters.IdTipoPresupuesto))
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.IdTipoPresupuesto == filters.IdTipoPresupuesto);
-                expressions.Add(query);
-            }
-            if (!string.IsNullOrEmpty(filters.DescripcionEspecie))
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.DescripcionEspecie.ToLower().Contains(filters.DescripcionEspecie.ToLower()));
-                expressions.Add(query);
-            }
 
             Expression<Func<Proyectos, bool>> delete = (e => !e.IsDelete.Value);
             expressions.Add(delete);

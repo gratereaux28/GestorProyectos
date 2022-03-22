@@ -50,7 +50,6 @@ namespace GestorProyectos.Infrastructure.Extensions
             services.AddTransient<IProyectosService, ProyectosService>();
             services.AddTransient<ISeccionesService, SeccionesService>();
             services.AddTransient<ITareasService, TareasService>();
-            services.AddTransient<ITerritoriosImpactadosService, TerritoriosImpactadosService>();
             services.AddTransient<IUsuariosService, UsuariosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 

@@ -17,13 +17,9 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .IsUnicode(false)
                 .HasDefaultValueSql("([Function].[func_Get_new_Codigo]())");
 
-            builder.Property(e => e.DatosBeneficiario).IsUnicode(false);
-
             builder.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-
-            builder.Property(e => e.DescripcionEspecie).IsUnicode(false);
 
             builder.Property(e => e.FechaCreacion)
                 .HasColumnType("datetime")
@@ -33,26 +29,35 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.Property(e => e.FechaInicio).HasColumnType("date");
 
-            builder.Property(e => e.IdTipoBeneficiario)
-                .HasMaxLength(10)
-                .IsUnicode(false);
-
-            builder.Property(e => e.IdTipoPresupuesto)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-
             builder.Property(e => e.IsDelete).HasDefaultValueSql("((0))");
+
+            builder.Property(e => e.MontoPresupuestario).HasColumnType("decimal(18, 13)");
 
             builder.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            builder.Property(e => e.RangoPresupuestado).HasColumnType("decimal(23, 12)");
+            builder.Property(e => e.ObjetivoEspecifico).IsUnicode(false);
+
+            builder.Property(e => e.ObjetivoGeneral).IsUnicode(false);
+
+            builder.Property(e => e.Resultados).IsUnicode(false);
 
             builder.Property(e => e.TipoMoneda)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+
+            builder.HasOne(d => d.Aliado)
+                .WithMany(p => p.Proyectos)
+                .HasForeignKey(d => d.IdAliado)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Proyectos_Aliado");
+
+            builder.HasOne(d => d.RangoBeneficiario)
+                .WithMany(p => p.Proyectos)
+                .HasForeignKey(d => d.IdRangoPresupuestario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Proyectos_RangoBeneficiario");
         }
     }
 }

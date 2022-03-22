@@ -4,6 +4,7 @@
     {
         public DistritosMunicipales()
         {
+            LugaresImplementaciones = new HashSet<LugaresImplementaciones>();
             Secciones = new HashSet<Secciones>();
         }
 
@@ -14,6 +15,7 @@
         public double? Longitud { get; set; }
 
         public virtual Municipios Municipio { get; set; } = null!;
+        public virtual ICollection<LugaresImplementaciones> LugaresImplementaciones { get; set; }
         public virtual ICollection<Secciones> Secciones { get; set; }
     }
 }

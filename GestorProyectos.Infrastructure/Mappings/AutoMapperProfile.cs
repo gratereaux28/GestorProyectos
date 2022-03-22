@@ -27,7 +27,6 @@ namespace GestorProyectos.Infrastructure.Mappings
             CreateMap<Proyectos, ProyectosDto>().ReverseMap();
             CreateMap<Secciones, SeccionesDto>().ReverseMap();
             CreateMap<Tareas, TareasDto>().ReverseMap();
-            CreateMap<TerritoriosImpactados, TerritoriosImpactadosDto>().ReverseMap();
             CreateMap<Usuarios, UsuariosDto>().ReverseMap();
         }
     }

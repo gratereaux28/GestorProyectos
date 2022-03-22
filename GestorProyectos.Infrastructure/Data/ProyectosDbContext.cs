@@ -41,7 +41,6 @@ namespace GestorProyectos.Infrastructure.Data
         public virtual DbSet<Proyectos> Proyectos { get; set; } = null!;
         public virtual DbSet<Secciones> Secciones { get; set; } = null!;
         public virtual DbSet<Tareas> Tareas { get; set; } = null!;
-        public virtual DbSet<TerritoriosImpactados> TerritoriosImpactados { get; set; } = null!;
         public virtual DbSet<Usuarios> Usuarios { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

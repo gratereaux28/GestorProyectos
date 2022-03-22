@@ -5,7 +5,7 @@
         public Municipios()
         {
             DistritosMunicipales = new HashSet<DistritosMunicipales>();
-            TerritoriosImpactados = new HashSet<TerritoriosImpactados>();
+            LugaresImplementaciones = new HashSet<LugaresImplementaciones>();
         }
 
         public int IdMunicipio { get; set; }
@@ -16,6 +16,6 @@
 
         public virtual Provincias Provincia { get; set; } = null!;
         public virtual ICollection<DistritosMunicipales> DistritosMunicipales { get; set; }
-        public virtual ICollection<TerritoriosImpactados> TerritoriosImpactados { get; set; }
+        public virtual ICollection<LugaresImplementaciones> LugaresImplementaciones { get; set; }
     }
 }
