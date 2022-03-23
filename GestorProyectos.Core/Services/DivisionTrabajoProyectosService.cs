@@ -23,7 +23,7 @@ namespace GestorProyectos.Core.Services
             return Division;
         }
 
-        public async Task<IEnumerable<DivisionTrabajoProyectos>> ObtenerDivisionTrabajoProyectos(DivisionTrabajoProyectosQueryFilter filters)
+        public async Task<IEnumerable<DivisionTrabajoProyectos>> ObtenerDivision(DivisionTrabajoProyectosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
 

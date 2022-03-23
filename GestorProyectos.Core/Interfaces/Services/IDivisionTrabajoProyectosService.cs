@@ -6,7 +6,7 @@ namespace GestorProyectos.Core.Interfaces.Services
     public interface IDivisionTrabajoProyectosService
     {
         Task<DivisionTrabajoProyectos> ObtenerDivision(int IdDivision);
-        Task<IEnumerable<DivisionTrabajoProyectos>> ObtenerDivisionTrabajoProyectos(DivisionTrabajoProyectosQueryFilter filters);
+        Task<IEnumerable<DivisionTrabajoProyectos>> ObtenerDivision(DivisionTrabajoProyectosQueryFilter filters);
         Task<DivisionTrabajoProyectos> AgregarDivision(DivisionTrabajoProyectos Division);
         Task<bool> ActualizarDivision(DivisionTrabajoProyectos division);
         Task<bool> EliminarDivision(int IdDivision);
