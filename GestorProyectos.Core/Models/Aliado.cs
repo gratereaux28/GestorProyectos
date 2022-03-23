@@ -14,7 +14,7 @@
         public string? Direccion { get; set; }
         public string? Informacion { get; set; }
 
-        public virtual Clasificaciones Clasificacion { get; set; } = null!;
+        public virtual AliadoClasificaciones Clasificacion { get; set; } = null!;
         public virtual ICollection<Proyectos> Proyectos { get; set; }
     }
 }

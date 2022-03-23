@@ -14,20 +14,27 @@ namespace GestorProyectos.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ProyectosDbContext _context;
+        private readonly IBaseRepository<Aliado> _aliadoRepository;
+        private readonly IBaseRepository<AliadoClasificaciones> _aliadoClasificacionesRepository;
         private readonly IBaseRepository<Barrios> _barriosRepository;
         private readonly IBaseRepository<Beneficiarios> _beneficiariosRepository;
         private readonly IBaseRepository<Desafios> _desafiosRepository;
         private readonly IBaseRepository<DesafiosProyectos> _desafiosProyectosRepository;
         private readonly IBaseRepository<DistritosMunicipales> _distritosMunicipalesRepository;
+        private readonly IBaseRepository<DivisionTrabajoProyectos> _divisionTrabajoProyectosRepository;
         private readonly IBaseRepository<DocumentosProyectos> _documentosProyectosRepository;
         private readonly IBaseRepository<Ejecuciones> _ejecucionesRepository;
         private readonly IBaseRepository<Estados> _estadosRepository;
         private readonly IBaseRepository<LugaresImplementaciones> _lugaresImplementacionesRepository;
         private readonly IBaseRepository<Municipios> _municipiosRepository;
+        private readonly IBaseRepository<NivelAcceso> _nivelAccesoRepository;
         private readonly IBaseRepository<Provincias> _provinciasRepository;
         private readonly IBaseRepository<Proyectos> _proyectosRepository;
+        private readonly IBaseRepository<RangoBeneficiarios> _rangoBeneficiariosRepository;
         private readonly IBaseRepository<Secciones> _seccionesRepository;
         private readonly IBaseRepository<Tareas> _tareasRepository;
+        private readonly IBaseRepository<TipoBeneficiario> _tipoBeneficiarioRepository;
+        private readonly IBaseRepository<TiposBeneficiarioProyecto> _tiposBeneficiarioProyectoRepository;
         private readonly IBaseRepository<Usuarios> _usuariosRepository;
 
         public UnitOfWork(ProyectosDbContext context)
@@ -35,20 +42,27 @@ namespace GestorProyectos.Infrastructure.Repositories
             _context = context;
         }
 
+        public IBaseRepository<Aliado> AliadoRepository => _aliadoRepository ?? new BaseRepository<Aliado>(_context);
+        public IBaseRepository<AliadoClasificaciones> AliadoClasificacionesRepository => _aliadoClasificacionesRepository ?? new BaseRepository<AliadoClasificaciones>(_context);
         public IBaseRepository<Barrios> BarriosRepository => _barriosRepository ?? new BaseRepository<Barrios>(_context);
         public IBaseRepository<Beneficiarios> BeneficiariosRepository => _beneficiariosRepository ?? new BaseRepository<Beneficiarios>(_context);
         public IBaseRepository<Desafios> DesafiosRepository => _desafiosRepository ?? new BaseRepository<Desafios>(_context);
         public IBaseRepository<DesafiosProyectos> DesafiosProyectosRepository => _desafiosProyectosRepository ?? new BaseRepository<DesafiosProyectos>(_context);
         public IBaseRepository<DistritosMunicipales> DistritosMunicipalesRepository => _distritosMunicipalesRepository ?? new BaseRepository<DistritosMunicipales>(_context);
+        public IBaseRepository<DivisionTrabajoProyectos> DivisionTrabajoProyectosRepository => _divisionTrabajoProyectosRepository ?? new BaseRepository<DivisionTrabajoProyectos>(_context);
         public IBaseRepository<DocumentosProyectos> DocumentosProyectosRepository => _documentosProyectosRepository ?? new BaseRepository<DocumentosProyectos>(_context);
         public IBaseRepository<Ejecuciones> EjecucionesRepository => _ejecucionesRepository ?? new BaseRepository<Ejecuciones>(_context);
         public IBaseRepository<Estados> EstadosRepository => _estadosRepository ?? new BaseRepository<Estados>(_context);
         public IBaseRepository<LugaresImplementaciones> LugaresImplementacionesRepository => _lugaresImplementacionesRepository ?? new BaseRepository<LugaresImplementaciones>(_context);
         public IBaseRepository<Municipios> MunicipiosRepository => _municipiosRepository ?? new BaseRepository<Municipios>(_context);
+        public IBaseRepository<NivelAcceso> NivelAccesoRepository => _nivelAccesoRepository ?? new BaseRepository<NivelAcceso>(_context);
         public IBaseRepository<Provincias> ProvinciasRepository => _provinciasRepository ?? new BaseRepository<Provincias>(_context);
         public IBaseRepository<Proyectos> ProyectosRepository => _proyectosRepository ?? new BaseRepository<Proyectos>(_context);
+        public IBaseRepository<RangoBeneficiarios> RangoBeneficiariosRepository => _rangoBeneficiariosRepository ?? new BaseRepository<RangoBeneficiarios>(_context);
         public IBaseRepository<Secciones> SeccionesRepository => _seccionesRepository ?? new BaseRepository<Secciones>(_context);
         public IBaseRepository<Tareas> TareasRepository => _tareasRepository ?? new BaseRepository<Tareas>(_context);
+        public IBaseRepository<TipoBeneficiario> TipoBeneficiarioRepository => _tipoBeneficiarioRepository ?? new BaseRepository<TipoBeneficiario>(_context);
+        public IBaseRepository<TiposBeneficiarioProyecto> TiposBeneficiarioProyectoRepository => _tiposBeneficiarioProyectoRepository ?? new BaseRepository<TiposBeneficiarioProyecto>(_context);
         public IBaseRepository<Usuarios> UsuariosRepository => _usuariosRepository ?? new BaseRepository<Usuarios>(_context);
 
         public void Dispose()

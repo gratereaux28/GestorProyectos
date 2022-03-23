@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestorProyectos.Infrastructure.Data.Configurations
 {
-    public class ClasificacionesConfiguration : IEntityTypeConfiguration<Clasificaciones>
+    public class AliadoClasificacionesConfiguration : IEntityTypeConfiguration<AliadoClasificaciones>
     {
-        public void Configure(EntityTypeBuilder<Clasificaciones> builder)
+        public void Configure(EntityTypeBuilder<AliadoClasificaciones> builder)
         {
             builder.HasKey(e => e.IdClasificacion)
                 .HasName("PK__Clasific__4CABC77848BAFD01");
 
-            builder.ToTable("Clasificaciones", "Maestras");
+            builder.ToTable("AliadoClasificaciones", "Maestras");
 
             builder.Property(e => e.Nombre)
                 .HasMaxLength(500)

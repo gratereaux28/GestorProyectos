@@ -1,8 +1,8 @@
 ﻿namespace GestorProyectos.Core.Models
 {
-    public partial class Clasificaciones
+    public partial class AliadoClasificaciones
     {
-        public Clasificaciones()
+        public AliadoClasificaciones()
         {
             Aliados = new HashSet<Aliado>();
         }
