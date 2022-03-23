@@ -6,7 +6,6 @@ namespace GestorProyectos.Core.DTOs
 {
     public partial class ProyectosDto
     {
-
         public int? IdProyecto { get; set; }
         public string? Codigo { get; set; }
         public string? Nombre { get; set; }
@@ -30,10 +29,10 @@ namespace GestorProyectos.Core.DTOs
         public bool? IsDelete { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
-        public virtual ICollection<DesafiosProyectosDto> DesafiosProyectos { get; set; }
-        public virtual ICollection<DocumentosProyectosDto> DocumentosProyectos { get; set; }
-        public virtual ICollection<LugaresImplementacionesDto> LugaresImplementaciones { get; set; }
-        public virtual ICollection<TareasDto> Tareas { get; set; }
-        public virtual ICollection<TiposBeneficiarioProyectoDto> TiposBeneficiarioProyectos { get; set; }
+        public virtual ICollection<DesafiosProyectosDto>? DesafiosProyectos { get; set; }
+        public virtual ICollection<DocumentosProyectosDto>? DocumentosProyectos { get; set; }
+        public virtual ICollection<LugaresImplementacionesDto>? LugaresImplementaciones { get; set; }
+        public virtual ICollection<ActividadesDto>? Actividades { get; set; }
+        public virtual ICollection<TiposBeneficiarioProyectoDto>? TiposBeneficiarioProyectos { get; set; }
     }
 }

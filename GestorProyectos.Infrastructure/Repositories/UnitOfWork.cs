@@ -14,6 +14,7 @@ namespace GestorProyectos.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ProyectosDbContext _context;
+        private readonly IBaseRepository<Actividades> _actividadesRepository;
         private readonly IBaseRepository<Aliado> _aliadoRepository;
         private readonly IBaseRepository<AliadoClasificaciones> _aliadoClasificacionesRepository;
         private readonly IBaseRepository<Barrios> _barriosRepository;
@@ -42,6 +43,7 @@ namespace GestorProyectos.Infrastructure.Repositories
             _context = context;
         }
 
+        public IBaseRepository<Actividades> ActividadesRepository => _actividadesRepository ?? new BaseRepository<Actividades>(_context);
         public IBaseRepository<Aliado> AliadoRepository => _aliadoRepository ?? new BaseRepository<Aliado>(_context);
         public IBaseRepository<AliadoClasificaciones> AliadoClasificacionesRepository => _aliadoClasificacionesRepository ?? new BaseRepository<AliadoClasificaciones>(_context);
         public IBaseRepository<Barrios> BarriosRepository => _barriosRepository ?? new BaseRepository<Barrios>(_context);

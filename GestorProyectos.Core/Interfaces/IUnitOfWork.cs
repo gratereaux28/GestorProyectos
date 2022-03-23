@@ -10,6 +10,7 @@ namespace GestorProyectos.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        public IBaseRepository<Actividades> ActividadesRepository { get; }
         public IBaseRepository<Aliado> AliadoRepository { get; }
         public IBaseRepository<AliadoClasificaciones> AliadoClasificacionesRepository { get; }
         public IBaseRepository<Barrios> BarriosRepository { get; }

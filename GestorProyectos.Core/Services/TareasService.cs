@@ -38,9 +38,9 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Tareas, bool>> query = (e => e.Descripcion.ToLower().Contains(filters.Descripcion.ToLower()));
                 expressions.Add(query);
             }
-            if (filters.IdProyecto != null && filters.IdProyecto != 0)
+            if (filters.IdActividad != null && filters.IdActividad != 0)
             {
-                Expression<Func<Tareas, bool>> query = (e => e.IdProyecto == filters.IdProyecto);
+                Expression<Func<Tareas, bool>> query = (e => e.IdActividad == filters.IdActividad);
                 expressions.Add(query);
             }
             if (filters.FechaInicio != null && filters.FechaFinal != null)

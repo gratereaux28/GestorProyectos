@@ -53,7 +53,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Proyectos_Aliado");
 
-            builder.HasOne(d => d.RangoBeneficiario)
+            builder.HasOne(d => d.RangoBeneficiarios)
                 .WithMany(p => p.Proyectos)
                 .HasForeignKey(d => d.IdRangoPresupuestario)
                 .OnDelete(DeleteBehavior.ClientSetNull)

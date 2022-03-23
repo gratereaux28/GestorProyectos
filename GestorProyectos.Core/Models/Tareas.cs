@@ -8,8 +8,8 @@
         }
 
         public int IdTarea { get; set; }
-        public string Descripcion { get; set; }
-        public int IdProyecto { get; set; }
+        public string Descripcion { get; set; } = null!;
+        public int IdActividad { get; set; }
         public int? IdResponsable { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
@@ -17,8 +17,8 @@
         public DateTime? FechaCreacion { get; set; }
 
         public virtual Estados Estado { get; set; } = null!;
-        public virtual Proyectos Proyecto { get; set; } = null!;
-        public virtual Usuarios Responsable { get; set; }
+        public virtual Usuarios? Usuario { get; set; }
+        public virtual Actividades Actividad { get; set; }
         public virtual ICollection<DocumentosProyectos> DocumentosProyectos { get; set; }
     }
 }

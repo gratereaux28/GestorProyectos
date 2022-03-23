@@ -7,7 +7,7 @@ namespace GestorProyectos.Core.QueryFilter
     {
         public int? IdTarea { get; set; }
         public string? Descripcion { get; set; }
-        public int? IdProyecto { get; set; }
+        public int? IdActividad { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFinal { get; set; }
         public int? IdEstado { get; set; }

@@ -4,11 +4,11 @@
     {
         public Proyectos()
         {
+            Actividades = new HashSet<Actividades>();
             DesafiosProyectos = new HashSet<DesafiosProyectos>();
             DocumentosProyectos = new HashSet<DocumentosProyectos>();
             Ejecuciones = new HashSet<Ejecuciones>();
             LugaresImplementaciones = new HashSet<LugaresImplementaciones>();
-            Tareas = new HashSet<Tareas>();
             TiposBeneficiarioProyectos = new HashSet<TiposBeneficiarioProyecto>();
         }
 
@@ -36,12 +36,12 @@
         public DateTime? FechaCreacion { get; set; }
 
         public virtual Aliado Aliado { get; set; } = null!;
-        public virtual RangoBeneficiarios RangoBeneficiario { get; set; } = null!;
+        public virtual RangoBeneficiarios RangoBeneficiarios { get; set; } = null!;
+        public virtual ICollection<Actividades> Actividades { get; set; } = null!;
         public virtual ICollection<DesafiosProyectos> DesafiosProyectos { get; set; }
         public virtual ICollection<DocumentosProyectos> DocumentosProyectos { get; set; }
         public virtual ICollection<Ejecuciones> Ejecuciones { get; set; }
         public virtual ICollection<LugaresImplementaciones> LugaresImplementaciones { get; set; }
-        public virtual ICollection<Tareas> Tareas { get; set; }
         public virtual ICollection<TiposBeneficiarioProyecto> TiposBeneficiarioProyectos { get; set; }
     }
 }

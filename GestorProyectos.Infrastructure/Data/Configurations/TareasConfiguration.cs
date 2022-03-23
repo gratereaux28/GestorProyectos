@@ -13,8 +13,9 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.ToTable("Tareas", "Operacion");
 
+            builder.Property(e => e.IdTarea).ValueGeneratedOnAdd();
+
             builder.Property(e => e.Descripcion)
-                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
@@ -32,16 +33,15 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tareas_Estados");
 
-            builder.HasOne(d => d.Proyecto)
-                .WithMany(p => p.Tareas)
-                .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Tareas_Proyectos");
-
-            builder.HasOne(d => d.Responsable)
+            builder.HasOne(d => d.Usuario)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdResponsable)
                 .HasConstraintName("FK_Tareas_Usuarios");
+
+            builder.HasOne(d => d.Actividad)
+                .WithMany(p => p.Tareas)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Tareas_Actividades");
         }
     }
 }
