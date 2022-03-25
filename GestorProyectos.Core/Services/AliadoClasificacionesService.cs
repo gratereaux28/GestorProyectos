@@ -11,13 +11,13 @@ using System.Linq.Expressions;
 
 namespace GestorProyectos.Core.Services
 {
-    public class AliadoClasificacioneservice : IAliadoClasificacionesService
+    public class AliadoClasificacionesService : IAliadoClasificacionesService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IConfiguration _configuration;
 
-        public AliadoClasificacioneservice(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
+        public AliadoClasificacionesService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _hostingEnvironment = hostingEnvironment;

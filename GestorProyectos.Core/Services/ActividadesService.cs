@@ -47,7 +47,7 @@ namespace GestorProyectos.Core.Services
                 expressions.Add(query);
             }
 
-            var data = await _unitOfWork.ActividadesRepository.GetAsync(expressions);
+            var data = await _unitOfWork.ActividadesRepository.AddInclude("Tareas").GetAsync(expressions);
             return data;
         }
 

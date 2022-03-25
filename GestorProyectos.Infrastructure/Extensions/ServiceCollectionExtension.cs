@@ -35,21 +35,29 @@ namespace GestorProyectos.Infrastructure.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddTransient<IActividadesService, ActividadesService>();
+            services.AddTransient<IAliadoClasificacionesService, AliadoClasificacionesService>();
+            services.AddTransient<IAliadoService, AliadoService>();
             services.AddTransient<IBarriosService, BarriosService>();
             services.AddTransient<IBeneficiariosService, BeneficiariosService>();
             services.AddTransient<IDesafiosProyectosService, DesafiosProyectosService>();
             services.AddTransient<IDesafiosService, DesafiosService>();
             services.AddTransient<IDistritosMunicipalesService, DistritosMunicipalesService>();
+            services.AddTransient<IDivisionTrabajoProyectosService, DivisionTrabajoProyectosService>();
             services.AddTransient<IDocumentosProyectosService, DocumentosProyectosService>();
             services.AddTransient<IEjecucionesService, EjecucionesService>();
             services.AddTransient<IEstadosService, EstadosService>();
             services.AddTransient<ILugaresImplementacionesService, LugaresImplementacionesService>();
             services.AddTransient<IMunicipiosService, MunicipiosService>();
+            services.AddTransient<INivelAccesoService, NivelAccesoService>();
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IProvinciasService, ProvinciasService>();
             services.AddTransient<IProyectosService, ProyectosService>();
+            services.AddTransient<IRangoBeneficiariosService, RangoBeneficiariosService>();
             services.AddTransient<ISeccionesService, SeccionesService>();
             services.AddTransient<ITareasService, TareasService>();
+            services.AddTransient<ITipoBeneficiarioService, TipoBeneficiarioService>();
+            services.AddTransient<ITiposBeneficiarioProyectoService, TiposBeneficiarioProyectoService>();
             services.AddTransient<IUsuariosService, UsuariosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 
