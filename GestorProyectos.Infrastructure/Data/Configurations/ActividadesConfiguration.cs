@@ -13,15 +13,14 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.ToTable("Actividades", "Operacion");
 
-            builder.Property(e => e.IdActividad).ValueGeneratedOnAdd();
-
             builder.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.Actividades)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(d => d.IdProyecto)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Actividades_Proyectos");
         }
     }

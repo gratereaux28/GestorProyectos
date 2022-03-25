@@ -30,10 +30,10 @@ namespace GestorProyectos.Core.Services
             repo.AddInclude("DesafiosProyectos");
             repo.AddInclude("DocumentosProyectos");
             repo.AddInclude("LugaresImplementaciones");
-            repo.AddInclude("Tareas");
-            repo.AddInclude("Tareas.Responsable");
-            repo.AddInclude("Tareas.Estado");
-            repo.AddInclude("TerritoriosImpactados");
+            repo.AddInclude("Actividades");
+            repo.AddInclude("Actividades.Tareas");
+            repo.AddInclude("Actividades.Tareas.Responsable");
+            repo.AddInclude("Actividades.Tareas.Estado");
             var query = await repo.GetAsync(e => e.IdProyecto == IdProyecto);
             var Proyecto = query.FirstOrDefault();
             return Proyecto;
@@ -83,7 +83,8 @@ namespace GestorProyectos.Core.Services
             expressions.Add(delete);
 
             var repo = _unitOfWork.ProyectosRepository;
-            repo.AddInclude("Tareas");
+            repo.AddInclude("Actividades");
+            repo.AddInclude("Actividades.Tareas");
             var data = await repo.GetAsync(expressions);
             return data;
         }

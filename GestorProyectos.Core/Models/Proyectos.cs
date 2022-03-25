@@ -37,7 +37,7 @@
 
         public virtual Aliado Aliado { get; set; } = null!;
         public virtual RangoBeneficiarios RangoBeneficiarios { get; set; } = null!;
-        public virtual ICollection<Actividades> Actividades { get; set; } = null!;
+        public virtual ICollection<Actividades> Actividades { get; set; }
         public virtual ICollection<DesafiosProyectos> DesafiosProyectos { get; set; }
         public virtual ICollection<DocumentosProyectos> DocumentosProyectos { get; set; }
         public virtual ICollection<Ejecuciones> Ejecuciones { get; set; }

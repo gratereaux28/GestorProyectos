@@ -13,8 +13,6 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.ToTable("Tareas", "Operacion");
 
-            builder.Property(e => e.IdTarea).ValueGeneratedOnAdd();
-
             builder.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
@@ -27,6 +25,12 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.Property(e => e.FechaInicio).HasColumnType("date");
 
+            builder.HasOne(d => d.Actividad)
+                .WithMany(p => p.Tareas)
+                .HasForeignKey(d => d.IdActividad)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Tareas_Actividades");
+
             builder.HasOne(d => d.Estado)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdEstado)
@@ -37,11 +41,6 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdResponsable)
                 .HasConstraintName("FK_Tareas_Usuarios");
-
-            builder.HasOne(d => d.Actividad)
-                .WithMany(p => p.Tareas)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Tareas_Actividades");
         }
     }
 }
