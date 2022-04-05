@@ -31,6 +31,7 @@ namespace GestorProyectos.Core.DTOs
 
         public virtual ICollection<DesafiosProyectosDto>? DesafiosProyectos { get; set; }
         public virtual ICollection<DocumentosProyectosDto>? DocumentosProyectos { get; set; }
+        public virtual ICollection<DonantesDto>? Donantes { get; set; }
         public virtual ICollection<LugaresImplementacionesDto>? LugaresImplementaciones { get; set; }
         public virtual ICollection<ActividadesDto>? Actividades { get; set; }
         public virtual ICollection<TiposBeneficiarioProyectoDto>? TiposBeneficiarioProyectos { get; set; }

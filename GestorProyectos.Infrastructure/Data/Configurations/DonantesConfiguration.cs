@@ -23,6 +23,10 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.Property(e => e.Informacion).IsUnicode(false);
 
+            builder.Property(e => e.Monto1).HasColumnType("decimal(23, 12)");
+
+            builder.Property(e => e.Monto2).HasColumnType("decimal(23, 12)");
+
             builder.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -31,7 +35,13 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .WithMany(p => p.Donantes)
                 .HasForeignKey(d => d.IdClasificacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Donantes__IdClas__05D8E0BE");
+                .HasConstraintName("FK_Donantes_DonantesClasificaciones");
+
+            builder.HasOne(d => d.Proyecto)
+                .WithMany(p => p.Donantes)
+                .HasForeignKey(d => d.IdProyecto)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Donantes_Proyectos");
         }
     }
 }

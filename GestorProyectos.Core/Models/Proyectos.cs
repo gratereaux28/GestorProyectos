@@ -7,6 +7,7 @@
             Actividades = new HashSet<Actividades>();
             DesafiosProyectos = new HashSet<DesafiosProyectos>();
             DocumentosProyectos = new HashSet<DocumentosProyectos>();
+            Donantes = new HashSet<Donantes>();
             Ejecuciones = new HashSet<Ejecuciones>();
             LugaresImplementaciones = new HashSet<LugaresImplementaciones>();
             TiposBeneficiarioProyectos = new HashSet<TiposBeneficiarioProyecto>();
@@ -40,6 +41,7 @@
         public virtual ICollection<Actividades> Actividades { get; set; }
         public virtual ICollection<DesafiosProyectos> DesafiosProyectos { get; set; }
         public virtual ICollection<DocumentosProyectos> DocumentosProyectos { get; set; }
+        public virtual ICollection<Donantes> Donantes { get; set; }
         public virtual ICollection<Ejecuciones> Ejecuciones { get; set; }
         public virtual ICollection<LugaresImplementaciones> LugaresImplementaciones { get; set; }
         public virtual ICollection<TiposBeneficiarioProyecto> TiposBeneficiarioProyectos { get; set; }
