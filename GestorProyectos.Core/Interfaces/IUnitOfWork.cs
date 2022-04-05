@@ -20,6 +20,10 @@ namespace GestorProyectos.Core.Interfaces
         public IBaseRepository<DistritosMunicipales> DistritosMunicipalesRepository { get; }
         public IBaseRepository<DivisionTrabajoProyectos> DivisionTrabajoProyectosRepository { get; }
         public IBaseRepository<DocumentosProyectos> DocumentosProyectosRepository { get; }
+        public IBaseRepository<DonacionClasificaciones> DonacionClasificacionesRepository { get; }
+        public IBaseRepository<Donantes> DonantesRepository { get; }
+        public IBaseRepository<DonantesClasificaciones> DonantesClasificacionesRepository { get; }
+
         public IBaseRepository<Ejecuciones> EjecucionesRepository { get; }
         public IBaseRepository<Estados> EstadosRepository { get; }
         public IBaseRepository<LugaresImplementaciones> LugaresImplementacionesRepository { get; }

@@ -29,6 +29,7 @@ namespace GestorProyectos.Core.Services
             var repo = _unitOfWork.ProyectosRepository;
             repo.AddInclude("DesafiosProyectos");
             repo.AddInclude("DocumentosProyectos");
+            repo.AddInclude("Donantes");
             repo.AddInclude("LugaresImplementaciones");
             repo.AddInclude("Actividades");
             repo.AddInclude("Actividades.Tareas");

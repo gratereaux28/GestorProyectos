@@ -54,5 +54,33 @@ namespace GestorProyectos.Api.Controllers
             var data = await dto.returnResponse();
             return Ok(data);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(AliadoDto dtoModel)
+        {
+            var model = _mapper.Map<Aliado>(dtoModel);
+            var result = await _currentService.AgregarAliado(model);
+            dtoModel = _mapper.Map<AliadoDto>(result);
+            var data = await dtoModel.returnResponse();
+            return Ok(data);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int Id, AliadoDto dtoModel)
+        {
+            dtoModel.IdAliado = Id;
+            var aliado = _mapper.Map<Aliado>(dtoModel);
+            var result = await _currentService.ActualizarAliado(aliado);
+            var data = await result.returnResponse();
+            return Ok(data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _currentService.EliminarAliado(id);
+            var data = await result.returnResponse();
+            return Ok(data);
+        }
     }
 }

@@ -24,6 +24,9 @@ namespace GestorProyectos.Infrastructure.Repositories
         private readonly IBaseRepository<DistritosMunicipales> _distritosMunicipalesRepository;
         private readonly IBaseRepository<DivisionTrabajoProyectos> _divisionTrabajoProyectosRepository;
         private readonly IBaseRepository<DocumentosProyectos> _documentosProyectosRepository;
+        private readonly IBaseRepository<DonacionClasificaciones> _donacionClasificacionesRepository;
+        private readonly IBaseRepository<Donantes> _donantesRepository;
+        private readonly IBaseRepository<DonantesClasificaciones> _donantesClasificacionesRepository;
         private readonly IBaseRepository<Ejecuciones> _ejecucionesRepository;
         private readonly IBaseRepository<Estados> _estadosRepository;
         private readonly IBaseRepository<LugaresImplementaciones> _lugaresImplementacionesRepository;
@@ -53,6 +56,9 @@ namespace GestorProyectos.Infrastructure.Repositories
         public IBaseRepository<DistritosMunicipales> DistritosMunicipalesRepository => _distritosMunicipalesRepository ?? new BaseRepository<DistritosMunicipales>(_context);
         public IBaseRepository<DivisionTrabajoProyectos> DivisionTrabajoProyectosRepository => _divisionTrabajoProyectosRepository ?? new BaseRepository<DivisionTrabajoProyectos>(_context);
         public IBaseRepository<DocumentosProyectos> DocumentosProyectosRepository => _documentosProyectosRepository ?? new BaseRepository<DocumentosProyectos>(_context);
+        public IBaseRepository<DonacionClasificaciones> DonacionClasificacionesRepository => _donacionClasificacionesRepository ?? new BaseRepository<DonacionClasificaciones>(_context);
+        public IBaseRepository<Donantes> DonantesRepository => _donantesRepository ?? new BaseRepository<Donantes>(_context);
+        public IBaseRepository<DonantesClasificaciones> DonantesClasificacionesRepository => _donantesClasificacionesRepository ?? new BaseRepository<DonantesClasificaciones>(_context);
         public IBaseRepository<Ejecuciones> EjecucionesRepository => _ejecucionesRepository ?? new BaseRepository<Ejecuciones>(_context);
         public IBaseRepository<Estados> EstadosRepository => _estadosRepository ?? new BaseRepository<Estados>(_context);
         public IBaseRepository<LugaresImplementaciones> LugaresImplementacionesRepository => _lugaresImplementacionesRepository ?? new BaseRepository<LugaresImplementaciones>(_context);
