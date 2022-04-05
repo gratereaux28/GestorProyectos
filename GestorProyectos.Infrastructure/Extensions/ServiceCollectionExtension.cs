@@ -45,6 +45,9 @@ namespace GestorProyectos.Infrastructure.Extensions
             services.AddTransient<IDistritosMunicipalesService, DistritosMunicipalesService>();
             services.AddTransient<IDivisionTrabajoProyectosService, DivisionTrabajoProyectosService>();
             services.AddTransient<IDocumentosProyectosService, DocumentosProyectosService>();
+            services.AddTransient<IDonacionClasificacionesService, DonacionClasificacionesService>();
+            services.AddTransient<IDonantesService, DonantesService>();
+            services.AddTransient<IDonantesClasificacionesService, DonantesClasificacionesService>();
             services.AddTransient<IEjecucionesService, EjecucionesService>();
             services.AddTransient<IEstadosService, EstadosService>();
             services.AddTransient<ILugaresImplementacionesService, LugaresImplementacionesService>();
