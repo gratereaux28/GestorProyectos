@@ -11,13 +11,13 @@ using System.Linq.Expressions;
 
 namespace GestorProyectos.Core.Services
 {
-    public class DonacionClasificacionesService : IDonacionClasificacionesService
+    public class DonantesClasificacionesService : IDonantesClasificacionesService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IConfiguration _configuration;
 
-        public DonacionClasificacionesService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
+        public DonantesClasificacionesService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _hostingEnvironment = hostingEnvironment;
@@ -25,45 +25,45 @@ namespace GestorProyectos.Core.Services
         }
         
 
-        public async Task<DonacionClasificaciones> ObtenerClasificacion(int IdClasificacion)
+        public async Task<DonantesClasificaciones> ObtenerClasificacion(int IdClasificacion)
         {
-            var query = await _unitOfWork.DonacionClasificacionesRepository.GetAsync(e => e.IdClasificacion == IdClasificacion);
+            var query = await _unitOfWork.DonantesClasificacionesRepository.GetAsync(e => e.IdClasificacion == IdClasificacion);
             var clasificacion = query.FirstOrDefault();
             return clasificacion;
         }
 
-        public async Task<IEnumerable<DonacionClasificaciones>> ObtenerClasificacion(DonacionClasificacionesQueryFilter filters)
+        public async Task<IEnumerable<DonantesClasificaciones>> ObtenerClasificacion(DonantesClasificacionesQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();
 
             if (filters.IdClasificacion != null && filters.IdClasificacion != 0)
             {
-                Expression<Func<DonacionClasificaciones, bool>> query = (e => e.IdClasificacion == filters.IdClasificacion);
+                Expression<Func<DonantesClasificaciones, bool>> query = (e => e.IdClasificacion == filters.IdClasificacion);
                 expressions.Add(query);
             }
             if (!string.IsNullOrEmpty(filters.Nombre))
             {
-                Expression<Func<DonacionClasificaciones, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
+                Expression<Func<DonantesClasificaciones, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
 
-            var data = await _unitOfWork.DonacionClasificacionesRepository.GetAsync(expressions);
+            var data = await _unitOfWork.DonantesClasificacionesRepository.GetAsync(expressions);
             return data;
         }
 
-        public async Task<DonacionClasificaciones> AgregarClasificacion(DonacionClasificaciones clasificacion)
+        public async Task<DonantesClasificaciones> AgregarClasificacion(DonantesClasificaciones clasificacion)
         {
             clasificacion.IdClasificacion = 0;
-            return await _unitOfWork.DonacionClasificacionesRepository.AddAsync(clasificacion);
+            return await _unitOfWork.DonantesClasificacionesRepository.AddAsync(clasificacion);
         }
 
-        public async Task<bool> ActualizarClasificacion(DonacionClasificaciones clasificacion)
+        public async Task<bool> ActualizarClasificacion(DonantesClasificaciones clasificacion)
         {
             var Clasificacion = await ObtenerClasificacion(clasificacion.IdClasificacion);
             if (Clasificacion != null)
             {
                 clasificacion.CopyTo(Clasificacion);
-                _unitOfWork.DonacionClasificacionesRepository.UpdateNoSave(Clasificacion);
+                _unitOfWork.DonantesClasificacionesRepository.UpdateNoSave(Clasificacion);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }
@@ -71,12 +71,12 @@ namespace GestorProyectos.Core.Services
                 return false;
         }
 
-        public async Task<bool> EliminarDonacionClasificaciones(int IdClasificacion)
+        public async Task<bool> EliminarDonantesClasificaciones(int IdClasificacion)
         {
             var clasificacion = await ObtenerClasificacion(IdClasificacion);
             if (clasificacion != null)
             {
-                _unitOfWork.DonacionClasificacionesRepository.DeleteNoSave(clasificacion);
+                _unitOfWork.DonantesClasificacionesRepository.DeleteNoSave(clasificacion);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }
