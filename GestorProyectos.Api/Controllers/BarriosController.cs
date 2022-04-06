@@ -38,9 +38,10 @@ namespace GestorProyectos.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBarrrios([FromQuery] BarriosQueryFilter filters)
         {
-            var barrios = await _barriosService.ObtenerBarrios(filters);
-            var barriosDto = _mapper.Map<IEnumerable<BarriosDto>>(barrios);
-            return Ok(barriosDto);
+            var result = await _barriosService.ObtenerBarrios(filters);
+            var dto = _mapper.Map<IEnumerable<BarriosDto>>(result);
+            var data = await dto.returnResponse();
+            return Ok(data);
         }
 
         /// <summary>

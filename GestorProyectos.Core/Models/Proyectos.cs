@@ -27,7 +27,8 @@
         public int Meses { get; set; }
         public int Dias { get; set; }
         public int IdRangoPresupuestario { get; set; }
-        public decimal MontoPresupuestario { get; set; }
+        public decimal MontoPresupuestarioDOP { get; set; }
+        public decimal MontoPresupuestarioUSD { get; set; }
         public string TipoMoneda { get; set; } = null!;
         public int IdGerente { get; set; }
         public bool? IsDelete { get; set; }

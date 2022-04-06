@@ -31,7 +31,13 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.Property(e => e.IsDelete).HasDefaultValueSql("((0))");
 
-            builder.Property(e => e.MontoPresupuestario).HasColumnType("decimal(18, 13)");
+            builder.Property(e => e.MontoPresupuestarioDOP)
+                .HasColumnType("decimal(18, 13)")
+                .HasColumnName("MontoPresupuestarioDOP");
+
+            builder.Property(e => e.MontoPresupuestarioUSD)
+                .HasColumnType("decimal(18, 13)")
+                .HasColumnName("MontoPresupuestarioUSD");
 
             builder.Property(e => e.Nombre)
                 .HasMaxLength(50)
