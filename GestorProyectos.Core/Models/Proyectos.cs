@@ -24,8 +24,6 @@
         public DateTime FechaFinal { get; set; }
         public int IdRangoBeneficiario { get; set; }
         public int CantidadBeneficiarios { get; set; }
-        public int IdDonante { get; set; }
-        public int IdAliado { get; set; }
         public int Anos { get; set; }
         public int Meses { get; set; }
         public int Dias { get; set; }
@@ -36,8 +34,8 @@
         public bool? IsDelete { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
-        public virtual Aliado Aliado { get; set; } = null!;
         public virtual RangoBeneficiarios RangoBeneficiarios { get; set; } = null!;
+        public virtual Aliado Aliado { get; set; } = null!;
         public virtual ICollection<Actividades> Actividades { get; set; }
         public virtual ICollection<DesafiosProyectos> DesafiosProyectos { get; set; }
         public virtual ICollection<DocumentosProyectos> DocumentosProyectos { get; set; }

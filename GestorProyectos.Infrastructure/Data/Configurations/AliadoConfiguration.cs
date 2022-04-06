@@ -8,14 +8,18 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Aliado> builder)
         {
-            builder.HasKey(e => e.IdAliado)
-                       .HasName("PK__Aliado__A593DFA86725C9C2");
+            builder.HasKey(e => e.IdProyecto)
+                .HasName("PK__Aliado__A593DFA86725C9C2");
 
             builder.ToTable("Aliado", "Maestras");
+
+            builder.Property(e => e.IdProyecto).ValueGeneratedNever();
 
             builder.Property(e => e.Direccion)
                 .HasMaxLength(1000)
                 .IsUnicode(false);
+
+            builder.Property(e => e.IdAliado).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Identificacion)
                 .HasMaxLength(500)
@@ -34,6 +38,12 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasForeignKey(d => d.IdClasificacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Aliado_Clasificaciones");
+
+            builder.HasOne(d => d.Proyecto)
+                .WithOne(p => p.Aliado)
+                .HasForeignKey<Aliado>(d => d.IdProyecto)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Aliado_Proyectos");
         }
     }
 }

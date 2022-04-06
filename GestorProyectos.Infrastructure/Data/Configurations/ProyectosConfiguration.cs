@@ -47,12 +47,6 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            builder.HasOne(d => d.Aliado)
-                .WithMany(p => p.Proyectos)
-                .HasForeignKey(d => d.IdAliado)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Proyectos_Aliado");
-
             builder.HasOne(d => d.RangoBeneficiarios)
                 .WithMany(p => p.Proyectos)
                 .HasForeignKey(d => d.IdRangoPresupuestario)
