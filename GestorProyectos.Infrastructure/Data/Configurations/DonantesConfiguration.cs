@@ -8,14 +8,17 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Donantes> builder)
         {
-            builder.HasKey(e => e.IdDonante)
-                .HasName("PK__Donantes__AB10528D0F9C94CC");
+            builder.HasKey(e => e.IdProyecto);
 
             builder.ToTable("Donantes", "Maestras");
+
+            builder.Property(e => e.IdProyecto).ValueGeneratedNever();
 
             builder.Property(e => e.Direccion).IsUnicode(false);
 
             builder.Property(e => e.Donacion).HasColumnType("decimal(18, 12)");
+
+            builder.Property(e => e.IdDonante).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Identificacion)
                 .HasMaxLength(30)
@@ -38,8 +41,8 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasConstraintName("FK_Donantes_DonantesClasificaciones");
 
             builder.HasOne(d => d.Proyecto)
-                .WithMany(p => p.Donantes)
-                .HasForeignKey(d => d.IdProyecto)
+                .WithOne(p => p.Donante)
+                .HasForeignKey<Donantes>(d => d.IdProyecto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Donantes_Proyectos");
         }
