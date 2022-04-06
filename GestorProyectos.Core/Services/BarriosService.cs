@@ -43,6 +43,16 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Barrios, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
+            if (filters.IdsSeccion != null && filters.IdsSeccion.Count() > 0)
+            {
+                Expression<Func<Barrios, bool>> query = (e => filters.IdsSeccion.Contains(e.IdSeccion));
+                expressions.Add(query);
+            }
+            if (filters.Nombres != null && filters.Nombres.Count() > 0)
+            {
+                Expression<Func<Barrios, bool>> query = (e => filters.Nombres.Select(n => n.ToLower()).Contains(e.Nombre.ToLower()));
+                expressions.Add(query);
+            }
 
             var repo = _unitOfWork.BarriosRepository;
             //repo.AddInclude("Seccion");

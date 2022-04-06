@@ -41,6 +41,16 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Secciones, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
+            if (filters.IdsDistrito != null && filters.IdsDistrito.Count() > 0)
+            {
+                Expression<Func<Secciones, bool>> query = (e => filters.IdsDistrito.Contains(e.IdDistrito));
+                expressions.Add(query);
+            }
+            if (filters.Nombres != null && filters.Nombres.Count() > 0)
+            {
+                Expression<Func<Secciones, bool>> query = (e => filters.Nombres.Select(n => n.ToLower()).Contains(e.Nombre.ToLower()));
+                expressions.Add(query);
+            }
 
             var data = await _unitOfWork.SeccionesRepository.GetAsync(expressions);
             return data;

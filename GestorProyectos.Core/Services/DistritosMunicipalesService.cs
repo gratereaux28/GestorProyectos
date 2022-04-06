@@ -42,6 +42,16 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<DistritosMunicipales, bool>> query = (e => e.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 expressions.Add(query);
             }
+            if (filters.IdsMunicipio != null && filters.IdsMunicipio.Count() > 0)
+            {
+                Expression<Func<DistritosMunicipales, bool>> query = (e => filters.IdsMunicipio.Contains(e.IdMunicipio));
+                expressions.Add(query);
+            }
+            if (filters.Nombres != null && filters.Nombres.Count() > 0)
+            {
+                Expression<Func<DistritosMunicipales, bool>> query = (e => filters.Nombres.Select(n => n.ToLower()).Contains(e.Nombre.ToLower()));
+                expressions.Add(query);
+            }
 
             var data = await _unitOfWork.DistritosMunicipalesRepository.GetAsync(expressions);
             return data;
