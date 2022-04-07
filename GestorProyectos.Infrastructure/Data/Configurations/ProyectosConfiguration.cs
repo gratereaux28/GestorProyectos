@@ -53,6 +53,10 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
+            builder.Property(e => e.Usuario)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+
             builder.HasOne(d => d.RangoBeneficiarios)
                 .WithMany(p => p.Proyectos)
                 .HasForeignKey(d => d.IdRangoPresupuestario)

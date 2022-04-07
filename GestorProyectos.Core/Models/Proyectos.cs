@@ -32,6 +32,7 @@
         public string? TipoMoneda { get; set; }
         public int IdGerente { get; set; }
         public bool? IsDelete { get; set; }
+        public string? Usuario { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
         public virtual RangoBeneficiarios RangoBeneficiarios { get; set; } = null!;

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace GestorProyectos.Base.Implementations
 {
@@ -16,6 +18,15 @@ namespace GestorProyectos.Base.Implementations
 
         public BaseController()
         {
+        }
+        public string LoggedUser => GetLoggedUser();
+
+        private string GetLoggedUser()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var claims = identity.Claims;
+
+            return claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         protected Exception GetInnerException(Exception ex)

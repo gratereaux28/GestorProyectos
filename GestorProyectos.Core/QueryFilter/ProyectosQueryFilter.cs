@@ -17,5 +17,6 @@ namespace GestorProyectos.Core.QueryFilter
         public decimal? RangoPresupuestado { get; set; }
         public string? DescripcionEspecie { get; set; }
         public string? TipoMoneda { get; set; }
+        public string? Usuario { get; set; }
     }
 }

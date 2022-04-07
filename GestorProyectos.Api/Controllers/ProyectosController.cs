@@ -59,6 +59,7 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Post(ProyectosDto dtoModel)
         {
             var model = _mapper.Map<Proyectos>(dtoModel);
+            model.Usuario = LoggedUser;
             var result = await _currentService.AgregarProyecto(model, dtoModel.DocumentosProyectos);
             dtoModel = _mapper.Map<ProyectosDto>(result);
             var data = await dtoModel.returnResponse();
