@@ -9,14 +9,17 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<DesafiosProyectos> builder)
         {
             builder.HasKey(e => e.IdDesafioProyecto)
-                .HasName("PK__Desafios__19B32A6788064FAD");
+                .HasName("PK__Desafios__28AB2CBFB83B4B49");
 
             builder.ToTable("DesafiosProyectos", "Operacion");
+
+            builder.Property(e => e.Nombre)
+                .HasMaxLength(500)
+                .IsUnicode(false);
 
             builder.HasOne(d => d.Desafio)
                 .WithMany(p => p.DesafiosProyectos)
                 .HasForeignKey(d => d.IdDesafio)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DesafiosProyectos_Desafios");
 
             builder.HasOne(d => d.Proyecto)

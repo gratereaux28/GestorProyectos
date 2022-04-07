@@ -13,16 +13,19 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.ToTable("TiposBeneficiarioProyecto", "Operacion");
 
+            builder.Property(e => e.Nombre)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+
             builder.HasOne(d => d.Proyecto)
                 .WithMany(p => p.TiposBeneficiarioProyectos)
                 .HasForeignKey(d => d.IdProyecto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_TiposBeneficiarioProyecto_Proyectos");
 
             builder.HasOne(d => d.TipoBeneficiario)
                 .WithMany(p => p.TiposBeneficiarioProyectos)
                 .HasForeignKey(d => d.IdTipo)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TiposBeneficiarioProyecto_TipoBeneficiario");
         }
     }
