@@ -29,7 +29,7 @@
         public int IdRangoPresupuestario { get; set; }
         public decimal MontoPresupuestarioDOP { get; set; }
         public decimal MontoPresupuestarioUSD { get; set; }
-        public string TipoMoneda { get; set; } = null!;
+        public string? TipoMoneda { get; set; }
         public int IdGerente { get; set; }
         public bool? IsDelete { get; set; }
         public DateTime? FechaCreacion { get; set; }

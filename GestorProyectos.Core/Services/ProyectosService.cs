@@ -27,15 +27,17 @@ namespace GestorProyectos.Core.Services
         public async Task<Proyectos> ObtenerProyecto(int IdProyecto)
         {
             var repo = _unitOfWork.ProyectosRepository;
+            repo.AddInclude("RangoBeneficiarios");
             repo.AddInclude("Aliado");
             repo.AddInclude("Donante");
-            repo.AddInclude("DesafiosProyectos");
-            repo.AddInclude("DocumentosProyectos");
-            repo.AddInclude("LugaresImplementaciones");
             repo.AddInclude("Actividades");
             repo.AddInclude("Actividades.Tareas");
             repo.AddInclude("Actividades.Tareas.Usuario");
             repo.AddInclude("Actividades.Tareas.Estado");
+            repo.AddInclude("DesafiosProyectos");
+            repo.AddInclude("DocumentosProyectos");
+            repo.AddInclude("LugaresImplementaciones");
+            repo.AddInclude("TiposBeneficiarioProyectos");
             var query = await repo.GetAsync(e => e.IdProyecto == IdProyecto);
             var Proyecto = query.FirstOrDefault();
             return Proyecto;
