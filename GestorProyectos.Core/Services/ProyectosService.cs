@@ -99,6 +99,19 @@ namespace GestorProyectos.Core.Services
             _unitOfWork.ProyectosRepository.AddNoSave(proyecto);
             await _unitOfWork.SaveChangesAsync();
 
+            var webRootPath = Path.Combine(_hostingEnvironment.WebRootPath, _configuration["ProyectInfo:UploadDocument"]);
+            string contentRootPath = _hostingEnvironment.ContentRootPath;
+            webRootPath = Path.Combine(webRootPath, proyecto.Codigo);
+
+            if (!Directory.Exists(webRootPath))
+                Directory.CreateDirectory(webRootPath);
+
+            foreach (var doc in documentos)
+            {
+                string ruta = Path.Combine(webRootPath, doc.NombreArchivo);
+                File.Create(ruta);
+            }
+
             return proyecto;
         }
 
@@ -127,6 +140,12 @@ namespace GestorProyectos.Core.Services
                     {
                         string ruta = Path.Combine(webRootPath, doc.NombreArchivo);
                         File.Delete(ruta);
+                    }
+
+                    foreach (var doc in documentos)
+                    {
+                        string ruta = Path.Combine(webRootPath, doc.NombreArchivo);
+                        File.Create(ruta);
                     }
 
                     return true;
