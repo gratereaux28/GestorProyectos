@@ -26,7 +26,7 @@ namespace GestorProyectos.Base.Implementations
             var identity = (ClaimsIdentity)User.Identity;
             var claims = identity.Claims;
 
-            return claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            return claims.FirstOrDefault(x => x.Type == "User").Value;
         }
 
         protected Exception GetInnerException(Exception ex)
