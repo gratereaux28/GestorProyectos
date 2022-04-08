@@ -95,20 +95,21 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Put(int Id, ProyectosDto dtoModel)
         {
             dtoModel.IdProyecto = Id;
-            var proyecto = _mapper.Map<Proyectos>(dtoModel);
 
-            proyecto.DesafiosProyectos = new List<DesafiosProyectos>();
-            proyecto.TiposBeneficiarioProyectos = new List<TiposBeneficiarioProyecto>();
-            proyecto.LugaresImplementaciones = new List<LugaresImplementaciones>();
+            dtoModel.DesafiosProyectos = new List<DesafiosProyectosDto>();
+            dtoModel.TiposBeneficiarioProyectos = new List<TiposBeneficiarioProyectoDto>();
+            dtoModel.LugaresImplementaciones = new List<LugaresImplementacionesDto>();
 
             if (dtoModel.DesafiosProyecto != null)
-                proyecto.DesafiosProyectos.Add(_mapper.Map<DesafiosProyectos>(dtoModel.DesafiosProyecto));
+                dtoModel.DesafiosProyectos.Add(dtoModel.DesafiosProyecto);
 
             if (dtoModel.TiposBeneficiarioProyecto != null)
-                proyecto.TiposBeneficiarioProyectos.Add(_mapper.Map<TiposBeneficiarioProyecto>(dtoModel.TiposBeneficiarioProyecto));
+                dtoModel.TiposBeneficiarioProyectos.Add(dtoModel.TiposBeneficiarioProyecto);
 
             if (dtoModel.LugaresImplementacione != null)
-                proyecto.LugaresImplementaciones.Add(_mapper.Map<LugaresImplementaciones>(dtoModel.LugaresImplementacione));
+                dtoModel.LugaresImplementaciones.Add(dtoModel.LugaresImplementacione);
+
+            var proyecto = _mapper.Map<Proyectos>(dtoModel);
 
             var result = await _currentService.ActualizarProyecto(proyecto, dtoModel.DocumentosProyectos);
             var data = await result.returnResponse();
