@@ -2,6 +2,7 @@
 using GestorProyectos.Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace GestorProyectos.Infrastructure.Services
 {
@@ -35,6 +36,35 @@ namespace GestorProyectos.Infrastructure.Services
                 var keyToCheck = algorithm.GetBytes(32);
                 return keyToCheck.SequenceEqual(key);
             }
+        }
+
+        public string UnHash(string decriptText)
+        {
+            var parts = decriptText.Split('.');
+            decriptText = decriptText.Replace(" ", "+");
+            byte[] bytesBuff = Convert.FromBase64String(decriptText);
+
+            using (Aes aes = Aes.Create())
+            {
+
+                var iterations = Convert.ToInt32(parts[0]);
+                var salt = Convert.FromBase64String(parts[1]);
+                var key = Convert.FromBase64String(parts[2]);
+
+                aes.Key = Convert.FromBase64String(Convert.ToBase64String(key));
+                aes.IV = Convert.FromBase64String(Convert.ToBase64String(salt));
+
+                using var mStream = new MemoryStream();
+                using (var cStream = new CryptoStream(mStream, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cStream.Write(bytesBuff, 0, bytesBuff.Length);
+                    cStream.Close();
+                }
+
+                decriptText = Encoding.Unicode.GetString(mStream.ToArray());
+            }
+
+            return decriptText;
         }
 
         public string Hash(string password)

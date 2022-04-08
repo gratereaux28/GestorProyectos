@@ -2,9 +2,11 @@
 using GestorProyectos.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace GestorProyectos.Core.Interfaces
 {
@@ -37,6 +39,11 @@ namespace GestorProyectos.Core.Interfaces
         public IBaseRepository<TipoBeneficiario> TipoBeneficiarioRepository { get; }
         public IBaseRepository<TiposBeneficiarioProyecto> TiposBeneficiarioProyectoRepository { get; }
         public IBaseRepository<Usuarios> UsuariosRepository { get; }
+
+        public IOlvidoClaveRepository OlvidoClaveRepository { get; }
+
+        DataTable GetDataFromProcedure(string procedure, SqlParameter[]? parametros = null);
+
         void SaveChanges();
         Task SaveChangesAsync();
         void BeginTransaction();

@@ -21,15 +21,23 @@ namespace GestorProyectos.Api.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUsuariosService _usuariosService;
         private readonly IPasswordService _passwordService;
+        private readonly IOlvidoClaveService _olvidoClaveService;
 
-        public LoginController(IUsuariosService usuariosService, IPasswordService passwordService, IConfiguration configuration) : base()
+        public LoginController(IUsuariosService usuariosService, IPasswordService passwordService, IOlvidoClaveService olvidoClaveService, IConfiguration configuration) : base()
         {
             _usuariosService = usuariosService;
             _passwordService = passwordService;
             _configuration = configuration;
+            _olvidoClaveService = olvidoClaveService;
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Interaccion de Inicio de session.
+        /// </summary>
+        /// <param name="usuario">Usuario.</param>
+        /// <param name="clave">Clave.</param>
+        /// <returns></returns>
+        [HttpPost(Name = nameof(Login))]
         public async Task<IActionResult> Login(string usuario, string clave)
         {
             var user = await _usuariosService.ObtenerUsuario(usuario);
@@ -77,5 +85,21 @@ namespace GestorProyectos.Api.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        [HttpPut("{usuario}")]
+        public async Task<IActionResult> OlvidoClave(string usuario)
+        {
+            var user = await _usuariosService.ObtenerUsuario(usuario);
+
+            if (user != null)
+            {
+                var Clave = _passwordService.UnHash(user.Clave);
+                await _olvidoClaveService.EnviarClave(usuario, Clave);
+                return Ok(true);
+            }
+
+            return Ok(false);
+        }
+
     }
 }

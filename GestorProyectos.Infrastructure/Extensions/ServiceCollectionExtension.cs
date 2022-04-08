@@ -64,6 +64,9 @@ namespace GestorProyectos.Infrastructure.Extensions
             services.AddTransient<IUsuariosService, UsuariosService>();
             services.AddTransient<IWeatherForecastRepository, WeatherForecastRepository>();
 
+
+            services.AddTransient<IOlvidoClaveService, OlvidoClaveService>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IUriService>(provider =>
             {

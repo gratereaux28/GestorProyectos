@@ -3,11 +3,9 @@ using GestorProyectos.Base.Interfaces;
 using GestorProyectos.Core.Interfaces;
 using GestorProyectos.Core.Models;
 using GestorProyectos.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace GestorProyectos.Infrastructure.Repositories
 {
@@ -41,9 +39,14 @@ namespace GestorProyectos.Infrastructure.Repositories
         private readonly IBaseRepository<TiposBeneficiarioProyecto> _tiposBeneficiarioProyectoRepository;
         private readonly IBaseRepository<Usuarios> _usuariosRepository;
 
-        public UnitOfWork(ProyectosDbContext context)
+        public IOlvidoClaveRepository _olvidoClaveRepository;
+
+
+        public IConfiguration Configuration { get; }
+        public UnitOfWork(ProyectosDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
         public IBaseRepository<Actividades> ActividadesRepository => _actividadesRepository ?? new BaseRepository<Actividades>(_context);
@@ -72,6 +75,27 @@ namespace GestorProyectos.Infrastructure.Repositories
         public IBaseRepository<TipoBeneficiario> TipoBeneficiarioRepository => _tipoBeneficiarioRepository ?? new BaseRepository<TipoBeneficiario>(_context);
         public IBaseRepository<TiposBeneficiarioProyecto> TiposBeneficiarioProyectoRepository => _tiposBeneficiarioProyectoRepository ?? new BaseRepository<TiposBeneficiarioProyecto>(_context);
         public IBaseRepository<Usuarios> UsuariosRepository => _usuariosRepository ?? new BaseRepository<Usuarios>(_context);
+
+        public IOlvidoClaveRepository OlvidoClaveRepository => _olvidoClaveRepository ?? new OlvidoClaveRepository(_context, this);
+
+        public DataTable GetDataFromProcedure(string procedure, SqlParameter[]? parametros = null)
+        {
+            using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ProyectosDbContext")))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(procedure, conn);
+                cmd.CommandTimeout = 0;
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (parametros != null)
+                    cmd.Parameters.AddRange(parametros);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                conn.Close();
+
+                return ds.Tables[0];
+            }
+        }
 
         public void Dispose()
         {
