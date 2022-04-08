@@ -25,7 +25,7 @@ namespace GestorProyectos.Infrastructure.Repositories
             parms[0].Value = Usuario;
             parms[1] = new SqlParameter("@Clave", SqlDbType.NVarChar);
             parms[1].Value = Clave;
-            _unitOfWork.GetDataFromProcedure("[Proceso].[usp_Enviar_Clave]", parms);
+            _unitOfWork.ExecuteProcedure("[Proceso].[usp_Enviar_Clave]", parms);
         }
     }
 }

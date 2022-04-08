@@ -93,9 +93,11 @@ namespace GestorProyectos.Api.Controllers
 
             if (user != null)
             {
-                var Clave = _passwordService.UnHash(user.Clave);
+                var Clave = _configuration["ProyectInfo:DefaultPassword"];
+                user.Clave = _passwordService.Hash(Clave);
+                await _usuariosService.ActualizarUsuario(user);
                 await _olvidoClaveService.EnviarClave(usuario, Clave);
-                return Ok(true);
+                return Ok(true); 
             }
 
             return Ok(false);

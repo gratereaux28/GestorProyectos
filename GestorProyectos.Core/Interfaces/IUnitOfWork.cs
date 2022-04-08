@@ -43,6 +43,7 @@ namespace GestorProyectos.Core.Interfaces
         public IOlvidoClaveRepository OlvidoClaveRepository { get; }
 
         DataTable GetDataFromProcedure(string procedure, SqlParameter[]? parametros = null);
+        void ExecuteProcedure(string procedure, SqlParameter[]? parametros = null);
 
         void SaveChanges();
         Task SaveChangesAsync();

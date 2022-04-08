@@ -97,6 +97,23 @@ namespace GestorProyectos.Infrastructure.Repositories
             }
         }
 
+        public void ExecuteProcedure(string procedure, SqlParameter[]? parametros = null)
+        {
+            using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ProyectosDbContext")))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(procedure, conn);
+                cmd.CommandTimeout = 0;
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (parametros != null)
+                    cmd.Parameters.AddRange(parametros);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                conn.Close();
+            }
+        }
+
         public void Dispose()
         {
             if (_context != null)
