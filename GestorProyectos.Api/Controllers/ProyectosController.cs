@@ -8,6 +8,7 @@ using GestorProyectos.Extensions.sys;
 using GestorProyectos.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -51,6 +52,16 @@ namespace GestorProyectos.Api.Controllers
         {
             var result = await _currentService.ObtenerProyecto(id);
             var dto = _mapper.Map<ProyectosDto>(result);
+
+            if(result.DesafiosProyectos != null && result.DesafiosProyectos.Count() > 0)
+            dto.DesafiosProyecto = _mapper.Map<DesafiosProyectosDto>(result.DesafiosProyectos.FirstOrDefault());
+
+            if (result.TiposBeneficiarioProyectos != null && result.TiposBeneficiarioProyectos.Count() > 0)
+                dto.TiposBeneficiarioProyecto = _mapper.Map<TiposBeneficiarioProyectoDto>(result.TiposBeneficiarioProyectos.FirstOrDefault());
+
+            if (result.LugaresImplementaciones != null && result.LugaresImplementaciones.Count() > 0)
+                dto.LugaresImplementacione = _mapper.Map<LugaresImplementacionesDto>(result.LugaresImplementaciones.FirstOrDefault());
+
             var data = await dto.returnResponse();
             return Ok(data);
         }
@@ -60,6 +71,20 @@ namespace GestorProyectos.Api.Controllers
         {
             var model = _mapper.Map<Proyectos>(dtoModel);
             model.Usuario = LoggedUser;
+
+            model.DesafiosProyectos = new List<DesafiosProyectos>();
+            model.TiposBeneficiarioProyectos = new List<TiposBeneficiarioProyecto>();
+            model.LugaresImplementaciones = new List<LugaresImplementaciones>();
+
+            if(dtoModel.DesafiosProyecto != null)
+                model.DesafiosProyectos.Add(_mapper.Map<DesafiosProyectos>(dtoModel.DesafiosProyecto));
+
+            if (dtoModel.TiposBeneficiarioProyecto != null)
+                model.TiposBeneficiarioProyectos.Add(_mapper.Map<TiposBeneficiarioProyecto>(dtoModel.TiposBeneficiarioProyecto));
+
+            if (dtoModel.LugaresImplementacione != null)
+                model.LugaresImplementaciones.Add(_mapper.Map<LugaresImplementaciones>(dtoModel.LugaresImplementacione));
+
             var result = await _currentService.AgregarProyecto(model, dtoModel.DocumentosProyectos);
             dtoModel = _mapper.Map<ProyectosDto>(result);
             var data = await dtoModel.returnResponse();
@@ -71,6 +96,20 @@ namespace GestorProyectos.Api.Controllers
         {
             dtoModel.IdProyecto = Id;
             var proyecto = _mapper.Map<Proyectos>(dtoModel);
+
+            proyecto.DesafiosProyectos = new List<DesafiosProyectos>();
+            proyecto.TiposBeneficiarioProyectos = new List<TiposBeneficiarioProyecto>();
+            proyecto.LugaresImplementaciones = new List<LugaresImplementaciones>();
+
+            if (dtoModel.DesafiosProyecto != null)
+                proyecto.DesafiosProyectos.Add(_mapper.Map<DesafiosProyectos>(dtoModel.DesafiosProyecto));
+
+            if (dtoModel.TiposBeneficiarioProyecto != null)
+                proyecto.TiposBeneficiarioProyectos.Add(_mapper.Map<TiposBeneficiarioProyecto>(dtoModel.TiposBeneficiarioProyecto));
+
+            if (dtoModel.LugaresImplementacione != null)
+                proyecto.LugaresImplementaciones.Add(_mapper.Map<LugaresImplementaciones>(dtoModel.LugaresImplementacione));
+
             var result = await _currentService.ActualizarProyecto(proyecto, dtoModel.DocumentosProyectos);
             var data = await result.returnResponse();
             return Ok(data);
