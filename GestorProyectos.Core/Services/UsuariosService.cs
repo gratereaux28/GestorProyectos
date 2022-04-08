@@ -76,7 +76,6 @@ namespace GestorProyectos.Core.Services
             var Usuario = await ObtenerUsuario(usuario.IdUsuario);
             if (Usuario != null)
             {
-                usuario.Clave = Usuario.Clave;
                 usuario.CopyTo(Usuario);
                 _unitOfWork.UsuariosRepository.UpdateNoSave(Usuario);
                 await _unitOfWork.SaveChangesAsync();
