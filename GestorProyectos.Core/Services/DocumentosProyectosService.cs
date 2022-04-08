@@ -38,6 +38,13 @@ namespace GestorProyectos.Core.Services
             return Documento;
         }
 
+        public DocumentosProyectos ObtenerDocumentoWithIncludeS(int IdDocumento)
+        {
+            var query = _unitOfWork.DocumentosProyectosRepository.AddInclude("Proyecto").Get(e => e.IdDocumento == IdDocumento);
+            var Documento = query.FirstOrDefault();
+            return Documento;
+        }
+
         public async Task<IEnumerable<DocumentosProyectos>> ObtenerDocumentos(DocumentosProyectosQueryFilter filters)
         {
             List<Expression> expressions = new List<Expression>();

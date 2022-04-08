@@ -12,7 +12,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace GestorProyectos.Api.Controllers
@@ -84,9 +87,9 @@ namespace GestorProyectos.Api.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> DescargarDocumento(int Id)
+        public async Task<IActionResult> DescargarDocumento(int id)
         {
-            var documento = await _currentService.ObtenerDocumentoWithInclude(Id);
+            var documento = await _currentService.ObtenerDocumentoWithInclude(id);
 
             string route = _configuration["ProyectInfo:UploadDocument"];
             var webRootPath = System.IO.Path.Combine(_hostingEnvironment.WebRootPath, route);

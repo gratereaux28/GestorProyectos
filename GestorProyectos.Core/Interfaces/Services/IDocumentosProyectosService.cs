@@ -8,6 +8,7 @@ namespace GestorProyectos.Core.Interfaces.Services
     {
         Task<DocumentosProyectos> ObtenerDocumento(int IdDocumento);
         Task<DocumentosProyectos> ObtenerDocumentoWithInclude(int IdDocumento);
+        DocumentosProyectos ObtenerDocumentoWithIncludeS(int IdDocumento);
         Task<IEnumerable<DocumentosProyectos>> ObtenerDocumentos(DocumentosProyectosQueryFilter filters);
         Task<DocumentosProyectos> AgregarDocumento(DocumentosProyectos documento);
         Task<bool> ActualizarDocumento(DocumentosProyectos documento);
