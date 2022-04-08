@@ -7,6 +7,7 @@ using GestorProyectos.Core.QueryFilter;
 using GestorProyectos.Extensions.sys;
 using GestorProyectos.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,16 +16,18 @@ namespace GestorProyectos.Api.Controllers
 {
     public class UsuariosController : BaseController<Usuarios>
     {
+        private readonly IConfiguration _configuration;
         protected IUriService _uriService;
         protected IUsuariosService _currentService;
         protected IPasswordService _passwordService;
 
-        public UsuariosController(IUsuariosService currentService, IPasswordService passwordService, IMapper mapper, IUriService uriService) : base()
+        public UsuariosController(IUsuariosService currentService, IPasswordService passwordService, IMapper mapper, IUriService uriService, IConfiguration configuration) : base()
         {
             _currentService = currentService;
             _passwordService = passwordService;
             _mapper = mapper;
             _uriService = uriService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace GestorProyectos.Api.Controllers
         public async Task<IActionResult> Post(UsuariosDto dtoModel)
         {
             var model = _mapper.Map<Usuarios>(dtoModel);
-            model.Clave = _passwordService.Hash(model.Clave);
+            model.Clave = _passwordService.Hash(_configuration["ProyectInfo:DefaultPassword"]);
             var result = await _currentService.AgregarUsuario(model);
             result.Clave = "";
             dtoModel = _mapper.Map<UsuariosDto>(model);
