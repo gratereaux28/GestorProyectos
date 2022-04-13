@@ -24,6 +24,7 @@ namespace GestorProyectos.Infrastructure.Mappings
             CreateMap<DivisionTrabajoProyectos, DivisionTrabajoProyectosDto>().ReverseMap();
             CreateMap<DocumentosProyectos, DocumentosProyectosDto>().ReverseMap();
             CreateMap<DonacionClasificaciones, DonacionClasificacionesDto>().ReverseMap();
+            CreateMap<Donacion, DonacionDto>().ReverseMap();
             CreateMap<Donantes, DonantesDto>().ReverseMap();
             CreateMap<DonantesClasificaciones, DonantesClasificacionesDto>().ReverseMap();
             CreateMap<Ejecuciones, EjecucionesDto>().ReverseMap();

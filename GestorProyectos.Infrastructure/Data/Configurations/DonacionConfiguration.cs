@@ -17,10 +17,12 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .IsUnicode(false);
 
             builder.Property(e => e.MontoDOP)
-                .HasColumnType("decimal(23, 12)");
+                .HasColumnType("decimal(23, 12)")
+                .HasColumnName("MontoDOP");
 
             builder.Property(e => e.MontoUSD)
-                .HasColumnType("decimal(23, 12)");
+                .HasColumnType("decimal(23, 12)")
+                .HasColumnName("MontoUSD");
 
             builder.HasOne(d => d.DonacionClasificacion)
                 .WithMany(p => p.Donaciones)
