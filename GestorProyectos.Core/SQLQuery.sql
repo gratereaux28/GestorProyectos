@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [GestorProyectos]    Script Date: 24/3/2022 9:34:01 p. m. ******/
+/****** Object:  Database [GestorProyectos]    Script Date: 4/13/2022 9:08:53 AM ******/
 CREATE DATABASE [GestorProyectos]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -74,34 +74,35 @@ ALTER DATABASE [GestorProyectos] SET TARGET_RECOVERY_TIME = 60 SECONDS
 GO
 ALTER DATABASE [GestorProyectos] SET DELAYED_DURABILITY = DISABLED 
 GO
-ALTER DATABASE [GestorProyectos] SET ACCELERATED_DATABASE_RECOVERY = OFF  
-GO
 EXEC sys.sp_db_vardecimal_storage_format N'GestorProyectos', N'ON'
 GO
 ALTER DATABASE [GestorProyectos] SET QUERY_STORE = OFF
 GO
 USE [GestorProyectos]
 GO
-/****** Object:  User [mgratereaux]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  User [mgratereaux]    Script Date: 4/13/2022 9:08:54 AM ******/
 CREATE USER [mgratereaux] FOR LOGIN [mgratereaux] WITH DEFAULT_SCHEMA=[dbo]
 GO
-/****** Object:  User [jortiz]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  User [jortiz]    Script Date: 4/13/2022 9:08:54 AM ******/
 CREATE USER [jortiz] FOR LOGIN [jortiz] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [mgratereaux]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [jortiz]
 GO
-/****** Object:  Schema [Function]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Schema [Function]    Script Date: 4/13/2022 9:08:54 AM ******/
 CREATE SCHEMA [Function]
 GO
-/****** Object:  Schema [Maestras]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Schema [Maestras]    Script Date: 4/13/2022 9:08:54 AM ******/
 CREATE SCHEMA [Maestras]
 GO
-/****** Object:  Schema [Operacion]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Schema [Operacion]    Script Date: 4/13/2022 9:08:54 AM ******/
 CREATE SCHEMA [Operacion]
 GO
-/****** Object:  UserDefinedFunction [Function].[func_Get_new_Codigo]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Schema [Proceso]    Script Date: 4/13/2022 9:08:54 AM ******/
+CREATE SCHEMA [Proceso]
+GO
+/****** Object:  UserDefinedFunction [Function].[func_Get_new_Codigo]    Script Date: 4/13/2022 9:08:54 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -125,13 +126,14 @@ BEGIN
     RETURN @ResultVar
 END
 GO
-/****** Object:  Table [Maestras].[Aliado]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Aliado]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Maestras].[Aliado](
 	[IdAliado] [int] IDENTITY(1,1) NOT NULL,
+	[IdProyecto] [int] NOT NULL,
 	[Nombre] [varchar](500) NOT NULL,
 	[Identificacion] [varchar](500) NULL,
 	[IdClasificacion] [int] NOT NULL,
@@ -139,11 +141,11 @@ CREATE TABLE [Maestras].[Aliado](
 	[Informacion] [varchar](500) NULL,
  CONSTRAINT [PK__Aliado__A593DFA86725C9C2] PRIMARY KEY CLUSTERED 
 (
-	[IdAliado] ASC
+	[IdProyecto] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[AliadoClasificaciones]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[AliadoClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +159,7 @@ CREATE TABLE [Maestras].[AliadoClasificaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Barrios]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Barrios]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,7 +177,7 @@ CREATE TABLE [Maestras].[Barrios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Beneficiarios]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Beneficiarios]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -189,7 +191,23 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Desafios]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[CorreosTemplate]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[CorreosTemplate](
+	[IdTemplate] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](500) NOT NULL,
+	[Asunto] [varchar](max) NULL,
+	[Template] [varchar](max) NOT NULL,
+ CONSTRAINT [PK__Template__9F3C3DBE01DAFF48] PRIMARY KEY CLUSTERED 
+(
+	[IdTemplate] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[Desafios]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +221,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[DistritosMunicipales]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[DistritosMunicipales]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,7 +238,72 @@ CREATE TABLE [Maestras].[DistritosMunicipales](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Estados]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Donacion]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[Donacion](
+	[IdDonacion] [int] IDENTITY(1,1) NOT NULL,
+	[IdDonante] [int] NOT NULL,
+	[IdClasificacion] [int] NOT NULL,
+	[MontoDOP] [decimal](23, 12) NULL,
+	[MontoUSD] [decimal](23, 12) NULL,
+	[Descripcion] [varchar](500) NULL,
+ CONSTRAINT [PK_Donacion] PRIMARY KEY CLUSTERED 
+(
+	[IdDonacion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[DonacionClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[DonacionClasificaciones](
+	[IdClasificacion] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](500) NOT NULL,
+ CONSTRAINT [PK_DonacionClasificaciones] PRIMARY KEY CLUSTERED 
+(
+	[IdClasificacion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[Donantes]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[Donantes](
+	[IdDonante] [int] IDENTITY(1,1) NOT NULL,
+	[IdProyecto] [int] NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+	[Identificacion] [varchar](30) NOT NULL,
+	[IdClasificacion] [int] NOT NULL,
+	[Direccion] [varchar](max) NOT NULL,
+	[Informacion] [varchar](max) NOT NULL,
+ CONSTRAINT [PK_Donantes] PRIMARY KEY CLUSTERED 
+(
+	[IdDonante] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[DonantesClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[DonantesClasificaciones](
+	[IdClasificacion] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](500) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdClasificacion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[Estados]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +319,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Municipios]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Municipios]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -253,7 +336,7 @@ CREATE TABLE [Maestras].[Municipios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[NivelAcceso]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[NivelAcceso]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -267,7 +350,7 @@ CREATE TABLE [Maestras].[NivelAcceso](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Provincias]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Provincias]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -283,7 +366,7 @@ CREATE TABLE [Maestras].[Provincias](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[RangoBeneficiario]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[RangoBeneficiario]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -291,13 +374,27 @@ GO
 CREATE TABLE [Maestras].[RangoBeneficiario](
 	[IdRango] [int] IDENTITY(1,1) NOT NULL,
 	[Nombre] [varchar](500) NOT NULL,
- CONSTRAINT [PK__RangoBen__B9E65D7F67680211] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__RangoBen] PRIMARY KEY CLUSTERED 
 (
 	[IdRango] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Secciones]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[RangoPresupuestario]    Script Date: 4/13/2022 9:08:55 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Maestras].[RangoPresupuestario](
+	[IdRango] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](500) NOT NULL,
+ CONSTRAINT [PK__RangoPre] PRIMARY KEY CLUSTERED 
+(
+	[IdRango] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Maestras].[Secciones]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -314,7 +411,7 @@ CREATE TABLE [Maestras].[Secciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[TipoBeneficiario]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[TipoBeneficiario]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -328,7 +425,7 @@ CREATE TABLE [Maestras].[TipoBeneficiario](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Usuarios]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Maestras].[Usuarios]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -346,7 +443,7 @@ CREATE TABLE [Maestras].[Usuarios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Actividades]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[Actividades]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -362,7 +459,7 @@ CREATE TABLE [Operacion].[Actividades](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DesafiosProyectos]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[DesafiosProyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -370,14 +467,15 @@ GO
 CREATE TABLE [Operacion].[DesafiosProyectos](
 	[IdDesafioProyecto] [int] IDENTITY(1,1) NOT NULL,
 	[IdProyecto] [int] NOT NULL,
-	[IdDesafio] [int] NOT NULL,
-PRIMARY KEY CLUSTERED 
+	[IdDesafio] [int] NULL,
+	[Nombre] [varchar](500) NULL,
+ CONSTRAINT [PK__Desafios__28AB2CBFB83B4B49] PRIMARY KEY CLUSTERED 
 (
 	[IdDesafioProyecto] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DivisionTrabajoProyectos]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[DivisionTrabajoProyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -393,7 +491,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DocumentosProyecto]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[DocumentosProyecto]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -414,7 +512,7 @@ CREATE TABLE [Operacion].[DocumentosProyecto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Ejecuciones]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[Ejecuciones]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -430,7 +528,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[LugaresImplementaciones]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[LugaresImplementaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -449,7 +547,7 @@ CREATE TABLE [Operacion].[LugaresImplementaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Proyectos]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[Proyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -466,16 +564,16 @@ CREATE TABLE [Operacion].[Proyectos](
 	[FechaFinal] [date] NOT NULL,
 	[IdRangoBeneficiario] [int] NOT NULL,
 	[CantidadBeneficiarios] [int] NOT NULL,
-	[IdDonante] [int] NOT NULL,
-	[IdAliado] [int] NOT NULL,
 	[Anos] [int] NOT NULL,
 	[Meses] [int] NOT NULL,
 	[Dias] [int] NOT NULL,
 	[IdRangoPresupuestario] [int] NOT NULL,
-	[MontoPresupuestario] [decimal](18, 13) NOT NULL,
-	[TipoMoneda] [varchar](100) NOT NULL,
+	[MontoPresupuestarioDOP] [decimal](18, 13) NOT NULL,
+	[MontoPresupuestarioUSD] [decimal](18, 13) NOT NULL,
+	[TipoMoneda] [varchar](100) NULL,
 	[IdGerente] [int] NOT NULL,
 	[IsDelete] [bit] NULL,
+	[Usuario] [varchar](500) NULL,
 	[FechaCreacion] [datetime] NULL,
  CONSTRAINT [PK__Proyecto__F4888673943931C4] PRIMARY KEY CLUSTERED 
 (
@@ -483,7 +581,7 @@ CREATE TABLE [Operacion].[Proyectos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Tareas]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[Tareas]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -492,26 +590,34 @@ CREATE TABLE [Operacion].[Tareas](
 	[IdTarea] [int] IDENTITY(1,1) NOT NULL,
 	[Descripcion] [varchar](200) NOT NULL,
 	[IdActividad] [int] NOT NULL,
+	[Meta] [int] NULL,
+	[Periodo] [varchar](15) NULL,
+	[Meses] [int] NULL,
+	[Dias] [int] NULL,
+	[MontoPresupuestarioDOP] [decimal](18, 12) NULL,
+	[MontoPresupuestarioUSD] [decimal](18, 0) NULL,
+	[Resultado] [varchar](max) NULL,
+	[PosiblesRiesgos] [varchar](max) NULL,
+	[AccionMitigacion] [varchar](max) NULL,
 	[IdResponsable] [int] NULL,
-	[FechaInicio] [date] NOT NULL,
-	[FechaFinal] [date] NOT NULL,
 	[IdEstado] [int] NOT NULL,
 	[FechaCreacion] [datetime] NULL,
  CONSTRAINT [PK__Tareas__EADE9098645F0EAF] PRIMARY KEY CLUSTERED 
 (
 	[IdTarea] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[TiposBeneficiarioProyecto]    Script Date: 24/3/2022 9:34:03 p. m. ******/
+/****** Object:  Table [Operacion].[TiposBeneficiarioProyecto]    Script Date: 4/13/2022 9:08:55 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Operacion].[TiposBeneficiarioProyecto](
 	[IdTipoBeneficiarioProyecto] [int] IDENTITY(1,1) NOT NULL,
-	[IdTipo] [int] NOT NULL,
+	[IdTipo] [int] NULL,
 	[IdProyecto] [int] NOT NULL,
+	[Nombre] [varchar](500) NULL,
  CONSTRAINT [PK__TiposBen__A415AEF400978EE1] PRIMARY KEY CLUSTERED 
 (
 	[IdTipoBeneficiarioProyecto] ASC
@@ -520,15 +626,49 @@ CREATE TABLE [Operacion].[TiposBeneficiarioProyecto](
 GO
 SET IDENTITY_INSERT [Maestras].[Aliado] ON 
 GO
-INSERT [Maestras].[Aliado] ([IdAliado], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (1, N'Jose Ortiz', N'04221001', 1, N'por aqui', N'la mejor')
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (2, 9, N'asdas', N'asdasd', 1, N'asdasd', N'asdasd')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (4, 12, N'string', N'string', 1, N'string', N'string')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (6, 17, N'fghfgh', N'fghf', 1, N'ghgfh', N'fghfgh')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (7, 18, N'fghfgh', N'fghf', 1, N'ghgfh', N'fghfgh')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (8, 19, N'sad', N'asd', 1, N'asd', N'asdsadsad')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (9, 20, N'asdasd', N'asdasd', 1, N'asdasd', N'adasdasdsa')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (10, 21, N'SDFDS', N'SDF', 2, N'SDFSD', N'FSDDSFDSFDS')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (11, 22, N'asdasdfsvsdvsvdsdvsdsdv', N'dsadasd', 3, N'asdasdasd', N'sdasdasdas')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (12, 23, N'asdasdfsvsdvsvdsdvsdsdv', N'dsadasd', 3, N'asdasdasd', N'sdasdasdas')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (13, 24, N'sdfsdfsd', N'sdfsdfsdf', 3, N'sdfsdfsdf', N'sdfsdfsdfsdf')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (14, 25, N'sdfsdfsd', N'sdfsdfsdf', 3, N'sdfsdfsdf', N'sdfsdfsdfsdf')
+GO
+INSERT [Maestras].[Aliado] ([IdAliado], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (16, 28, N'sdfds', N'sdfsdf', 3, N'sdfsdf', N'sdfsdfsdf')
 GO
 SET IDENTITY_INSERT [Maestras].[Aliado] OFF
 GO
 SET IDENTITY_INSERT [Maestras].[AliadoClasificaciones] ON 
 GO
-INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (1, N'Tipo 1')
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (1, N'Organización de la Sociedad Civil Nacional')
 GO
-INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (2, N'Tipo 2')
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (2, N'Organización de la Sociedad Civil Internacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (3, N'Empresa Privada Nacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (4, N'Empresa Privada Internacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (5, N'Institución Pública Nacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (6, N'Institución Pública Internacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (7, N'Persona Física o Jurídica Nacional')
+GO
+INSERT [Maestras].[AliadoClasificaciones] ([IdClasificacion], [Nombre]) VALUES (8, N'Persona Física o Jurídica Extranjera')
 GO
 SET IDENTITY_INSERT [Maestras].[AliadoClasificaciones] OFF
 GO
@@ -25814,11 +25954,951 @@ INSERT [Maestras].[Barrios] ([IdBarrio], [IdSeccion], [Nombre], [Latitud], [Long
 GO
 SET IDENTITY_INSERT [Maestras].[Barrios] OFF
 GO
+SET IDENTITY_INSERT [Maestras].[Beneficiarios] ON 
+GO
+INSERT [Maestras].[Beneficiarios] ([IdBeneficiario], [Nombre]) VALUES (1, N'Jose Ortiz')
+GO
+INSERT [Maestras].[Beneficiarios] ([IdBeneficiario], [Nombre]) VALUES (2, N'Marcos Antonio Solis')
+GO
+SET IDENTITY_INSERT [Maestras].[Beneficiarios] OFF
+GO
+SET IDENTITY_INSERT [Maestras].[CorreosTemplate] ON 
+GO
+INSERT [Maestras].[CorreosTemplate] ([IdTemplate], [Nombre], [Asunto], [Template]) VALUES (2, N'Creación de Proyecto', N'Creación de Proyecto', N'<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:v="urn:schemas-microsoft-com:vml">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width" name="viewport" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <title></title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        table,
+        td,
+        tr {
+            vertical-align: top;
+            border-collapse: collapse;
+        }
+
+        * {
+            line-height: inherit;
+        }
+
+        a[x-apple-data-detectors=true] {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+    </style>
+    <style id="media-query" type="text/css">
+        @media (max-width: 660px) {
+
+            .block-grid,
+            .col {
+                min-width: 320px !important;
+                max-width: 100% !important;
+                display: block !important;
+            }
+
+            .block-grid {
+                width: 100% !important;
+            }
+
+            .col {
+                width: 100% !important;
+            }
+
+            .col>div {
+                margin: 0 auto;
+            }
+
+            img.fullwidth,
+            img.fullwidthOnMobile {
+                max-width: 100% !important;
+            }
+
+            .no-stack .col {
+                min-width: 0 !important;
+                display: table-cell !important;
+            }
+
+            .no-stack.two-up .col {
+                width: 50% !important;
+            }
+
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+
+            .no-stack .col.num8 {
+                width: 66% !important;
+            }
+
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+
+            .no-stack .col.num3 {
+                width: 25% !important;
+            }
+
+            .no-stack .col.num6 {
+                width: 50% !important;
+            }
+
+            .no-stack .col.num9 {
+                width: 75% !important;
+            }
+
+            .video-block {
+                max-width: none !important;
+            }
+
+            .mobile_hide {
+                min-height: 0px;
+                max-height: 0px;
+                max-width: 0px;
+                display: none;
+                overflow: hidden;
+                font-size: 0px;
+            }
+
+            .desktop_hide {
+                display: block !important;
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="clean-body" style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #f1f4f8;">
+    <table bgcolor="#f1f4f8" cellpadding="0" cellspacing="0" class="nl-container" role="presentation"
+        style="table-layout: fixed; vertical-align: top; min-width: 320px; Margin: 0 auto; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f1f4f8; width: 100%;"
+        valign="top" width="100%">
+        <tbody>
+            <tr style="vertical-align: top;" valign="top">
+                <td style="word-break: break-word; vertical-align: top;" valign="top">
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
+                            <div
+                                style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div class="mobile_hide">
+                                                <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                    role="presentation"
+                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                    valign="top" width="100%">
+                                                    <tbody>
+                                                        <tr style="vertical-align: top;" valign="top">
+                                                            <td class="divider_inner"
+                                                                style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 30px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                                valign="top">
+                                                                <table align="center" border="0" cellpadding="0"
+                                                                    cellspacing="0" class="divider_content"
+                                                                    role="presentation"
+                                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                    valign="top" width="100%">
+                                                                    <tbody>
+                                                                        <tr style="vertical-align: top;" valign="top">
+                                                                            <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                                valign="top"><span></span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <!--[if (!mso)&(!IE)]><!-->
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <!--<![endif]-->
+                                            <div
+                                                style="font-size:16px;text-align:center;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif">
+                                                <div style="padding:15px;background:#white"> <img
+                                                        src="https://netzer.somee.com/logoSmall2.png" width="250" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div align="center" class="img-container center autowidth"
+                                                style="padding-right: 0px;padding-left: 0px;"> <img align="center"
+                                                    alt="I''m an image" border="0" class="center autowidth"
+                                                    src="https://netzer.somee.com/campainlogo.png"
+                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 640px; display: block;"
+                                                    title="I''m an image" width="640" /> </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:20px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
+                                                    <p
+                                                        style="font-size: 46px; line-height: 1.2; text-align: center; word-break: break-word; mso-line-height-alt: 55px; margin: 0;">
+                                                        <span style="font-size: 46px; color: #003188;"><strong>Creación
+                                                                de Proyecto</strong></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.5; font-size: 12px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; color: #555555; mso-line-height-alt: 18px;">
+                                                    <p
+                                                        style="text-align: center; line-height: 1.5; word-break: break-word; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px; color: #6d89bc;">Le remitimos la
+                                                            información sobre el proyecto creado.</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td class="divider_inner"
+                                                            style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 44px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" border="0" cellpadding="0"
+                                                                cellspacing="0" class="divider_content"
+                                                                role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                valign="top" width="100%">
+                                                                <tbody>
+                                                                    <tr style="vertical-align: top;" valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                            valign="top"><span></span></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div align="center" class="img-container center autowidth"
+                                                style="padding-right: 0px;padding-left: 0px;"><img align="center"
+                                                    alt="Image" border="0" class="center autowidth"
+                                                    src="https://i.imgur.com/ADTG9En.png"
+                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 158px; display: block;"
+                                                    title="Image" width="158" /> </div>
+                                            <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td class="divider_inner"
+                                                            style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 35px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" border="0" cellpadding="0"
+                                                                cellspacing="0" class="divider_content"
+                                                                role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                valign="top" width="100%">
+                                                                <tbody>
+                                                                    <tr style="vertical-align: top;" valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                            valign="top"><span></span></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:20px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
+                                                    <p
+                                                        style="font-size: 24px; line-height: 1.2; text-align: center; word-break: break-word; mso-line-height-alt: 29px; margin: 0;">
+                                                        <span
+                                                            style="font-size: 24px; color: #003188;"><strong>[PROYECTO]</strong></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.5; font-size: 12px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; color: #555555; mso-line-height-alt: 18px;">
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Código:</b>
+                                                                [@Codigo]</span></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Descripción:</b>
+                                                                [@Descripcion]</span></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><strong><span
+                                                                    style="color: #ff0000;">* –</span></strong> <span
+                                                                style="color: #6d89bc;"><b>Objetivo General:</b>
+                                                                [@ObjetivoG]</span></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #6d89bc;"><span
+                                                                    style="color: #ff0000;"><strong>* –</strong>
+                                                                </span><b>Objetivo Específico:</b>
+                                                                [@ObjetivoE]</span></span><span
+                                                            style="font-size: 16px;"></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Resultados:</b>
+                                                                [@Resultados].</span></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Fecha Creación:</b>
+                                                                [@FechaC].</span></span>
+                                                    </p>
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><strong><span
+                                                                    style="color: #ff0000;">* –</span></strong> <span
+                                                                style="color: #6d89bc;"><b>Rango de beneficiarios:</b>
+                                                                [@Rango].</span></span>
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                            <div align="center" class="button-container"
+                                                style="padding-top:15px;padding-right:10px;padding-bottom:15px;padding-left:10px;">
+                                                <a href="https://torre-control.netlify.app"
+                                                    style="-webkit-text-size-adjust: none; text-decoration: none; display: inline-block; color: #ffffff; background-color: #fb5f3d; border-radius: 60px; -webkit-border-radius: 60px; -moz-border-radius: 60px; width: auto; width: auto; border-top: 1px solid #fb5f3d; border-right: 1px solid #fb5f3d; border-bottom: 1px solid #fb5f3d; border-left: 1px solid #fb5f3d; padding-top: 15px; padding-bottom: 15px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;"
+                                                    target="_blank"><span
+                                                        style="padding-left:30px;padding-right:30px;font-size:16px;display:inline-block;"><span
+                                                            style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;"><strong>Verificar</strong></span></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:1px solid #E5EAF3; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <!--<![endif]-->
+                                            <table cellpadding="0" cellspacing="0" class="social_icons"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td style="word-break: break-word; vertical-align: top; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" cellpadding="0" cellspacing="0"
+                                                                class="social_table" role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-tspace: 0; mso-table-rspace: 0; mso-table-bspace: 0; mso-table-lspace: 0;"
+                                                                valign="top">
+                                                                <tbody>
+                                                                    <tr align="center"
+                                                                        style="vertical-align: top; display: inline-block; text-align: center;"
+                                                                        valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://www.facebook.com/EvolutionFoundationDR/"
+                                                                                target="_blank"><img alt="Facebook"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/j6qorA4.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Facebook" width="32" /></a>
+                                                                        </td>
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://twitter.com/Evolution_DR/"
+                                                                                target="_blank"><img alt="Twitter"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/r7Eb0uD.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Twitter" width="32" /></a>
+                                                                        </td>
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://www.instagram.com/EvolutionFoundation/"
+                                                                                target="_blank"><img alt="Instagram"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/Jskk4sd.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Instagram" width="32" /></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td class="divider_inner"
+                                                            style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 40px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" border="0" cellpadding="0"
+                                                                cellspacing="0" class="divider_content"
+                                                                role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                valign="top" width="100%">
+                                                                <tbody>
+                                                                    <tr style="vertical-align: top;" valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                            valign="top"><span></span></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
+                            <div
+                                style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div class="mobile_hide">
+                                                <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                    role="presentation"
+                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                    valign="top" width="100%">
+                                                    <tbody>
+                                                        <tr style="vertical-align: top;" valign="top">
+                                                            <td class="divider_inner"
+                                                                style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 30px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                                valign="top">
+                                                                <table align="center" border="0" cellpadding="0"
+                                                                    cellspacing="0" class="divider_content"
+                                                                    role="presentation"
+                                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                    valign="top" width="100%">
+                                                                    <tbody>
+                                                                        <tr style="vertical-align: top;" valign="top">
+                                                                            <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                                valign="top"><span></span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>')
+GO
+INSERT [Maestras].[CorreosTemplate] ([IdTemplate], [Nombre], [Asunto], [Template]) VALUES (3, N'Olvide Contraseña', N'Olvide Contraseña', N'<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:v="urn:schemas-microsoft-com:vml">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width" name="viewport" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <title></title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        table,
+        td,
+        tr {
+            vertical-align: top;
+            border-collapse: collapse;
+        }
+
+        * {
+            line-height: inherit;
+        }
+
+        a[x-apple-data-detectors=true] {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+    </style>
+    <style id="media-query" type="text/css">
+        @media (max-width: 660px) {
+
+            .block-grid,
+            .col {
+                min-width: 320px !important;
+                max-width: 100% !important;
+                display: block !important;
+            }
+
+            .block-grid {
+                width: 100% !important;
+            }
+
+            .col {
+                width: 100% !important;
+            }
+
+            .col>div {
+                margin: 0 auto;
+            }
+
+            img.fullwidth,
+            img.fullwidthOnMobile {
+                max-width: 100% !important;
+            }
+
+            .no-stack .col {
+                min-width: 0 !important;
+                display: table-cell !important;
+            }
+
+            .no-stack.two-up .col {
+                width: 50% !important;
+            }
+
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+
+            .no-stack .col.num8 {
+                width: 66% !important;
+            }
+
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+
+            .no-stack .col.num3 {
+                width: 25% !important;
+            }
+
+            .no-stack .col.num6 {
+                width: 50% !important;
+            }
+
+            .no-stack .col.num9 {
+                width: 75% !important;
+            }
+
+            .video-block {
+                max-width: none !important;
+            }
+
+            .mobile_hide {
+                min-height: 0px;
+                max-height: 0px;
+                max-width: 0px;
+                display: none;
+                overflow: hidden;
+                font-size: 0px;
+            }
+
+            .desktop_hide {
+                display: block !important;
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="clean-body" style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #f1f4f8;">
+    <table bgcolor="#f1f4f8" cellpadding="0" cellspacing="0" class="nl-container" role="presentation"
+        style="table-layout: fixed; vertical-align: top; min-width: 320px; Margin: 0 auto; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f1f4f8; width: 100%;"
+        valign="top" width="100%">
+        <tbody>
+            <tr style="vertical-align: top;" valign="top">
+                <td style="word-break: break-word; vertical-align: top;" valign="top">
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
+                            <div
+                                style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div class="mobile_hide">
+                                                <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                    role="presentation"
+                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                    valign="top" width="100%">
+                                                    <tbody>
+                                                        <tr style="vertical-align: top;" valign="top">
+                                                            <td class="divider_inner"
+                                                                style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 30px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                                valign="top">
+                                                                <table align="center" border="0" cellpadding="0"
+                                                                    cellspacing="0" class="divider_content"
+                                                                    role="presentation"
+                                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                    valign="top" width="100%">
+                                                                    <tbody>
+                                                                        <tr style="vertical-align: top;" valign="top">
+                                                                            <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                                valign="top"><span></span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <!--[if (!mso)&(!IE)]><!-->
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <!--<![endif]-->
+                                            <div
+                                                style="font-size:16px;text-align:center;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif">
+                                                <div style="padding:15px;background:#white"> <img
+                                                        src="https://netzer.somee.com/logoSmall2.png" width="250" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div align="center" class="img-container center autowidth"
+                                                style="padding-right: 0px;padding-left: 0px;"> <img align="center"
+                                                    alt="I''m an image" border="0" class="center autowidth"
+                                                    src="https://netzer.somee.com/olvidoclave.png"
+                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 640px; display: block;"
+                                                    title="I''m an image" width="640" /> </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:20px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
+                                                    <p
+                                                        style="font-size: 46px; line-height: 1.2; text-align: center; word-break: break-word; mso-line-height-alt: 55px; margin: 0;">
+                                                        <span style="font-size: 46px; color: #003188;"><strong>Olvido Clave</strong></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.5; font-size: 12px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; color: #555555; mso-line-height-alt: 18px;">
+                                                    <p
+                                                        style="text-align: center; line-height: 1.5; word-break: break-word; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px; color: #6d89bc;">Le hemos enviado este correo electrónico en respuesta a su solicitud de que ha olvidado su contraseña.</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div
+                                                    style="line-height: 1.5; font-size: 12px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; color: #555555; mso-line-height-alt: 18px;">
+
+                                                    <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Nombre:</b>
+                                                                [@Nombre]</span></span>
+                                                    </p>
+                                                  <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><span
+                                                                style="color: #fb5f3d;"><strong>* –</strong></span>
+                                                            <span style="color: #6d89bc;"><b>Usuario:</b> [@Usuario]</span></span></p>
+                                                  <p
+                                                        style="line-height: 1.5; word-break: break-word; text-align: left; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px;"><strong><span
+                                                                    style="color: #ff0000;">* –</span></strong> <span
+                                                                style="color: #6d89bc;"><b>Contraseña:</b> [@Clave]</span></span></p>
+                                                </div>
+                                            </div>
+                                            <div align="center" class="button-container"
+                                                style="padding-top:15px;padding-right:10px;padding-bottom:15px;padding-left:10px;">
+                                                <a href="https://torre-control.netlify.app"
+                                                    style="-webkit-text-size-adjust: none; text-decoration: none; display: inline-block; color: #ffffff; background-color: #fb5f3d; border-radius: 60px; -webkit-border-radius: 60px; -moz-border-radius: 60px; width: auto; width: auto; border-top: 1px solid #fb5f3d; border-right: 1px solid #fb5f3d; border-bottom: 1px solid #fb5f3d; border-left: 1px solid #fb5f3d; padding-top: 15px; padding-bottom: 15px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;"
+                                                    target="_blank"><span
+                                                        style="padding-left:30px;padding-right:30px;font-size:16px;display:inline-block;"><span
+                                                            style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;"><strong>Ingresar</strong></span></span></a>
+                                            </div>
+                                          
+                                          
+                                          
+                                          <div style="color:#555555;font-family:Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
+                                                <div style="line-height: 1.5; font-size: 12px; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; color: #555555; mso-line-height-alt: 18px;">
+                                                    <p style="text-align: center; line-height: 1.5; word-break: break-word; font-family: Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; mso-line-height-alt: 24px; margin: 0;">
+                                                        <span style="font-size: 16px; color: #6d89bc;"><i>Ignore este correo electrónico si usted no lo solicitó, le recomendamos no compartir este correo.</i></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                          
+                                          
+                                          
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
+                            <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:1px solid #E5EAF3; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <!--<![endif]-->
+                                            <table cellpadding="0" cellspacing="0" class="social_icons"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td style="word-break: break-word; vertical-align: top; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" cellpadding="0" cellspacing="0"
+                                                                class="social_table" role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-tspace: 0; mso-table-rspace: 0; mso-table-bspace: 0; mso-table-lspace: 0;"
+                                                                valign="top">
+                                                                <tbody>
+                                                                    <tr align="center"
+                                                                        style="vertical-align: top; display: inline-block; text-align: center;"
+                                                                        valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://www.facebook.com/EvolutionFoundationDR/"
+                                                                                target="_blank"><img alt="Facebook"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/j6qorA4.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Facebook" width="32" /></a>
+                                                                        </td>
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://twitter.com/Evolution_DR/"
+                                                                                target="_blank"><img alt="Twitter"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/r7Eb0uD.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Twitter" width="32" /></a>
+                                                                        </td>
+                                                                        <td style="word-break: break-word; vertical-align: top; padding-bottom: 0; padding-right: 7.5px; padding-left: 7.5px;"
+                                                                            valign="top"><a
+                                                                                href="https://www.instagram.com/EvolutionFoundation/"
+                                                                                target="_blank"><img alt="Instagram"
+                                                                                    height="32"
+                                                                                    src="https://i.imgur.com/Jskk4sd.png"
+                                                                                    style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; display: block;"
+                                                                                    title="Instagram" width="32" /></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                role="presentation"
+                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                valign="top" width="100%">
+                                                <tbody>
+                                                    <tr style="vertical-align: top;" valign="top">
+                                                        <td class="divider_inner"
+                                                            style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 40px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                            valign="top">
+                                                            <table align="center" border="0" cellpadding="0"
+                                                                cellspacing="0" class="divider_content"
+                                                                role="presentation"
+                                                                style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                valign="top" width="100%">
+                                                                <tbody>
+                                                                    <tr style="vertical-align: top;" valign="top">
+                                                                        <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                            valign="top"><span></span></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:transparent;">
+                        <div class="block-grid"
+                            style="Margin: 0 auto; min-width: 320px; max-width: 640px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
+                            <div
+                                style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
+                                <div class="col num12"
+                                    style="min-width: 320px; max-width: 640px; display: table-cell; vertical-align: top; width: 640px;">
+                                    <div style="width:100% !important;">
+                                        <div
+                                            style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
+                                            <div class="mobile_hide">
+                                                <table border="0" cellpadding="0" cellspacing="0" class="divider"
+                                                    role="presentation"
+                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                    valign="top" width="100%">
+                                                    <tbody>
+                                                        <tr style="vertical-align: top;" valign="top">
+                                                            <td class="divider_inner"
+                                                                style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 30px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;"
+                                                                valign="top">
+                                                                <table align="center" border="0" cellpadding="0"
+                                                                    cellspacing="0" class="divider_content"
+                                                                    role="presentation"
+                                                                    style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 0px solid #BBBBBB; width: 100%;"
+                                                                    valign="top" width="100%">
+                                                                    <tbody>
+                                                                        <tr style="vertical-align: top;" valign="top">
+                                                                            <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"
+                                                                                valign="top"><span></span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>')
+GO
+SET IDENTITY_INSERT [Maestras].[CorreosTemplate] OFF
+GO
 SET IDENTITY_INSERT [Maestras].[Desafios] ON 
 GO
-INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (1, N'Prueba')
+INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (1, N'Educación')
 GO
-INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (2, N'Prueba 2')
+INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (2, N'Salud')
+GO
+INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (3, N'Saneamiento')
+GO
+INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (4, N'Juventud')
+GO
+INSERT [Maestras].[Desafios] ([IdDesafio], [Nombre]) VALUES (5, N'Otros')
 GO
 SET IDENTITY_INSERT [Maestras].[Desafios] OFF
 GO
@@ -26610,6 +27690,74 @@ INSERT [Maestras].[DistritosMunicipales] ([IdDistrito], [IdMunicipio], [Nombre],
 GO
 SET IDENTITY_INSERT [Maestras].[DistritosMunicipales] OFF
 GO
+SET IDENTITY_INSERT [Maestras].[Donacion] ON 
+GO
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (1, 12, 2, CAST(0.000000000000 AS Decimal(23, 12)), CAST(0.000000000000 AS Decimal(23, 12)), N'12f')
+GO
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (2, 13, 2, CAST(122.000000000000 AS Decimal(23, 12)), CAST(22.000000000000 AS Decimal(23, 12)), N'444')
+GO
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (4, 14, 2, CAST(0.000000000000 AS Decimal(23, 12)), CAST(0.000000000000 AS Decimal(23, 12)), N'')
+GO
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (5, 14, 1, CAST(0.000000000000 AS Decimal(23, 12)), CAST(0.000000000000 AS Decimal(23, 12)), N'')
+GO
+SET IDENTITY_INSERT [Maestras].[Donacion] OFF
+GO
+SET IDENTITY_INSERT [Maestras].[DonacionClasificaciones] ON 
+GO
+INSERT [Maestras].[DonacionClasificaciones] ([IdClasificacion], [Nombre]) VALUES (1, N'Economico')
+GO
+INSERT [Maestras].[DonacionClasificaciones] ([IdClasificacion], [Nombre]) VALUES (2, N'En especie')
+GO
+INSERT [Maestras].[DonacionClasificaciones] ([IdClasificacion], [Nombre]) VALUES (3, N'Trabajo Colaborativo')
+GO
+SET IDENTITY_INSERT [Maestras].[DonacionClasificaciones] OFF
+GO
+SET IDENTITY_INSERT [Maestras].[Donantes] ON 
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (1, 9, N'aSDAS', N'asdasd', 1, N'asdasd', N'asdsad')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (3, 12, N'string', N'string', 1, N'string', N'string')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (5, 17, N'fghfgh', N'fghfgh', 1, N'fghfghfg', N'fghfghfgh')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (6, 18, N'fghfgh', N'fghfgh', 1, N'fghfghfg', N'fghfghfgh')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (7, 19, N'asd', N'asd', 1, N'sadfdsfds', N'dsfdsf')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (8, 20, N'sdsad', N'asdasd', 1, N'sdsadasd', N'asdasd')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (9, 21, N'FFG', N'FDGFD', 4, N'SDFDSF', N'SDFDSF')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (11, 23, N'asdsadsa', N'dsadasdasd', 4, N'sdasdasd', N'asdsadasd')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (12, 24, N'asdasdsad', N'asdasdasd', 2, N'asdsadsa', N'')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (13, 25, N'asdasdsad', N'asdasdasd', 2, N'asdsadsa', N'')
+GO
+INSERT [Maestras].[Donantes] ([IdDonante], [IdProyecto], [Nombre], [Identificacion], [IdClasificacion], [Direccion], [Informacion]) VALUES (14, 28, N'dfg', N'dfgdfg', 5, N'dfgfdgfd', N'dfgdfg')
+GO
+SET IDENTITY_INSERT [Maestras].[Donantes] OFF
+GO
+SET IDENTITY_INSERT [Maestras].[DonantesClasificaciones] ON 
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (1, N'Organizacion de la Sociedad Civil Nacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (2, N'Organizacion de la Sociedad Civil Internacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (3, N'Empresa Privada Nacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (4, N'Empresa Privada Internacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (5, N'Intitución Pública Nacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (6, N'Intitución Pública Internacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (7, N'Persona Física o Jurídica Nacional')
+GO
+INSERT [Maestras].[DonantesClasificaciones] ([IdClasificacion], [Nombre]) VALUES (8, N'Persona Física o Jurídica Extranjera')
+GO
+SET IDENTITY_INSERT [Maestras].[DonantesClasificaciones] OFF
+GO
 SET IDENTITY_INSERT [Maestras].[Estados] ON 
 GO
 INSERT [Maestras].[Estados] ([IdEstado], [IdTipo], [Nombre], [Orden]) VALUES (1, N'Activo', N'Activo', 1)
@@ -27025,6 +28173,22 @@ GO
 INSERT [Maestras].[RangoBeneficiario] ([IdRango], [Nombre]) VALUES (6, N'más de 50,001')
 GO
 SET IDENTITY_INSERT [Maestras].[RangoBeneficiario] OFF
+GO
+SET IDENTITY_INSERT [Maestras].[RangoPresupuestario] ON 
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (1, N'0- USD $ 1,000.00')
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (2, N'USD $1,001.00- USD $5,000.00')
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (3, N'USD $5,001.00- USD $15,000.00')
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (4, N'USD $15,001.00- USD $50,000.00')
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (5, N'USD $50,001.00- USD $200,000.00')
+GO
+INSERT [Maestras].[RangoPresupuestario] ([IdRango], [Nombre]) VALUES (6, N'+ USD $200,001.00')
+GO
+SET IDENTITY_INSERT [Maestras].[RangoPresupuestario] OFF
 GO
 SET IDENTITY_INSERT [Maestras].[Secciones] ON 
 GO
@@ -30196,19 +31360,171 @@ SET IDENTITY_INSERT [Maestras].[TipoBeneficiario] OFF
 GO
 SET IDENTITY_INSERT [Maestras].[Usuarios] ON 
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (1, N'Martin', N'Gratereaux', N'Gratereaux', N'mgratereaux', N'10000.muarW6Rn+f80pIM2ROahJQ==.rzHLQ2CVyv5H1NdOR115DEm6nGHvFx2av2ad3rrVk2U=')
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (1, N'Martin', N'Gratereaux', N'gratereaux28@gmail.com', N'mgratereaux', N'10000.YXJMySl7ir1hFAKI+x1WNA==.kAWQQsQYP23qieFQxO6xxwg9I6olfEdV8JqVslTAgHw=')
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (2, N'José', N'Ortiz', N'jortiz@milocrio.com', N'jortiz', N'10000.F7KAzKsGJjwMtNSbQFG0ug==.GEQ80ae2weWMsMCQT2cJBe9B10bLkB03tkmZ7Cpaqwg=')
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (2, N'José', N'Ortiz P.', N'alejandro.ortiz.polanco@gmail.com', N'jortiz', N'10000.WMbugVmq6nO14rFujJzIAg==.gYtVewAZLvqa1yB5amZnx36J2kfTbZvToymNZsK31NI=')
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (3, N'Pedro', N'De Los Santos', N'psantos@gmail.com', N'psantos', N'10000.r1NrVnG4hm23wr/39JNpcw==.iWKPAEh/u/WfpIXWxum9jlYzvfMf46qLHcYyCuDy9fg=')
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (3, N'Pedro', N'De Los Santos', N'posvaldo@gmail.com', N'pdelossantos', N'10000.r1NrVnG4hm23wr/39JNpcw==.iWKPAEh/u/WfpIXWxum9jlYzvfMf46qLHcYyCuDy9fg=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (4, N'TEST', N'TEST2', N'JORTIZ@KLK.COM', N'JORITZ02', N'10000.YApt5u2SR8aQVZAGxqS06Q==.bdF/C4k9wEulFw9IGHjV1ErMttmfyOt4Pxge4AFx2o4=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (5, N'tets2', N'd2', N'22', N'dsds', N'10000.lFtqlYQ9Z7JVMXkjhl84dQ==.C7RcfOtybPtURp53eBlQmBt2jzMewewNFi/rTmVefE4=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (6, N'jhgj', N'd2dfgdf dfg', N'22gdfgdfgdf', N'dsdsgdf', N'10000.qBnyOpCIrUUnVDyGpVtxuA==.xzpYxk4mOpiGQ61x5NoIFlbhWPVy3PijLrBIjjrMW+4=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (7, N'', N'', N'', N'', N'10000.rVb7soXwpxp4lpQorC9j5w==.0KRmIgRRlp4NjQylVcWQrTsrlkL7m6aEvvVDDrkIbh4=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (8, N'Julio', N'Diaz', N'juliodiazcp@gmail.com', N'jdiaz', N'10000.hPoNC0fIHrMGUHs19RpkaQ==.BIutezqrav2Du58R1xX47ypekqc7ZkPIRzyyOLEhTyA=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (9, N'demo', N'demo', N'posvaldo@gmail.com', N'demo', N'10000.mujh8c1gAT8wRd9eqVEvIw==.RnCMMBg8mrQ2FH5YQks5OT63K7pHiGYPpTM3+9H4sSk=')
 GO
 SET IDENTITY_INSERT [Maestras].[Usuarios] OFF
 GO
+SET IDENTITY_INSERT [Operacion].[Actividades] ON 
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (2, N'string', 12, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (4, N'fghfg', 17, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (5, N'fghfg', 18, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (6, N'ss', 19, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (7, N'a', 20, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (8, N'SDFDS', 21, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (9, N'SDFDS 2', 21, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (11, N'asd', 23, 0)
+GO
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (13, N'asdasdasdsdf', 28, 0)
+GO
+SET IDENTITY_INSERT [Operacion].[Actividades] OFF
+GO
+SET IDENTITY_INSERT [Operacion].[DesafiosProyectos] ON 
+GO
+INSERT [Operacion].[DesafiosProyectos] ([IdDesafioProyecto], [IdProyecto], [IdDesafio], [Nombre]) VALUES (2, 12, 1, NULL)
+GO
+INSERT [Operacion].[DesafiosProyectos] ([IdDesafioProyecto], [IdProyecto], [IdDesafio], [Nombre]) VALUES (4, 23, 3, NULL)
+GO
+INSERT [Operacion].[DesafiosProyectos] ([IdDesafioProyecto], [IdProyecto], [IdDesafio], [Nombre]) VALUES (5, 24, 3, NULL)
+GO
+INSERT [Operacion].[DesafiosProyectos] ([IdDesafioProyecto], [IdProyecto], [IdDesafio], [Nombre]) VALUES (6, 25, 3, NULL)
+GO
+INSERT [Operacion].[DesafiosProyectos] ([IdDesafioProyecto], [IdProyecto], [IdDesafio], [Nombre]) VALUES (7, 28, 2, NULL)
+GO
+SET IDENTITY_INSERT [Operacion].[DesafiosProyectos] OFF
+GO
+SET IDENTITY_INSERT [Operacion].[DocumentosProyecto] ON 
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (4, 23, NULL, 0x, CAST(N'2022-04-08' AS Date), N'Screenshot 2022-02-17 192203.png', 366344, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (6, 24, NULL, 0x, CAST(N'2022-04-13' AS Date), N'estructura-financiera.pdf', 711723, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (7, 25, NULL, 0x, CAST(N'2022-04-13' AS Date), N'estructura-financiera.pdf', 711723, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (11, 25, NULL, 0x, CAST(N'2022-04-13' AS Date), N'master-data-science.pdf', 2160323, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (16, 28, NULL, 0x, CAST(N'2022-04-13' AS Date), N'Manual de Usuarios - Gestor FAC.pdf', 3307436, N'string', N'string')
+GO
+SET IDENTITY_INSERT [Operacion].[DocumentosProyecto] OFF
+GO
+SET IDENTITY_INSERT [Operacion].[LugaresImplementaciones] ON 
+GO
+INSERT [Operacion].[LugaresImplementaciones] ([IdImplementacion], [IdProyecto], [IdProvincia], [IdMunicipio], [IdDistrito], [IdSeccion], [IdBarrio]) VALUES (2, 12, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [Operacion].[LugaresImplementaciones] ([IdImplementacion], [IdProyecto], [IdProvincia], [IdMunicipio], [IdDistrito], [IdSeccion], [IdBarrio]) VALUES (4, 23, 13, 64, 162, 594, 4422)
+GO
+INSERT [Operacion].[LugaresImplementaciones] ([IdImplementacion], [IdProyecto], [IdProvincia], [IdMunicipio], [IdDistrito], [IdSeccion], [IdBarrio]) VALUES (5, 24, 13, 63, 157, 574, 4242)
+GO
+INSERT [Operacion].[LugaresImplementaciones] ([IdImplementacion], [IdProyecto], [IdProvincia], [IdMunicipio], [IdDistrito], [IdSeccion], [IdBarrio]) VALUES (6, 25, 13, 63, 157, 574, 4242)
+GO
+INSERT [Operacion].[LugaresImplementaciones] ([IdImplementacion], [IdProyecto], [IdProvincia], [IdMunicipio], [IdDistrito], [IdSeccion], [IdBarrio]) VALUES (7, 28, 9, 50, 127, 471, 3126)
+GO
+SET IDENTITY_INSERT [Operacion].[LugaresImplementaciones] OFF
+GO
 SET IDENTITY_INSERT [Operacion].[Proyectos] ON 
 GO
-INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [IdDonante], [IdAliado], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestario], [TipoMoneda], [IdGerente], [IsDelete], [FechaCreacion]) VALUES (5, N'ASAIC-2022-1', N'', N'', N'', N'', N'', CAST(N'2022-03-23' AS Date), CAST(N'2022-03-23' AS Date), 1, 0, 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, CAST(N'2022-03-23T04:19:49.777' AS DateTime))
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (5, N'ASAIC-2022-1', N'', N'', N'', N'', N'', CAST(N'2022-03-23' AS Date), CAST(N'2022-03-23' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-03-23T04:19:49.777' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (6, N'ASAIC-2022-2', N'Ayuda humanitaria en Azua', N'adsasdasdasd', N'', N'', N'', CAST(N'2022-03-27' AS Date), CAST(N'2022-03-27' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-03-27T23:28:16.387' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (7, N'ASAIC-2022-3', N'sdfsdfsdfsdfsdfsdf', N'', N'', N'', N'', CAST(N'2022-03-28' AS Date), CAST(N'2022-03-28' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-03-28T02:37:56.293' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (8, N'ASAIC-2022-4', N'dsfdsfdsf thhgfhfgh', N'', N'', N'', N'', CAST(N'2022-04-05' AS Date), CAST(N'2022-04-05' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-04-05T03:54:43.130' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (9, N'ASAIC-2022-5', N'smartyin', N'', N'', N'', N'', CAST(N'2022-04-06' AS Date), CAST(N'2022-04-06' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-04-06T00:34:06.950' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (12, N'string', N'string', N'string', N'string', N'string', N'string', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 0, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'string', 0, 1, N'jortiz', CAST(N'2022-04-07T00:23:20.423' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (17, N'ASAIC-2022-7', N'fghfghgfhfg', N'fghfghfghfgh', N'fghfghfg', N'fghgffg', N'fghfghgf', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'DOP', 0, 1, N'jortiz', CAST(N'2022-04-07T03:13:47.490' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (18, N'ASAIC-2022-8', N'fghfghgfhfg', N'fghfghfghfgh', N'fghfghfg', N'fghgffg', N'fghfghgf', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'DOP', 0, 1, N'jortiz', CAST(N'2022-04-07T03:13:47.490' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (19, N'ASAIC-2022-9', N'sdfdsfsd', N'dfsdfsdfsdf', N'sdfdsf', N'sdfdsfd', N'sdfdsfdsf', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 2, 2, 3, 6, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'j', 0, 1, N'jortiz', CAST(N'2022-04-07T03:45:35.000' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (20, N'ASAIC-2022-10', N'csdcsdcsd', N'csdcsdcsdc', N'scsdcsdc', N'sdcsdcsdcsdc', N'sdcdscsc', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 233, 3, 2, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), N'j', 0, 1, N'jortiz', CAST(N'2022-04-07T03:54:44.873' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (21, N'ASAIC-2022-11', N'DSASAD', N'ASDSAD', N'SADSAD', N'ASDSA', N'ASDSA', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 2, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 1, N'mgratereaux', CAST(N'2022-04-07T05:32:12.553' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (22, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 0, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (23, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 0, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (24, N'ASAIC-2022-14', N'asdasdasd', N'asdasdsad', N'asdas', N'asdasdasd', N'asdasdasd', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 111, 1, 2, 3, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 0, N'mgratereaux', CAST(N'2022-04-13T05:47:48.057' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (25, N'ASAIC-2022-15', N'asdasdasd', N'asdasdsad', N'asdas', N'asdasdasd', N'asdasdasd', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 111, 1, 2, 3, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 0, N'mgratereaux', CAST(N'2022-04-13T05:47:48.057' AS DateTime))
+GO
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (28, N'ASAIC-2022-16', N'gdfdfgfd', N'dfgdfgdfg', N'fdfg', N'dfgdfgfdg', N'dxfgdfgdfg', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 4, 0, N'jortiz', CAST(N'2022-04-13T06:21:42.227' AS DateTime))
 GO
 SET IDENTITY_INSERT [Operacion].[Proyectos] OFF
+GO
+SET IDENTITY_INSERT [Operacion].[Tareas] ON 
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (1, N'string', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, CAST(N'2022-04-07T00:23:20.423' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (3, N'gfhfg', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, CAST(N'2022-04-07T03:15:03.207' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (4, N'gfhfg', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, CAST(N'2022-04-07T03:15:03.207' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (5, N'dsasdasdsa', 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 1, CAST(N'2022-04-07T03:46:28.243' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (6, N'sddsds', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, CAST(N'2022-04-07T03:55:28.070' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (7, N'SDFDSF', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 1, CAST(N'2022-04-07T05:33:03.250' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (8, N'SDFDSFDS', 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 1, CAST(N'2022-04-07T05:33:12.130' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (10, N'asdasdasd', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 1, CAST(N'2022-04-08T07:58:23.770' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (11, N'asdasdas', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 1, CAST(N'2022-04-08T07:58:26.960' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (13, N'sdfsdghbgfh ', 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 8, 1, CAST(N'2022-04-13T06:36:37.820' AS DateTime))
+GO
+INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (14, N'hjkhjkhjk', 13, 555666, N'Quincenal', 20, 1, CAST(15.000000000000 AS Decimal(18, 12)), CAST(633 AS Decimal(18, 0)), N'asffsdf', N'sdfsdf', N'saddasd', 3, 1, CAST(N'2022-04-13T12:43:02.627' AS DateTime))
+GO
+SET IDENTITY_INSERT [Operacion].[Tareas] OFF
+GO
+SET IDENTITY_INSERT [Operacion].[TiposBeneficiarioProyecto] ON 
+GO
+INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [IdTipo], [IdProyecto], [Nombre]) VALUES (2, 1, 12, NULL)
+GO
+INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [IdTipo], [IdProyecto], [Nombre]) VALUES (4, 3, 23, NULL)
+GO
+INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [IdTipo], [IdProyecto], [Nombre]) VALUES (5, 2, 24, NULL)
+GO
+INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [IdTipo], [IdProyecto], [Nombre]) VALUES (6, 2, 25, NULL)
+GO
+INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [IdTipo], [IdProyecto], [Nombre]) VALUES (7, 4, 28, NULL)
+GO
+SET IDENTITY_INSERT [Operacion].[TiposBeneficiarioProyecto] OFF
+GO
+/****** Object:  Index [IX_Donantes_IdProyecto]    Script Date: 4/13/2022 9:09:14 AM ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Donantes_IdProyecto] ON [Maestras].[Donantes]
+(
+	[IdProyecto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 ALTER TABLE [Operacion].[Proyectos] ADD  CONSTRAINT [DF_Proyectos_Codigo]  DEFAULT ([Function].[func_Get_new_Codigo]()) FOR [Codigo]
 GO
@@ -30223,6 +31539,11 @@ REFERENCES [Maestras].[AliadoClasificaciones] ([IdClasificacion])
 GO
 ALTER TABLE [Maestras].[Aliado] CHECK CONSTRAINT [FK_Aliado_Clasificaciones]
 GO
+ALTER TABLE [Maestras].[Aliado]  WITH CHECK ADD  CONSTRAINT [FK_Aliado_Proyectos] FOREIGN KEY([IdProyecto])
+REFERENCES [Operacion].[Proyectos] ([IdProyecto])
+GO
+ALTER TABLE [Maestras].[Aliado] CHECK CONSTRAINT [FK_Aliado_Proyectos]
+GO
 ALTER TABLE [Maestras].[Barrios]  WITH CHECK ADD  CONSTRAINT [FK_Barrios_Secciones] FOREIGN KEY([IdSeccion])
 REFERENCES [Maestras].[Secciones] ([IdSeccion])
 GO
@@ -30232,6 +31553,26 @@ ALTER TABLE [Maestras].[DistritosMunicipales]  WITH CHECK ADD  CONSTRAINT [FK_Di
 REFERENCES [Maestras].[Municipios] ([IdMunicipio])
 GO
 ALTER TABLE [Maestras].[DistritosMunicipales] CHECK CONSTRAINT [FK_DistritosMunicipales_Municipios]
+GO
+ALTER TABLE [Maestras].[Donacion]  WITH CHECK ADD  CONSTRAINT [FK_Donacion_DonacionClasificaciones] FOREIGN KEY([IdClasificacion])
+REFERENCES [Maestras].[DonacionClasificaciones] ([IdClasificacion])
+GO
+ALTER TABLE [Maestras].[Donacion] CHECK CONSTRAINT [FK_Donacion_DonacionClasificaciones]
+GO
+ALTER TABLE [Maestras].[Donacion]  WITH CHECK ADD  CONSTRAINT [FK_Donacion_Donantes] FOREIGN KEY([IdDonante])
+REFERENCES [Maestras].[Donantes] ([IdDonante])
+GO
+ALTER TABLE [Maestras].[Donacion] CHECK CONSTRAINT [FK_Donacion_Donantes]
+GO
+ALTER TABLE [Maestras].[Donantes]  WITH CHECK ADD  CONSTRAINT [FK_Donantes_DonantesClasificaciones] FOREIGN KEY([IdClasificacion])
+REFERENCES [Maestras].[DonantesClasificaciones] ([IdClasificacion])
+GO
+ALTER TABLE [Maestras].[Donantes] CHECK CONSTRAINT [FK_Donantes_DonantesClasificaciones]
+GO
+ALTER TABLE [Maestras].[Donantes]  WITH CHECK ADD  CONSTRAINT [FK_Donantes_Proyectos] FOREIGN KEY([IdProyecto])
+REFERENCES [Operacion].[Proyectos] ([IdProyecto])
+GO
+ALTER TABLE [Maestras].[Donantes] CHECK CONSTRAINT [FK_Donantes_Proyectos]
 GO
 ALTER TABLE [Maestras].[Municipios]  WITH CHECK ADD  CONSTRAINT [FK_Municipios_Provincias] FOREIGN KEY([IdProvincia])
 REFERENCES [Maestras].[Provincias] ([IdProvincia])
@@ -30308,15 +31649,15 @@ REFERENCES [Maestras].[Secciones] ([IdSeccion])
 GO
 ALTER TABLE [Operacion].[LugaresImplementaciones] CHECK CONSTRAINT [FK_LugaresImplementaciones_Secciones]
 GO
-ALTER TABLE [Operacion].[Proyectos]  WITH CHECK ADD  CONSTRAINT [FK_Proyectos_Aliado] FOREIGN KEY([IdAliado])
-REFERENCES [Maestras].[Aliado] ([IdAliado])
-GO
-ALTER TABLE [Operacion].[Proyectos] CHECK CONSTRAINT [FK_Proyectos_Aliado]
-GO
-ALTER TABLE [Operacion].[Proyectos]  WITH CHECK ADD  CONSTRAINT [FK_Proyectos_RangoBeneficiario] FOREIGN KEY([IdRangoPresupuestario])
+ALTER TABLE [Operacion].[Proyectos]  WITH CHECK ADD  CONSTRAINT [FK_Proyectos_RangoBeneficiario] FOREIGN KEY([IdRangoBeneficiario])
 REFERENCES [Maestras].[RangoBeneficiario] ([IdRango])
 GO
 ALTER TABLE [Operacion].[Proyectos] CHECK CONSTRAINT [FK_Proyectos_RangoBeneficiario]
+GO
+ALTER TABLE [Operacion].[Proyectos]  WITH CHECK ADD  CONSTRAINT [FK_Proyectos_RangoPresupuestario] FOREIGN KEY([IdRangoPresupuestario])
+REFERENCES [Maestras].[RangoPresupuestario] ([IdRango])
+GO
+ALTER TABLE [Operacion].[Proyectos] CHECK CONSTRAINT [FK_Proyectos_RangoPresupuestario]
 GO
 ALTER TABLE [Operacion].[Tareas]  WITH CHECK ADD  CONSTRAINT [FK_Tareas_Actividades] FOREIGN KEY([IdActividad])
 REFERENCES [Operacion].[Actividades] ([IdActividad])
@@ -30342,6 +31683,98 @@ ALTER TABLE [Operacion].[TiposBeneficiarioProyecto]  WITH CHECK ADD  CONSTRAINT 
 REFERENCES [Maestras].[TipoBeneficiario] ([IdTipo])
 GO
 ALTER TABLE [Operacion].[TiposBeneficiarioProyecto] CHECK CONSTRAINT [FK_TiposBeneficiarioProyecto_TipoBeneficiario]
+GO
+/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Clave]    Script Date: 4/13/2022 9:09:14 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [Proceso].[usp_Enviar_Clave] -- [Proceso].[usp_Enviar_Clave] 'mgratereaux', 'asdasdasd'
+	@Usuario VARCHAR(MAX),
+	@Clave VARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @HTML AS VARCHAR(MAX),
+			@Asunto AS VARCHAR(MAX),
+			@Correo AS VARCHAR(MAX),
+			@Nombre AS VARCHAR(MAX)
+			
+	SELECT @Asunto = Asunto, @HTML = Template FROM [Maestras].[CorreosTemplate] WHERE IdTemplate = 3
+	SELECT @Correo = Correo, @Nombre = Nombre + ' ' + Apellido FROM [Maestras].[Usuarios] WHERE @Usuario = Usuario
+
+	SET @HTML = REPLACE(@HTML, '[@Nombre]', @Nombre)
+	SET @HTML = REPLACE(@HTML, '[@Usuario]', @Usuario)
+	SET @HTML = REPLACE(@HTML, '[@Clave]', @Clave)
+	
+	EXEC [Proceso].[usp_Enviar_Correo] @Asunto, @HTML, @Correo
+END
+GO
+/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Correo]    Script Date: 4/13/2022 9:09:14 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [Proceso].[usp_Enviar_Correo] -- [Proceso].[usp_Enviar_Correo] 'HOLA', 'HOLA', 'gratereaux28@gmail.com'
+@Subject VARCHAR(200),
+@Body  NVARCHAR(MAX),
+@To VARCHAR(2000),
+@CC VARCHAR(2000) = NULL,
+@BCC VARCHAR(200) = NULL
+AS
+	SET @BCC = ISNULL(@BCC, '') + ';gratereaux28@gmail.com;alejandro.ortiz.polanco@gmail.com'
+	EXEC msdb.dbo.sp_send_dbmail
+		@profile_name = 'mapindsoc Mail',
+		@recipients= @To,
+		@copy_recipients= @CC,
+		@blind_copy_recipients = @BCC,
+		@subject = @Subject,
+		@body = @Body,
+		@body_format = 'HTML';
+GO
+/****** Object:  StoredProcedure [Proceso].[usp_Proyectos_Creacion_Notificar]    Script Date: 4/13/2022 9:09:14 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [Proceso].[usp_Proyectos_Creacion_Notificar] -- [Proceso].[usp_Proyectos_Creacion_Notificar] 22
+	@IdProyecto INT
+AS
+BEGIN
+	DECLARE @HTML AS VARCHAR(MAX),
+			@Asunto AS VARCHAR(MAX),
+			@Usuario AS VARCHAR(MAX),
+			@Correo AS VARCHAR(MAX),
+			@Nombre AS VARCHAR(MAX),
+			@Codigo AS VARCHAR(MAX),
+			@Descripcion AS VARCHAR(MAX),
+			@ObjetivoG AS VARCHAR(MAX),
+			@ObjetivoE AS VARCHAR(MAX),
+			@Resultados AS VARCHAR(MAX),
+			@FechaC AS VARCHAR(MAX),
+			@Rango AS VARCHAR(MAX)
+
+	SELECT @Asunto = Asunto, @HTML = Template FROM [Maestras].[CorreosTemplate] WHERE IdTemplate = 2
+
+	SELECT @Nombre = ISNULL(P.Nombre, ''), @Codigo = ISNULL(P.Codigo, ''), @Descripcion = ISNULL(P.Descripcion, ''), @ObjetivoG = ISNULL(P.ObjetivoGeneral, ''),
+	@ObjetivoE = ISNULL(P.ObjetivoEspecifico, ''), @Resultados = ISNULL(P.Resultados, ''), @FechaC = ISNULL(CAST(CAST(P.FechaCreacion AS DATE) AS VARCHAR(MAX)), ''),
+	@Rango = ISNULL(RB.[Nombre], ''), @Usuario = Usuario
+	FROM [Operacion].[Proyectos] P
+	LEFT JOIN [Maestras].[RangoBeneficiario] RB ON RB.[IdRango] = P.[IdRangoBeneficiario]
+	WHERE IdProyecto = @IdProyecto
+	
+	SELECT @Correo = Correo FROM [Maestras].[Usuarios] WHERE Usuario = @Usuario
+
+	SET @HTML = REPLACE(@HTML, '[PROYECTO]', @Nombre)
+	SET @HTML = REPLACE(@HTML, '[@Codigo]', @Codigo)
+	SET @HTML = REPLACE(@HTML, '[@Descripcion]', @Descripcion)
+	SET @HTML = REPLACE(@HTML, '[@ObjetivoG]', @ObjetivoG)
+	SET @HTML = REPLACE(@HTML, '[@ObjetivoE]', @ObjetivoE)
+	SET @HTML = REPLACE(@HTML, '[@Resultados]', @Resultados)
+	SET @HTML = REPLACE(@HTML, '[@FechaC]', @FechaC)
+	SET @HTML = REPLACE(@HTML, '[@Rango]', @Rango)
+
+	EXEC [Proceso].[usp_Enviar_Correo] @Asunto, @HTML, @Correo
+END
 GO
 USE [master]
 GO
