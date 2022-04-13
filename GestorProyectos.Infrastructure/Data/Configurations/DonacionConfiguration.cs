@@ -33,7 +33,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Donante)
                 .WithMany(p => p.Donaciones)
                 .HasForeignKey(d => d.IdDonante)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Donacion_Donantes");
         }
     }
