@@ -13,6 +13,8 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
 
             builder.ToTable("Tareas", "Operacion");
 
+            builder.Property(e => e.AccionMitigacion).IsUnicode(false);
+
             builder.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
@@ -21,14 +23,24 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("(getdate())");
 
-            builder.Property(e => e.FechaFinal).HasColumnType("date");
+            builder.Property(e => e.MontoPresupuestarioDOP)
+                .HasColumnType("decimal(18, 12)");
 
-            builder.Property(e => e.FechaInicio).HasColumnType("date");
+            builder.Property(e => e.MontoPresupuestarioUSD)
+                .HasColumnType("decimal(18, 0)");
+
+            builder.Property(e => e.Periodo)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+
+            builder.Property(e => e.PosiblesRiesgos).IsUnicode(false);
+
+            builder.Property(e => e.Resultado).IsUnicode(false);
 
             builder.HasOne(d => d.Actividad)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdActividad)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tareas_Actividades");
 
             builder.HasOne(d => d.Estado)

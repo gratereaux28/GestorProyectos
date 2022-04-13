@@ -8,27 +8,20 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Donantes> builder)
         {
-            builder.HasKey(e => e.IdProyecto);
+            builder.HasKey(e => e.IdDonante);
 
             builder.ToTable("Donantes", "Maestras");
 
-            builder.Property(e => e.IdProyecto).ValueGeneratedNever();
+            builder.HasIndex(e => e.IdProyecto, "IX_Donantes_IdProyecto")
+                .IsUnique();
 
             builder.Property(e => e.Direccion).IsUnicode(false);
-
-            builder.Property(e => e.Donacion).HasColumnType("decimal(18, 12)");
-
-            builder.Property(e => e.IdDonante).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Identificacion)
                 .HasMaxLength(30)
                 .IsUnicode(false);
 
             builder.Property(e => e.Informacion).IsUnicode(false);
-
-            builder.Property(e => e.Monto1).HasColumnType("decimal(23, 12)");
-
-            builder.Property(e => e.Monto2).HasColumnType("decimal(23, 12)");
 
             builder.Property(e => e.Nombre)
                 .HasMaxLength(50)

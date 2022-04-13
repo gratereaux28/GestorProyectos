@@ -57,11 +57,10 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
-            builder.HasOne(d => d.RangoBeneficiarios)
+            builder.HasOne(d => d.RangoPresupuestario)
                 .WithMany(p => p.Proyectos)
                 .HasForeignKey(d => d.IdRangoPresupuestario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Proyectos_RangoBeneficiario");
+                .HasConstraintName("FK_Proyectos_RangoPresupuestario");
         }
     }
 }

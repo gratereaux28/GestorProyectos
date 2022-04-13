@@ -26,7 +26,7 @@
         public int Anos { get; set; }
         public int Meses { get; set; }
         public int Dias { get; set; }
-        public int IdRangoPresupuestario { get; set; }
+        public int? IdRangoPresupuestario { get; set; }
         public decimal MontoPresupuestarioDOP { get; set; }
         public decimal MontoPresupuestarioUSD { get; set; }
         public string? TipoMoneda { get; set; }
@@ -35,7 +35,7 @@
         public string? Usuario { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
-        public virtual RangoBeneficiarios RangoBeneficiarios { get; set; } = null!;
+        public virtual RangoPresupuestario? RangoPresupuestario { get; set; }
         public virtual Aliado Aliado { get; set; } = null!;
         public virtual Donantes Donante { get; set; } = null!;
         public virtual ICollection<Actividades> Actividades { get; set; }
