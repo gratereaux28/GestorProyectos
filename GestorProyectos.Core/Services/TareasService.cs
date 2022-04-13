@@ -43,21 +43,6 @@ namespace GestorProyectos.Core.Services
                 Expression<Func<Tareas, bool>> query = (e => e.IdActividad == filters.IdActividad);
                 expressions.Add(query);
             }
-            if (filters.FechaInicio != null && filters.FechaFinal != null)
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.FechaInicio >= filters.FechaInicio && e.FechaFinal <= filters.FechaFinal);
-                expressions.Add(query);
-            }
-            else if (filters.FechaInicio != null)
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.FechaInicio == filters.FechaInicio);
-                expressions.Add(query);
-            }
-            else if (filters.FechaFinal != null)
-            {
-                Expression<Func<Proyectos, bool>> query = (e => e.FechaFinal == filters.FechaFinal);
-                expressions.Add(query);
-            }
             if (filters.IdEstado != null && filters.IdEstado != 0)
             {
                 Expression<Func<Tareas, bool>> query = (e => e.IdEstado == filters.IdEstado);
