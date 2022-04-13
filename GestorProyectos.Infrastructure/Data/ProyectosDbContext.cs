@@ -36,6 +36,7 @@ namespace GestorProyectos.Infrastructure.Data
         public virtual DbSet<DistritosMunicipales> DistritosMunicipales { get; set; } = null!;
         public virtual DbSet<DivisionTrabajoProyectos> DivisionTrabajoProyectos { get; set; } = null!;
         public virtual DbSet<DocumentosProyectos> DocumentosProyectos { get; set; } = null!;
+        public virtual DbSet<Donacion> Donacion { get; set; } = null!;
         public virtual DbSet<DonacionClasificaciones> DonacionClasificaciones { get; set; } = null!;
         public virtual DbSet<Donantes> Donantes { get; set; } = null!;
         public virtual DbSet<DonantesClasificaciones> DonantesClasificaciones { get; set; } = null!;
@@ -47,6 +48,7 @@ namespace GestorProyectos.Infrastructure.Data
         public virtual DbSet<Provincias> Provincias { get; set; } = null!;
         public virtual DbSet<Proyectos> Proyectos { get; set; } = null!;
         public virtual DbSet<RangoBeneficiarios> RangoBeneficiarios { get; set; } = null!;
+        public virtual DbSet<RangoPresupuestario> RangoPresupuestario { get; set; } = null!;
         public virtual DbSet<Secciones> Secciones { get; set; } = null!;
         public virtual DbSet<Tareas> Tareas { get; set; } = null!;
         public virtual DbSet<TipoBeneficiario> TipoBeneficiarios { get; set; } = null!;

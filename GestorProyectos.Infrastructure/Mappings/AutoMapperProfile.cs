@@ -34,6 +34,7 @@ namespace GestorProyectos.Infrastructure.Mappings
             CreateMap<Provincias, ProvinciasDto>().ReverseMap();
             CreateMap<Proyectos, ProyectosDto>().ReverseMap();
             CreateMap<RangoBeneficiarios, RangoBeneficiariosDto>().ReverseMap();
+            CreateMap<RangoPresupuestario, RangoPresupuestarioDto>().ReverseMap();
             CreateMap<Secciones, SeccionesDto>().ReverseMap();
             CreateMap<Tareas, TareasDto>().ReverseMap();
             CreateMap<TipoBeneficiario, TipoBeneficiarioDto>().ReverseMap();

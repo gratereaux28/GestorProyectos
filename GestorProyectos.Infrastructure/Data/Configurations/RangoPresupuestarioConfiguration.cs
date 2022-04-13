@@ -9,7 +9,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<RangoPresupuestario> builder)
         {
             builder.HasKey(e => e.IdRango)
-                .HasName("PK__RangoPre__B9E65D7F67680211");
+                .HasName("PK__RangoPre");
 
             builder.ToTable("RangoPresupuestario", "Maestras");
 

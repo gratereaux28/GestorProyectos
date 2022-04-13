@@ -8,11 +8,9 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<DonacionClasificaciones> builder)
         {
-            builder.HasNoKey();
+            builder.HasKey(e => e.IdClasificacion);
 
             builder.ToTable("DonacionClasificaciones", "Maestras");
-
-            builder.Property(e => e.IdClasificacion).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Nombre)
                 .HasMaxLength(500)
