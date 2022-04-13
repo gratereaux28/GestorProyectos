@@ -27,7 +27,7 @@ namespace GestorProyectos.Core.Services
         public async Task<Proyectos> ObtenerProyecto(int IdProyecto)
         {
             var repo = _unitOfWork.ProyectosRepository;
-            repo.AddInclude("RangoBeneficiarios");
+            repo.AddInclude("RangoPresupuestario");
             repo.AddInclude("Aliado");
             repo.AddInclude("Donante");
             repo.AddInclude("Actividades");

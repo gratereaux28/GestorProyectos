@@ -57,6 +57,7 @@ namespace GestorProyectos.Infrastructure.Extensions
             services.AddTransient<IProvinciasService, ProvinciasService>();
             services.AddTransient<IProyectosService, ProyectosService>();
             services.AddTransient<IRangoBeneficiariosService, RangoBeneficiariosService>();
+            services.AddTransient<IRangoPresupuestarioService, RangoPresupuestarioService>();
             services.AddTransient<ISeccionesService, SeccionesService>();
             services.AddTransient<ITareasService, TareasService>();
             services.AddTransient<ITipoBeneficiarioService, TipoBeneficiarioService>();

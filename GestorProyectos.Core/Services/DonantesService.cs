@@ -24,10 +24,9 @@ namespace GestorProyectos.Core.Services
             _configuration = configuration;
         }
         
-
         public async Task<Donantes> ObtenerDonante(int IdDonante)
         {
-            var query = await _unitOfWork.DonantesRepository.GetAsync(e => e.IdDonante == IdDonante);
+            var query = await _unitOfWork.DonantesRepository.AddInclude("Donaciones").GetAsync(e => e.IdDonante == IdDonante);
             var donante = query.FirstOrDefault();
             return donante;
         }

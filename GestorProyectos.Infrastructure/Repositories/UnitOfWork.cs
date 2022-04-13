@@ -22,6 +22,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         private readonly IBaseRepository<DistritosMunicipales> _distritosMunicipalesRepository;
         private readonly IBaseRepository<DivisionTrabajoProyectos> _divisionTrabajoProyectosRepository;
         private readonly IBaseRepository<DocumentosProyectos> _documentosProyectosRepository;
+        private readonly IBaseRepository<Donacion> _donacionRepository;
         private readonly IBaseRepository<DonacionClasificaciones> _donacionClasificacionesRepository;
         private readonly IBaseRepository<Donantes> _donantesRepository;
         private readonly IBaseRepository<DonantesClasificaciones> _donantesClasificacionesRepository;
@@ -33,6 +34,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         private readonly IBaseRepository<Provincias> _provinciasRepository;
         private readonly IBaseRepository<Proyectos> _proyectosRepository;
         private readonly IBaseRepository<RangoBeneficiarios> _rangoBeneficiariosRepository;
+        private readonly IBaseRepository<RangoPresupuestario> _rangoPresupuestarioRepository;
         private readonly IBaseRepository<Secciones> _seccionesRepository;
         private readonly IBaseRepository<Tareas> _tareasRepository;
         private readonly IBaseRepository<TipoBeneficiario> _tipoBeneficiarioRepository;
@@ -59,6 +61,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         public IBaseRepository<DistritosMunicipales> DistritosMunicipalesRepository => _distritosMunicipalesRepository ?? new BaseRepository<DistritosMunicipales>(_context);
         public IBaseRepository<DivisionTrabajoProyectos> DivisionTrabajoProyectosRepository => _divisionTrabajoProyectosRepository ?? new BaseRepository<DivisionTrabajoProyectos>(_context);
         public IBaseRepository<DocumentosProyectos> DocumentosProyectosRepository => _documentosProyectosRepository ?? new BaseRepository<DocumentosProyectos>(_context);
+        public IBaseRepository<Donacion> DonacionRepository => _donacionRepository ?? new BaseRepository<Donacion>(_context);
         public IBaseRepository<DonacionClasificaciones> DonacionClasificacionesRepository => _donacionClasificacionesRepository ?? new BaseRepository<DonacionClasificaciones>(_context);
         public IBaseRepository<Donantes> DonantesRepository => _donantesRepository ?? new BaseRepository<Donantes>(_context);
         public IBaseRepository<DonantesClasificaciones> DonantesClasificacionesRepository => _donantesClasificacionesRepository ?? new BaseRepository<DonantesClasificaciones>(_context);
@@ -70,6 +73,7 @@ namespace GestorProyectos.Infrastructure.Repositories
         public IBaseRepository<Provincias> ProvinciasRepository => _provinciasRepository ?? new BaseRepository<Provincias>(_context);
         public IBaseRepository<Proyectos> ProyectosRepository => _proyectosRepository ?? new BaseRepository<Proyectos>(_context);
         public IBaseRepository<RangoBeneficiarios> RangoBeneficiariosRepository => _rangoBeneficiariosRepository ?? new BaseRepository<RangoBeneficiarios>(_context);
+        public IBaseRepository<RangoPresupuestario> RangoPresupuestarioRepository => _rangoPresupuestarioRepository ?? new BaseRepository<RangoPresupuestario>(_context);
         public IBaseRepository<Secciones> SeccionesRepository => _seccionesRepository ?? new BaseRepository<Secciones>(_context);
         public IBaseRepository<Tareas> TareasRepository => _tareasRepository ?? new BaseRepository<Tareas>(_context);
         public IBaseRepository<TipoBeneficiario> TipoBeneficiarioRepository => _tipoBeneficiarioRepository ?? new BaseRepository<TipoBeneficiario>(_context);
