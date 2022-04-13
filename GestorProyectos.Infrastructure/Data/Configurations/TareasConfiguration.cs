@@ -40,7 +40,7 @@ namespace GestorProyectos.Infrastructure.Data.Configurations
             builder.HasOne(d => d.Actividad)
                 .WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdActividad)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Tareas_Actividades");
 
             builder.HasOne(d => d.Estado)
