@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [GestorProyectos]    Script Date: 4/13/2022 9:08:53 AM ******/
+/****** Object:  Database [GestorProyectos]    Script Date: 3/5/2022 8:11:28 p. m. ******/
 CREATE DATABASE [GestorProyectos]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -74,35 +74,37 @@ ALTER DATABASE [GestorProyectos] SET TARGET_RECOVERY_TIME = 60 SECONDS
 GO
 ALTER DATABASE [GestorProyectos] SET DELAYED_DURABILITY = DISABLED 
 GO
+ALTER DATABASE [GestorProyectos] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
 EXEC sys.sp_db_vardecimal_storage_format N'GestorProyectos', N'ON'
 GO
 ALTER DATABASE [GestorProyectos] SET QUERY_STORE = OFF
 GO
 USE [GestorProyectos]
 GO
-/****** Object:  User [mgratereaux]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  User [mgratereaux]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE USER [mgratereaux] FOR LOGIN [mgratereaux] WITH DEFAULT_SCHEMA=[dbo]
 GO
-/****** Object:  User [jortiz]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  User [jortiz]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE USER [jortiz] FOR LOGIN [jortiz] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [mgratereaux]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [jortiz]
 GO
-/****** Object:  Schema [Function]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  Schema [Function]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE SCHEMA [Function]
 GO
-/****** Object:  Schema [Maestras]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  Schema [Maestras]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE SCHEMA [Maestras]
 GO
-/****** Object:  Schema [Operacion]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  Schema [Operacion]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE SCHEMA [Operacion]
 GO
-/****** Object:  Schema [Proceso]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  Schema [Proceso]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 CREATE SCHEMA [Proceso]
 GO
-/****** Object:  UserDefinedFunction [Function].[func_Get_new_Codigo]    Script Date: 4/13/2022 9:08:54 AM ******/
+/****** Object:  UserDefinedFunction [Function].[func_Get_new_Codigo]    Script Date: 3/5/2022 8:11:29 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -126,7 +128,7 @@ BEGIN
     RETURN @ResultVar
 END
 GO
-/****** Object:  Table [Maestras].[Aliado]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Aliado]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -145,7 +147,7 @@ CREATE TABLE [Maestras].[Aliado](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[AliadoClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[AliadoClasificaciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -159,7 +161,7 @@ CREATE TABLE [Maestras].[AliadoClasificaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Barrios]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Barrios]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -177,7 +179,7 @@ CREATE TABLE [Maestras].[Barrios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Beneficiarios]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Beneficiarios]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +193,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[CorreosTemplate]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[CorreosTemplate]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -207,7 +209,7 @@ CREATE TABLE [Maestras].[CorreosTemplate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Desafios]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Desafios]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -221,7 +223,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[DistritosMunicipales]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[DistritosMunicipales]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -238,7 +240,7 @@ CREATE TABLE [Maestras].[DistritosMunicipales](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Donacion]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Donacion]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +258,7 @@ CREATE TABLE [Maestras].[Donacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[DonacionClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[DonacionClasificaciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +272,7 @@ CREATE TABLE [Maestras].[DonacionClasificaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Donantes]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Donantes]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -289,7 +291,7 @@ CREATE TABLE [Maestras].[Donantes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[DonantesClasificaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[DonantesClasificaciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -303,7 +305,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Estados]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Estados]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -319,7 +321,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Municipios]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Municipios]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -336,7 +338,7 @@ CREATE TABLE [Maestras].[Municipios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[NivelAcceso]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[NivelAcceso]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -350,7 +352,7 @@ CREATE TABLE [Maestras].[NivelAcceso](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Provincias]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Provincias]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -366,7 +368,7 @@ CREATE TABLE [Maestras].[Provincias](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[RangoBeneficiario]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[RangoBeneficiario]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -380,7 +382,7 @@ CREATE TABLE [Maestras].[RangoBeneficiario](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[RangoPresupuestario]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[RangoPresupuestario]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -394,7 +396,7 @@ CREATE TABLE [Maestras].[RangoPresupuestario](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Secciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Secciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +413,7 @@ CREATE TABLE [Maestras].[Secciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[TipoBeneficiario]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[TipoBeneficiario]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +427,7 @@ CREATE TABLE [Maestras].[TipoBeneficiario](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Maestras].[Usuarios]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Maestras].[Usuarios]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -443,7 +445,7 @@ CREATE TABLE [Maestras].[Usuarios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Actividades]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[Actividades]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -459,7 +461,7 @@ CREATE TABLE [Operacion].[Actividades](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DesafiosProyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[DesafiosProyectos]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -475,7 +477,7 @@ CREATE TABLE [Operacion].[DesafiosProyectos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DivisionTrabajoProyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[DivisionTrabajoProyectos]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -491,7 +493,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[DocumentosProyecto]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[DocumentosProyecto]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -512,7 +514,7 @@ CREATE TABLE [Operacion].[DocumentosProyecto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Ejecuciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[Ejecuciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -528,7 +530,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[LugaresImplementaciones]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[LugaresImplementaciones]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -547,7 +549,7 @@ CREATE TABLE [Operacion].[LugaresImplementaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Proyectos]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[Proyectos]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -581,7 +583,7 @@ CREATE TABLE [Operacion].[Proyectos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[Tareas]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[Tareas]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -608,7 +610,7 @@ CREATE TABLE [Operacion].[Tareas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [Operacion].[TiposBeneficiarioProyecto]    Script Date: 4/13/2022 9:08:55 AM ******/
+/****** Object:  Table [Operacion].[TiposBeneficiarioProyecto]    Script Date: 3/5/2022 8:11:30 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -27696,9 +27698,9 @@ INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [Mon
 GO
 INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (2, 13, 2, CAST(122.000000000000 AS Decimal(23, 12)), CAST(22.000000000000 AS Decimal(23, 12)), N'444')
 GO
-INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (4, 14, 2, CAST(0.000000000000 AS Decimal(23, 12)), CAST(0.000000000000 AS Decimal(23, 12)), N'')
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (4, 14, 2, CAST(6399.000000000000 AS Decimal(23, 12)), CAST(65223.000000000000 AS Decimal(23, 12)), N'7411')
 GO
-INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (5, 14, 1, CAST(0.000000000000 AS Decimal(23, 12)), CAST(0.000000000000 AS Decimal(23, 12)), N'')
+INSERT [Maestras].[Donacion] ([IdDonacion], [IdDonante], [IdClasificacion], [MontoDOP], [MontoUSD], [Descripcion]) VALUES (5, 14, 1, CAST(9500.000000000000 AS Decimal(23, 12)), CAST(1000.000000000000 AS Decimal(23, 12)), N'')
 GO
 SET IDENTITY_INSERT [Maestras].[Donacion] OFF
 GO
@@ -31364,7 +31366,7 @@ INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usua
 GO
 INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (2, N'José', N'Ortiz P.', N'alejandro.ortiz.polanco@gmail.com', N'jortiz', N'10000.WMbugVmq6nO14rFujJzIAg==.gYtVewAZLvqa1yB5amZnx36J2kfTbZvToymNZsK31NI=')
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (3, N'Pedro', N'De Los Santos', N'posvaldo@gmail.com', N'pdelossantos', N'10000.r1NrVnG4hm23wr/39JNpcw==.iWKPAEh/u/WfpIXWxum9jlYzvfMf46qLHcYyCuDy9fg=')
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (3, N'Pedro', N'De Los Santos', N'posvaldo@gmail.com', N'pdelossantos', N'10000.juOwxp/CGoYy8IwTz7i90Q==.yYLkypgYI4Dxgskrax8RmovkJkHXFSbTIb4No8ZVyQ8=')
 GO
 INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (4, N'TEST', N'TEST2', N'JORTIZ@KLK.COM', N'JORITZ02', N'10000.YApt5u2SR8aQVZAGxqS06Q==.bdF/C4k9wEulFw9IGHjV1ErMttmfyOt4Pxge4AFx2o4=')
 GO
@@ -31372,11 +31374,11 @@ INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usua
 GO
 INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (6, N'jhgj', N'd2dfgdf dfg', N'22gdfgdfgdf', N'dsdsgdf', N'10000.qBnyOpCIrUUnVDyGpVtxuA==.xzpYxk4mOpiGQ61x5NoIFlbhWPVy3PijLrBIjjrMW+4=')
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (7, N'', N'', N'', N'', N'10000.rVb7soXwpxp4lpQorC9j5w==.0KRmIgRRlp4NjQylVcWQrTsrlkL7m6aEvvVDDrkIbh4=')
-GO
 INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (8, N'Julio', N'Diaz', N'juliodiazcp@gmail.com', N'jdiaz', N'10000.hPoNC0fIHrMGUHs19RpkaQ==.BIutezqrav2Du58R1xX47ypekqc7ZkPIRzyyOLEhTyA=')
 GO
-INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (9, N'demo', N'demo', N'posvaldo@gmail.com', N'demo', N'10000.mujh8c1gAT8wRd9eqVEvIw==.RnCMMBg8mrQ2FH5YQks5OT63K7pHiGYPpTM3+9H4sSk=')
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (9, N'demo 1', N'demo', N'posvaldo@gmail.com', N'demo1', N'10000.mujh8c1gAT8wRd9eqVEvIw==.RnCMMBg8mrQ2FH5YQks5OT63K7pHiGYPpTM3+9H4sSk=')
+GO
+INSERT [Maestras].[Usuarios] ([IdUsuario], [Nombre], [Apellido], [Correo], [Usuario], [Clave]) VALUES (10, N'demo 2', N'demo', N'posvaldo@gmail.com', N'demo2', N'10000.GAOMpQoAeg3/cPBfsHQ88g==.Dd+kO3zoYm7+xn0cD+Ssq2AP24L3kbhJF8uA+f4lvE4=')
 GO
 SET IDENTITY_INSERT [Maestras].[Usuarios] OFF
 GO
@@ -31398,7 +31400,7 @@ INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [O
 GO
 INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (11, N'asd', 23, 0)
 GO
-INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (13, N'asdasdasdsdf', 28, 0)
+INSERT [Operacion].[Actividades] ([IdActividad], [Descripcion], [IdProyecto], [Orden]) VALUES (13, N'Actividad No. 1', 28, 0)
 GO
 SET IDENTITY_INSERT [Operacion].[Actividades] OFF
 GO
@@ -31427,6 +31429,10 @@ GO
 INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (11, 25, NULL, 0x, CAST(N'2022-04-13' AS Date), N'master-data-science.pdf', 2160323, N'string', N'string')
 GO
 INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (16, 28, NULL, 0x, CAST(N'2022-04-13' AS Date), N'Manual de Usuarios - Gestor FAC.pdf', 3307436, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (17, 28, NULL, 0x, CAST(N'2022-04-14' AS Date), N'Documento.docx', 16182, N'string', N'string')
+GO
+INSERT [Operacion].[DocumentosProyecto] ([IdDocumento], [IdProyecto], [IdTarea], [Contenido], [Fecha], [NombreArchivo], [size], [Ext], [URL]) VALUES (19, 28, NULL, 0x, CAST(N'2022-04-15' AS Date), N'estructura-financiera.pdf', 711723, N'string', N'string')
 GO
 SET IDENTITY_INSERT [Operacion].[DocumentosProyecto] OFF
 GO
@@ -31468,15 +31474,15 @@ INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion],
 GO
 INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (21, N'ASAIC-2022-11', N'DSASAD', N'ASDSAD', N'SADSAD', N'ASDSA', N'ASDSA', CAST(N'2022-04-07' AS Date), CAST(N'2022-04-07' AS Date), 1, 2, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 1, N'mgratereaux', CAST(N'2022-04-07T05:32:12.553' AS DateTime))
 GO
-INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (22, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 0, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (22, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 1, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
 GO
-INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (23, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 0, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (23, N'ASAIC-2022-13', N'Esta es desde la WEB', N'asdasdsadsadsad', N'dsadsadasdsa', N'dasdasdasdsad', N'asdasdas', CAST(N'2022-04-08' AS Date), CAST(N'2022-04-08' AS Date), 1, 11, 1, 1, 1, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 2, 1, N'jortiz', CAST(N'2022-04-08T07:57:30.050' AS DateTime))
 GO
 INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (24, N'ASAIC-2022-14', N'asdasdasd', N'asdasdsad', N'asdas', N'asdasdasd', N'asdasdasd', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 111, 1, 2, 3, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 0, N'mgratereaux', CAST(N'2022-04-13T05:47:48.057' AS DateTime))
 GO
 INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (25, N'ASAIC-2022-15', N'asdasdasd', N'asdasdsad', N'asdas', N'asdasdasd', N'asdasdasd', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 111, 1, 2, 3, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 0, 0, N'mgratereaux', CAST(N'2022-04-13T05:47:48.057' AS DateTime))
 GO
-INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (28, N'ASAIC-2022-16', N'gdfdfgfd', N'dfgdfgdfg', N'fdfg', N'dfgdfgfdg', N'dxfgdfgdfg', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 4, 0, N'jortiz', CAST(N'2022-04-13T06:21:42.227' AS DateTime))
+INSERT [Operacion].[Proyectos] ([IdProyecto], [Codigo], [Nombre], [Descripcion], [ObjetivoGeneral], [ObjetivoEspecifico], [Resultados], [FechaInicio], [FechaFinal], [IdRangoBeneficiario], [CantidadBeneficiarios], [Anos], [Meses], [Dias], [IdRangoPresupuestario], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [TipoMoneda], [IdGerente], [IsDelete], [Usuario], [FechaCreacion]) VALUES (28, N'ASAIC-2022-16', N'gdfdfgfd', N'dfgdfgdfg', N'fdfg', N'dfgdfgfdg', N'dxfgdfgdfg', CAST(N'2022-04-13' AS Date), CAST(N'2022-04-13' AS Date), 1, 1, 0, 0, 0, 1, CAST(0.0000000000000 AS Decimal(18, 13)), CAST(0.0000000000000 AS Decimal(18, 13)), NULL, 8, 0, N'jortiz', CAST(N'2022-04-13T06:21:42.227' AS DateTime))
 GO
 SET IDENTITY_INSERT [Operacion].[Proyectos] OFF
 GO
@@ -31500,8 +31506,6 @@ INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [P
 GO
 INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (11, N'asdasdas', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 1, CAST(N'2022-04-08T07:58:26.960' AS DateTime))
 GO
-INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (13, N'sdfsdghbgfh ', 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 8, 1, CAST(N'2022-04-13T06:36:37.820' AS DateTime))
-GO
 INSERT [Operacion].[Tareas] ([IdTarea], [Descripcion], [IdActividad], [Meta], [Periodo], [Meses], [Dias], [MontoPresupuestarioDOP], [MontoPresupuestarioUSD], [Resultado], [PosiblesRiesgos], [AccionMitigacion], [IdResponsable], [IdEstado], [FechaCreacion]) VALUES (14, N'hjkhjkhjk', 13, 555666, N'Quincenal', 20, 1, CAST(15.000000000000 AS Decimal(18, 12)), CAST(633 AS Decimal(18, 0)), N'asffsdf', N'sdfsdf', N'saddasd', 3, 1, CAST(N'2022-04-13T12:43:02.627' AS DateTime))
 GO
 SET IDENTITY_INSERT [Operacion].[Tareas] OFF
@@ -31520,7 +31524,7 @@ INSERT [Operacion].[TiposBeneficiarioProyecto] ([IdTipoBeneficiarioProyecto], [I
 GO
 SET IDENTITY_INSERT [Operacion].[TiposBeneficiarioProyecto] OFF
 GO
-/****** Object:  Index [IX_Donantes_IdProyecto]    Script Date: 4/13/2022 9:09:14 AM ******/
+/****** Object:  Index [IX_Donantes_IdProyecto]    Script Date: 3/5/2022 8:11:46 p. m. ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Donantes_IdProyecto] ON [Maestras].[Donantes]
 (
 	[IdProyecto] ASC
@@ -31684,7 +31688,7 @@ REFERENCES [Maestras].[TipoBeneficiario] ([IdTipo])
 GO
 ALTER TABLE [Operacion].[TiposBeneficiarioProyecto] CHECK CONSTRAINT [FK_TiposBeneficiarioProyecto_TipoBeneficiario]
 GO
-/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Clave]    Script Date: 4/13/2022 9:09:14 AM ******/
+/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Clave]    Script Date: 3/5/2022 8:11:46 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31709,7 +31713,7 @@ BEGIN
 	EXEC [Proceso].[usp_Enviar_Correo] @Asunto, @HTML, @Correo
 END
 GO
-/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Correo]    Script Date: 4/13/2022 9:09:14 AM ******/
+/****** Object:  StoredProcedure [Proceso].[usp_Enviar_Correo]    Script Date: 3/5/2022 8:11:46 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31731,7 +31735,7 @@ AS
 		@body = @Body,
 		@body_format = 'HTML';
 GO
-/****** Object:  StoredProcedure [Proceso].[usp_Proyectos_Creacion_Notificar]    Script Date: 4/13/2022 9:09:14 AM ******/
+/****** Object:  StoredProcedure [Proceso].[usp_Proyectos_Creacion_Notificar]    Script Date: 3/5/2022 8:11:46 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
